@@ -5,14 +5,16 @@
     "dev": "turbo run dev --parallel",
     "test": "turbo run test",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
+    "pre-check": "yarn lint && yarn format",
     "prepare": "husky install"
   },
   "devDependencies": {
     "@turbo/gen": "^1.9.7",
     "eslint": "^7.32.0",
-    "eslint-config-custom": "*",
-    "husky": "^8.0.0",
+    "tsconfig": "*",
+    "configs": "*",
+    "husky": "^8.0.3",
     "lint-staged": "^14.0.0",
     "prettier": "^2.5.1",
     "turbo": "latest"
@@ -24,11 +26,6 @@
     "packages/*"
   ],
   "lint-staged": {
-    "apps/**/*.{js,ts,jsx,tsx}": [
-      "eslint --fix"
-    ],
-    "*.json": [
-      "prettier --write"
-    ]
+    "apps/**/*.{js,ts,jsx,tsx}": "yarn pre-check"
   }
 }

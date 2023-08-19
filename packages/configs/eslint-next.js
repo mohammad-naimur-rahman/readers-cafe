@@ -3,7 +3,14 @@ module.exports = {
     browser: true,
     node: true,
   },
-  extends: ['next', 'airbnb', 'airbnb-typescript', 'plugin:import/recommended', 'plugin:import/typescript', 'prettier'],
+  extends: [
+    'next',
+    'airbnb',
+    'airbnb-typescript',
+    'plugin:import/recommended',
+    'plugin:import/typescript',
+    'prettier',
+  ],
   plugins: ['@typescript-eslint', 'import'],
   settings: {
     next: {
@@ -30,19 +37,30 @@ module.exports = {
 
     // next
     '@next/next/no-html-link-for-pages': 'off',
+    'react/react-in-jsx-scope': 0,
   },
-  overrides: [
-    {
-      // 3) Now we enable eslint-plugin-testing-library rules or preset only for matching files!
-      env: {
-        jest: true,
-      },
-      files: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
-      extends: ['plugin:testing-library/react', 'plugin:jest/recommended'],
-      rules: {
-        'import/no-extraneous-dependencies': ['off', { devDependencies: ['**/?(*.)+(spec|test).[jt]s?(x)'] }],
-      },
-    },
+  // overrides: [
+  //   {
+  //     // 3) Now we enable eslint-plugin-testing-library rules or preset only for matching files!
+  //     env: {
+  //       jest: true,
+  //     },
+  //     files: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
+  //     extends: ['plugin:testing-library/react', 'plugin:jest/recommended'],
+  //     rules: {
+  //       'import/no-extraneous-dependencies': ['off', { devDependencies: ['**/?(*.)+(spec|test).[jt]s?(x)'] }],
+  //     },
+  //   },
+  // ],
+  ignorePatterns: [
+    '**/*.js',
+    '**/*.json',
+    'node_modules',
+    'public',
+    'styles',
+    '.next',
+    'coverage',
+    'dist',
+    '.turbo',
   ],
-  ignorePatterns: ['**/*.js', '**/*.json', 'node_modules', 'public', 'styles', '.next', 'coverage', 'dist', '.turbo'],
 }
