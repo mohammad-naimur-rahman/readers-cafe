@@ -1,3 +1,3 @@
 import { IUser } from './User'
 
-export { IUser }
+export type { IUser }
