@@ -11,13 +11,15 @@
   },
   "devDependencies": {
     "@turbo/gen": "^1.9.7",
-    "eslint": "^7.32.0",
-    "tsconfig": "*",
+    "@types/node": "^20.5.1",
     "configs": "*",
+    "eslint": "^7.32.0",
     "husky": "^8.0.3",
     "lint-staged": "^14.0.0",
     "prettier": "^2.5.1",
-    "turbo": "latest"
+    "tsconfig": "*",
+    "turbo": "latest",
+    "typescript": "^5.1.6"
   },
   "name": "readers-cafe",
   "packageManager": "yarn@1.22.19",

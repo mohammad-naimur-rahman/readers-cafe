@@ -1,9 +1,17 @@
-import path from 'path'
-import { createLogger, format, transports } from 'winston'
-import DailyRotateFile from 'winston-daily-rotate-file'
-
-const { combine, timestamp, label, printf } = format
-
+'use strict'
+var __importDefault =
+  (this && this.__importDefault) ||
+  function (mod) {
+    return mod && mod.__esModule ? mod : { default: mod }
+  }
+Object.defineProperty(exports, '__esModule', { value: true })
+exports.logger = exports.errorlogger = void 0
+const path_1 = __importDefault(require('path'))
+const winston_1 = require('winston')
+const winston_daily_rotate_file_1 = __importDefault(
+  require('winston-daily-rotate-file'),
+)
+const { combine, timestamp, label, printf } = winston_1.format
 const myFormat = printf(({ level, message, label, timestamp }) => {
   const date = new Date(timestamp)
   const hour = date.getHours()
@@ -11,16 +19,13 @@ const myFormat = printf(({ level, message, label, timestamp }) => {
   const seconds = date.getSeconds()
   return `${date.toDateString()} ${hour}:${minutes}:${seconds} [${label}] ${level}: ${message}`
 })
-
 // Create separate arrays for console and file transports
-const consoleTransportsArray = [new transports.Console()]
-
+const consoleTransportsArray = [new winston_1.transports.Console()]
 const fileTransportsArray = []
-
 if (process.env.NODE_ENV === 'production') {
   fileTransportsArray.push(
-    new DailyRotateFile({
-      filename: path.join(
+    new winston_daily_rotate_file_1.default({
+      filename: path_1.default.join(
         process.cwd(),
         'logs',
         'winston',
@@ -34,17 +39,16 @@ if (process.env.NODE_ENV === 'production') {
     }),
   )
 }
-
-const logger = createLogger({
+const logger = (0, winston_1.createLogger)({
   level: 'info',
   format: combine(label({ label: 'UM' }), timestamp(), myFormat),
   transports: [...consoleTransportsArray, ...fileTransportsArray],
 })
-
-const errorlogger = createLogger({
+exports.logger = logger
+const errorlogger = (0, winston_1.createLogger)({
   level: 'error',
   format: combine(label({ label: 'UM' }), timestamp(), myFormat),
   transports: [...consoleTransportsArray, ...fileTransportsArray],
 })
-
-export { errorlogger, logger }
+exports.errorlogger = errorlogger
+//# sourceMappingURL=logger.js.map

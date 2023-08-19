@@ -1,13 +1,8 @@
 import { Router } from 'express'
+import { userRoutes } from '../modules/user'
 
 const router = Router()
 
-const moduleRoutes = [
-  {
-    path: '/api/v1',
-    route: router,
-  },
-]
+router.use('/user', userRoutes)
 
-moduleRoutes.forEach(route => router.use(route.path, route.route))
 export default router
