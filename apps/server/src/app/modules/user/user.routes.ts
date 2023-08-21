@@ -8,4 +8,10 @@ router
   .get(UserController.getALllUsers)
   .post(UserController.createUser)
 
+router
+  .route('/:id')
+  .get(UserController.getUser)
+  .patch(UserController.updateUser)
+  .delete(UserController.deleteUser)
+
 export default router
