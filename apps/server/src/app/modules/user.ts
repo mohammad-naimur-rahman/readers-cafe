@@ -1,5 +1,5 @@
 import mongoose, { Model, Schema, model } from 'mongoose'
-import { IUser } from 'interfaces'
+import { IUser } from 'validation/types'
 import { Router } from 'express'
 import catchAsync from '../../shared/catchAsync'
 

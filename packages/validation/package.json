@@ -1,9 +1,10 @@
 {
-  "name": "interfaces",
+  "name": "validation",
   "version": "1.0.0",
   "main": "index.ts",
   "license": "MIT",
   "dependencies": {
-    "mongoose": "^7.4.3"
+    "mongoose": "^7.4.3",
+    "zod": "^3.22.2"
   }
 }
