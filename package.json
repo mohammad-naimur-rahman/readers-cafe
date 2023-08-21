@@ -28,6 +28,6 @@
     "packages/*"
   ],
   "lint-staged": {
-    "apps/*.{js,ts,jsx,tsx}": "yarn pre-check"
+    "apps/**/*.{js,ts,jsx,tsx}": "yarn pre-check"
   }
 }
