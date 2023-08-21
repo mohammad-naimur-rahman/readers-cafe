@@ -7,7 +7,7 @@ const createUser = async (payload: IUser): Promise<IUser> => {
 }
 
 const getAllUsers = async (): Promise<IUser[]> => {
-  const users = await User.find()
+  const users = await User.find().populate('')
   return users
 }
 
