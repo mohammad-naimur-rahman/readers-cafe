@@ -1,10 +1,11 @@
 import { Types } from 'mongoose'
+import { IImage } from './IImage'
 
-export interface IUser extends Document {
+export interface IUser {
   id?: string
   fullName: string
   email: string
-  profilePicture?: string
+  profilePicture?: IImage
   bio?: string
   role?: 'user' | 'admin'
   averageStarRating?: number
