@@ -1,8 +1,14 @@
 import { Router } from 'express'
-import userRoutes from '../modules/user/user.routes'
+import { activityRoutes } from '../modules/activity/activity.routes'
+import { userRoutes } from '../modules/user/user.routes'
 
 const router = Router()
 
-router.use('/user', userRoutes)
+const allRoutes = [
+  { path: '/user', routes: userRoutes },
+  { path: '/activity', routes: activityRoutes },
+]
+
+allRoutes.forEach(({ path, routes }) => router.use(path, routes))
 
 export default router

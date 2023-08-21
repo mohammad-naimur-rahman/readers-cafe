@@ -1,29 +1,31 @@
-import { IReadingList } from './IReadingList'
-import { IDonation } from './IDonation'
-import { IComment } from './IComment'
-import { IShortContent } from './IShortContent'
-import { IBlog } from './IBlog'
-import { IDiscussion } from './IDiscussion'
-import { IReview } from './IReview'
-import { IGenre } from './IGenre'
-import { IAuthor } from './IAuthor'
-import { IBook } from './IBook'
-import { ISummary } from './ISummary'
 import { IActivity } from './IActivity'
+import { IAuthor } from './IAuthor'
+import { IBlog } from './IBlog'
+import { IBook } from './IBook'
+import { IComment } from './IComment'
+import { IDiscussion } from './IDiscussion'
+import { IDonation } from './IDonation'
+import { IGenre } from './IGenre'
+import { IImage } from './IImage'
+import { IReadingList } from './IReadingList'
+import { IReview } from './IReview'
+import { IShortContent } from './IShortContent'
+import { ISummary } from './ISummary'
 import { IUser } from './IUser'
 
 export type {
-  IUser,
   IActivity,
-  ISummary,
-  IBook,
   IAuthor,
-  IGenre,
-  IReview,
-  IDiscussion,
   IBlog,
-  IShortContent,
+  IBook,
   IComment,
+  IDiscussion,
   IDonation,
+  IGenre,
+  IImage,
   IReadingList,
+  IReview,
+  IShortContent,
+  ISummary,
+  IUser,
 }

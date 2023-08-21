@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose'
+import { imageSchema } from 'validation/schema/imageSchema'
 import { IUser } from 'validation/types/IUser'
 import { UserModel } from './user.interface'
 
@@ -14,7 +15,7 @@ const userSchema = new Schema<IUser>(
       unique: true,
     },
     profilePicture: {
-      type: String,
+      type: imageSchema,
       required: false,
     },
     bio: {
@@ -81,6 +82,4 @@ const userSchema = new Schema<IUser>(
   },
 )
 
-const User = model<IUser, UserModel>('User', userSchema)
-
-export default User
+export const User = model<IUser, UserModel>('User', userSchema)

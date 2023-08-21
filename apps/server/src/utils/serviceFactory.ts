@@ -1,6 +1,7 @@
 import { Document, Model, PopulateOptions, Query, UpdateQuery } from 'mongoose'
 
 // Reusable service methods for doing CRUD operations on DB models
+// Though it doesn't work properly now, I think I can make it work later on
 
 type MongooseModel<T extends Document> = Model<T>
 

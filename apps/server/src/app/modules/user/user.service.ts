@@ -1,5 +1,5 @@
 import { IUser } from 'validation/types/IUser'
-import User from './user.model'
+import { User } from './user.model'
 
 const createUser = async (payload: IUser): Promise<IUser> => {
   // Preventing user to set their role to admin
@@ -47,12 +47,10 @@ const deleteUser = async (id: string): Promise<IUser | null> => {
   return user
 }
 
-const UserService = {
+export const UserService = {
   createUser,
   getAllUsers,
   updateUser,
   getUser,
   deleteUser,
 }
-
-export default UserService

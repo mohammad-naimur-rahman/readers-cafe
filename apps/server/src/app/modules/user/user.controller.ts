@@ -2,7 +2,7 @@ import httpStatus from 'http-status'
 import { IUser } from 'validation/types/IUser'
 import catchAsync from '../../../shared/catchAsync'
 import sendResponse from '../../../shared/sendResponse'
-import UserService from './user.service'
+import { UserService } from './user.service'
 
 const createUser = catchAsync(async (req, res) => {
   const createdUser = await UserService.createUser(req.body)
@@ -45,20 +45,18 @@ const updateUser = catchAsync(async (req, res) => {
 })
 
 const deleteUser = catchAsync(async (req, res) => {
-  const allUsers = await UserService.deleteUser(req.params.id)
+  const deltedUser = await UserService.deleteUser(req.params.id)
   sendResponse<IUser>(res, {
-    statusCode: httpStatus.OK,
-    data: allUsers,
+    statusCode: httpStatus.NO_CONTENT,
+    data: deltedUser,
     message: 'User deleted successfully!',
   })
 })
 
-const UserController = {
+export const UserController = {
   createUser,
   getALllUsers,
   getUser,
   updateUser,
   deleteUser,
 }
-
-export default UserController

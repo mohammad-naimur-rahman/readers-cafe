@@ -11,5 +11,6 @@ module.exports = {
     'no-restricted-syntax': 'off',
     '@typescript-eslint/no-shadow': 'off',
     'no-console': 'off',
+    'import/prefer-default-export': 'off',
   },
 }

@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import UserController from './user.controller'
+import { UserController } from './user.controller'
 
 const router = Router()
 
@@ -14,4 +14,4 @@ router
   .patch(UserController.updateUser)
   .delete(UserController.deleteUser)
 
-export default router
+export const userRoutes = router
