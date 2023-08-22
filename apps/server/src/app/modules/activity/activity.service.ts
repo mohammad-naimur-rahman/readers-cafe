@@ -18,7 +18,7 @@ const getActivity = async (id: string): Promise<IActivity | null> => {
 
 const updateActivity = async (
   id: string,
-  payload: IActivity,
+  payload: Partial<IActivity>,
 ): Promise<IActivity | null> => {
   const updatedActivity = await Activity.findOneAndUpdate(
     { _id: id },

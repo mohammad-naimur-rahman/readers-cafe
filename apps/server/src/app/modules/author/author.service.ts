@@ -18,7 +18,7 @@ const getAuthor = async (id: string): Promise<IAuthor | null> => {
 
 const updateAuthor = async (
   id: string,
-  payload: IAuthor,
+  payload: Partial<IAuthor>,
 ): Promise<IAuthor | null> => {
   const updatedAuthor = await Author.findOneAndUpdate({ _id: id }, payload, {
     new: true,

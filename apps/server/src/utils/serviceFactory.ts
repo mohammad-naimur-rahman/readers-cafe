@@ -41,7 +41,7 @@ export const createDocument = async <T extends Document>(
 export const updateDocument = async <T extends Document>(
   id: string,
   model: MongooseModel<T>,
-  payload: UpdateQuery<T>,
+  payload: UpdateQuery<Partial<T>>,
 ): Promise<T | null> => {
   const updatedDocument = await model.findOneAndUpdate({ _id: id }, payload, {
     new: true,

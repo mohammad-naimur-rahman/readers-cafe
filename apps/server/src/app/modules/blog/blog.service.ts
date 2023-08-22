@@ -18,7 +18,7 @@ const getBlog = async (id: string): Promise<IBlog | null> => {
 
 const updateBlog = async (
   id: string,
-  payload: IBlog,
+  payload: Partial<IBlog>,
 ): Promise<IBlog | null> => {
   const updatedBlog = await Blog.findOneAndUpdate({ _id: id }, payload, {
     new: true,

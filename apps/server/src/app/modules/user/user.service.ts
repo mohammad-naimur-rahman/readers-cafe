@@ -26,7 +26,7 @@ const getUser = async (id: string): Promise<IUser | null> => {
 
 const updateUser = async (
   id: string,
-  payload: IUser,
+  payload: Partial<IUser>,
 ): Promise<IUser | null> => {
   // Preventing user to set their role to admin
   const data = {
