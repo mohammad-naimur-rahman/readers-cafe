@@ -26,6 +26,9 @@ const bookSchema = new Schema<IBook, BookModel>(
   },
   {
     timestamps: true,
+    toJSON: {
+      virtuals: true,
+    },
   },
 )
 

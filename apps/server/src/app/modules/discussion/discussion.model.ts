@@ -22,6 +22,9 @@ const DiscussionSchema = new Schema<IDiscussion, DiscussionModel>(
   },
   {
     timestamps: true,
+    toJSON: {
+      virtuals: true,
+    },
   },
 )
 

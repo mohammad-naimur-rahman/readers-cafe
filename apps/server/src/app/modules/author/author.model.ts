@@ -17,6 +17,9 @@ const authorSchema = new Schema<IAuthor, AuthorModel>(
   },
   {
     timestamps: true,
+    toJSON: {
+      virtuals: true,
+    },
   },
 )
 

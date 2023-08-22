@@ -21,6 +21,9 @@ const activitySchema = new Schema<IActivity, ActivityModel>(
   },
   {
     timestamps: true,
+    toJSON: {
+      virtuals: true,
+    },
   },
 )
 

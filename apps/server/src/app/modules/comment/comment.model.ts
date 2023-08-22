@@ -18,6 +18,9 @@ const commentSchema = new Schema<IComment, CommentModel>(
   },
   {
     timestamps: true,
+    toJSON: {
+      virtuals: true,
+    },
   },
 )
 

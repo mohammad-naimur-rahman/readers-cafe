@@ -1,7 +1,8 @@
 import { Types } from 'mongoose'
+import { IUser } from './IUser'
 
 export interface IDonation {
   amount: number
-  donorUser: Types.ObjectId
-  receiverUser: Types.ObjectId
+  donorUser: Types.ObjectId | IUser
+  receiverUser: Types.ObjectId | IUser
 }
