@@ -3,18 +3,9 @@ import { IImage } from '../types'
 
 export const imageSchema = new Schema<IImage>(
   {
-    blurImage: {
-      type: String,
-      required: false,
-    },
-    thumbnail: {
-      type: String,
-      required: false,
-    },
-    poster: {
-      type: String,
-      required: false,
-    },
+    blurImage: String,
+    thumbnail: String,
+    poster: String,
   },
   {
     id: false,

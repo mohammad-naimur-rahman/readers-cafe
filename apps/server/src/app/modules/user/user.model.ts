@@ -14,14 +14,9 @@ const userSchema = new Schema<IUser>(
       required: true,
       unique: true,
     },
-    profilePicture: {
-      type: imageSchema,
-      required: false,
-    },
-    bio: {
-      type: String,
-      required: false,
-    },
+    profilePicture: imageSchema,
+    bio: String,
+
     role: {
       type: String,
       enum: ['user', 'admin'],

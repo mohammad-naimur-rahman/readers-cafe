@@ -1,0 +1,37 @@
+import { Schema, Types, model } from 'mongoose'
+import { imageSchema } from 'validation/schema/imageSchema'
+import { IBlog } from 'validation/types'
+import { BlogModel } from './blog.interface'
+
+const blogSchema = new Schema<IBlog, BlogModel>(
+  {
+    title: {
+      type: String,
+      required: true,
+    },
+    coverImage: imageSchema,
+    blogContent: {
+      type: String,
+      required: true,
+    },
+    user: {
+      type: Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    comments: [
+      {
+        type: Types.ObjectId,
+        ref: 'Comment',
+      },
+    ],
+  },
+  {
+    timestamps: true,
+    toJSON: {
+      virtuals: true,
+    },
+  },
+)
+
+export const Blog = model<IBlog, BlogModel>('Blog', blogSchema)

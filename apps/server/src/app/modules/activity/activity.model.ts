@@ -24,4 +24,7 @@ const activitySchema = new Schema<IActivity, ActivityModel>(
   },
 )
 
-export const Activity = model<IActivity>('Activity', activitySchema)
+export const Activity = model<IActivity, ActivityModel>(
+  'Activity',
+  activitySchema,
+)

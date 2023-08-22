@@ -2,8 +2,8 @@ import { IActivity } from 'validation/types'
 import { Activity } from './activity.model'
 
 const createActivity = async (payload: IActivity): Promise<IActivity> => {
-  const createdUser = await Activity.create(payload)
-  return createdUser
+  const createdActivity = await Activity.create(payload)
+  return createdActivity
 }
 
 const getAllActivities = async (): Promise<IActivity[]> => {
