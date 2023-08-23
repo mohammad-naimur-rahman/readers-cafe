@@ -17,9 +17,9 @@ const signUpUser = async (
     throw new ApiError(httpStatus.BAD_REQUEST, 'Token missing!')
   }
 
-  const decodeValue: DecodedIdToken = await admin.auth().verifyIdToken(token)
+  const decodedValue: DecodedIdToken = await admin.auth().verifyIdToken(token)
 
-  if (decodeValue.email !== email) {
+  if (decodedValue.email !== email) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid token!')
   }
 
@@ -47,8 +47,8 @@ const signUpUser = async (
     user: createdUser,
     token: {
       accessToken: authorization,
-      iat: decodeValue.iat,
-      exp: decodeValue.exp,
+      iat: decodedValue.iat,
+      exp: decodedValue.exp,
     },
   }
 }
@@ -64,23 +64,28 @@ const loginUser = async (
     throw new ApiError(httpStatus.BAD_REQUEST, 'Token missing!')
   }
 
-  const decodeValue: DecodedIdToken = await admin.auth().verifyIdToken(token)
-
-  if (decodeValue.email !== email) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid token!')
-  }
-
   const user = await User.findOne({ email })
 
   if (!user) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'No user found with this email!')
   }
+
+  const decodedValue: DecodedIdToken = await admin.auth().verifyIdToken(token)
+
+  await admin.auth().setCustomUserClaims(decodedValue.uid, {
+    admin: user.role === 'admin',
+  })
+
+  if (decodedValue.email !== email) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid token!')
+  }
+
   return {
     user,
     token: {
       accessToken: authorization,
-      iat: decodeValue.iat,
-      exp: decodeValue.exp,
+      iat: decodedValue.iat,
+      exp: decodedValue.exp,
     },
   }
 }
