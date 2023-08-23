@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import { activityRoutes } from '../modules/activity/activity.routes'
+import { authRoutes } from '../modules/auth/auth.routes'
 import { authorRoutes } from '../modules/author/author.routes'
 import { blogRoutes } from '../modules/blog/blog.routes'
 import { bookRoutes } from '../modules/book/book.routes'
@@ -29,6 +30,7 @@ const allRoutes = [
   { path: '/review', routes: reviewRoutes },
   { path: '/shortContent', routes: shortContentRoutes },
   { path: '/summary', routes: summaryRoutes },
+  { path: '/auth', routes: authRoutes },
 ]
 
 allRoutes.forEach(({ path, routes }) => router.use(path, routes))

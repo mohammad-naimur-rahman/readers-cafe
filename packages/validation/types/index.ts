@@ -1,4 +1,6 @@
 import { IActivity } from './IActivity'
+import { IAuth } from './IAuth'
+import { IAuthUser } from './IAuthUser'
 import { IAuthor } from './IAuthor'
 import { IBlog } from './IBlog'
 import { IBook } from './IBook'
@@ -15,6 +17,8 @@ import { IUser } from './IUser'
 
 export type {
   IActivity,
+  IAuth,
+  IAuthUser,
   IAuthor,
   IBlog,
   IBook,

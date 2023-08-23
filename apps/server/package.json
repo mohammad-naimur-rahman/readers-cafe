@@ -18,12 +18,13 @@
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
+    "firebase-admin": "^11.10.1",
     "http-status": "^1.6.2",
     "mongoose": "^7.4.3",
+    "validation": "*",
     "winston": "^3.10.0",
     "winston-daily-rotate-file": "^4.7.1",
-    "zod": "^3.22.2",
-    "validation": "*"
+    "zod": "^3.22.2"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.3",
