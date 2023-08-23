@@ -2,7 +2,7 @@ import { NextFunction, Response } from 'express'
 import httpStatus from 'http-status'
 import ApiError from '../../errors/ApiError'
 import { RequestWithUser } from '../../interfaces/RequestResponseTypes'
-import admin from '../../lib/firebaseAdminConfig'
+import admin from '../../lib/firebaseConfig'
 
 export const authGuard =
   (...requiredRoles: string[]) =>

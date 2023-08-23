@@ -2,7 +2,7 @@ import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
 import httpStatus from 'http-status'
 import { IAuth, IAuthUser, IUser } from 'validation/types'
 import ApiError from '../../../errors/ApiError'
-import admin from '../../../lib/firebaseAdminConfig'
+import admin from '../../../lib/firebaseConfig'
 import { User } from '../user/user.model'
 
 const signUpUser = async (

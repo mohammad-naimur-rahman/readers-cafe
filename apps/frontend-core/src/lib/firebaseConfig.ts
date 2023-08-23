@@ -1,14 +1,15 @@
+import { env } from '@/configs/env'
 import { FirebaseApp, initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
 
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_apiKey,
-  authDomain: process.env.NEXT_PUBLIC_authDomain,
-  projectId: process.env.NEXT_PUBLIC_projectId,
-  storageBucket: process.env.NEXT_PUBLIC_storageBucket,
-  messagingSenderId: process.env.NEXT_PUBLIC_measurementId,
-  appId: process.env.NEXT_PUBLIC_appId,
-  measurementId: process.env.NEXT_PUBLIC_measurementId,
+  apiKey: env.NEXT_PUBLIC_apiKey,
+  authDomain: env.NEXT_PUBLIC_authDomain,
+  projectId: env.NEXT_PUBLIC_projectId,
+  storageBucket: env.NEXT_PUBLIC_storageBucket,
+  messagingSenderId: env.NEXT_PUBLIC_measurementId,
+  appId: env.NEXT_PUBLIC_appId,
+  measurementId: env.NEXT_PUBLIC_measurementId,
 }
 const app: FirebaseApp = initializeApp(firebaseConfig)
 
