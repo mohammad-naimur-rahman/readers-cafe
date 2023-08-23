@@ -3,6 +3,9 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
+    "dev:frontend": "yarn workspace frontend-core dev",
+    "dev:admin": "yarn workspace admin-dashboard dev",
+    "dev:server": "yarn workspace server dev",
     "test": "turbo run test",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",

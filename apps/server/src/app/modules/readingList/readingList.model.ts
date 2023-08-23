@@ -15,6 +15,10 @@ const readingListSchema = new Schema<IReadingList, ReadingListModel>(
       ref: 'Summary',
       required: true,
     },
+    user: {
+      type: Types.ObjectId,
+      required: true,
+    },
   },
   {
     timestamps: true,

@@ -1,4 +1,5 @@
 import { Schema, Types, model } from 'mongoose'
+import { commentForEnumArray } from 'validation/constants/commentForEnumArray'
 import { IComment } from 'validation/types'
 import { CommentModel } from './comment.interface'
 
@@ -10,6 +11,11 @@ const commentSchema = new Schema<IComment, CommentModel>(
     },
     user: {
       type: Types.ObjectId,
+      required: true,
+    },
+    commentFor: {
+      type: String,
+      enum: commentForEnumArray,
       required: true,
     },
     shortContent: Types.ObjectId,

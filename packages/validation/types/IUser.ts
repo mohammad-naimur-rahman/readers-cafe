@@ -3,6 +3,7 @@ import { IImage } from './IImage'
 
 export interface IUser {
   id?: string
+  _id?: string
   fullName: string
   email: string
   profilePicture?: IImage

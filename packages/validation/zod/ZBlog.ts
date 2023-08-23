@@ -1,11 +1,14 @@
-import { ZImage } from './ZImage'
 import { Types } from 'mongoose'
 import { z } from 'zod'
+import { ZImage } from './ZImage'
 
 const CreateBlogZodSchema = z.object({
   title: z
     .string()
     .nonempty({ message: 'Title is required and must not be empty!' }),
+  slug: z
+    .string()
+    .nonempty({ message: 'Slug is required and must not be empty!' }),
   coverImage: z
     .object({
       ZImage,
@@ -22,6 +25,10 @@ const UpdateBlogZodSchema = z.object({
   title: z
     .string()
     .nonempty({ message: 'Title must not be empty!' })
+    .optional(),
+  slug: z
+    .string()
+    .nonempty({ message: 'Slug is required and must not be empty!' })
     .optional(),
   coverImage: z
     .object({

@@ -12,5 +12,7 @@ module.exports = {
     '@typescript-eslint/no-shadow': 'off',
     'no-console': 'off',
     'import/prefer-default-export': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'off',
+    'no-underscore-dangle': 'off',
   },
 }

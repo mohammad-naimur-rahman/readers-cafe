@@ -7,6 +7,7 @@ const CreateReadingListZodSchema = z.object({
     required_error: 'Status is required!',
   }),
   summary: z.instanceof(Types.ObjectId),
+  user: z.instanceof(Types.ObjectId),
 })
 
 const UpdateReadingListZodSchema = z.object({
@@ -14,6 +15,7 @@ const UpdateReadingListZodSchema = z.object({
     .enum([...readingStatusEnumArray] as [string, ...string[]])
     .optional(),
   summary: z.instanceof(Types.ObjectId).optional(),
+  user: z.instanceof(Types.ObjectId).optional(),
 })
 
 const ReadingListValidation = {

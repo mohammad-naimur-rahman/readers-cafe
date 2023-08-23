@@ -1,4 +1,6 @@
 import { Router } from 'express'
+import ENUM_USER_ROLE from '../../../enums/user'
+import { authGuard } from '../../middlewares/authGuard'
 import { BlogController } from './blog.controller'
 
 const router = Router()
@@ -6,7 +8,7 @@ const router = Router()
 router
   .route('/')
   .get(BlogController.getALllBlogs)
-  .post(BlogController.createBlog)
+  .post(authGuard([ENUM_USER_ROLE.USER], true), BlogController.createBlog)
 
 router
   .route('/:id')

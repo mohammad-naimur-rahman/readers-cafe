@@ -9,6 +9,11 @@ const blogSchema = new Schema<IBlog, BlogModel>(
       type: String,
       required: true,
     },
+    slug: {
+      type: String,
+      unique: true,
+      required: true,
+    },
     coverImage: imageSchema,
     blogContent: {
       type: String,

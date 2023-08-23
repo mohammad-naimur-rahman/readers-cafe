@@ -1,9 +1,34 @@
+import mongoose from 'mongoose'
 import { IBlog } from 'validation/types'
+import { User } from '../user/user.model'
 import { Blog } from './blog.model'
 
 const createBlog = async (payload: IBlog): Promise<IBlog> => {
-  const createdBlog = await Blog.create(payload)
-  return createdBlog
+  const session = await mongoose.startSession()
+  session.startTransaction()
+
+  try {
+    const createdBlog = await Blog.create([payload], { session })
+
+    await User.findByIdAndUpdate(
+      payload.user,
+      { $push: { blogs: createdBlog[0]._id } },
+      {
+        new: true,
+        runValidators: true,
+        session,
+      },
+    )
+
+    await session.commitTransaction()
+
+    return createdBlog[0]
+  } catch (error) {
+    await session.abortTransaction()
+    throw error
+  } finally {
+    session.endSession()
+  }
 }
 
 const getAllBlogs = async (): Promise<IBlog[]> => {
