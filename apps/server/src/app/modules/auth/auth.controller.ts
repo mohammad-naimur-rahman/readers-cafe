@@ -1,5 +1,5 @@
 import httpStatus from 'http-status'
-import { IAuthUser, IUser } from 'validation/types'
+import { IAuthUser } from 'validation/types'
 import config from '../../../config'
 import ApiError from '../../../errors/ApiError'
 import { RequestWithUser } from '../../../interfaces/RequestResponseTypes'
@@ -67,9 +67,9 @@ const loginUser = catchAsync(async (req, res) => {
   })
 })
 
-const logoutUser = catchAsync(async (req: RequestWithUser, res) => {
-  await AuthService.logoutUser(req.user!)
-  sendResponse<IUser>(res, {
+const logoutUser = catchAsync(async (req, res) => {
+  await AuthService.logoutUser((req as RequestWithUser).user!)
+  sendResponse<null>(res, {
     success: true,
     statusCode: httpStatus.NO_CONTENT,
     message: 'Logout successfull!',

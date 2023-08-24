@@ -12,7 +12,7 @@ router
   .get(DiscussionController.getALllDiscussions)
   .post(
     validateRequest(DiscussionValidation.CreateDiscussionZodSchema),
-    authGuard([ENUM_USER_ROLE.USER], true),
+    authGuard(ENUM_USER_ROLE.USER),
     DiscussionController.createDiscussion,
   )
 
@@ -21,13 +21,9 @@ router
   .get(DiscussionController.getDiscussion)
   .patch(
     validateRequest(DiscussionValidation.UpdateDiscussionZodSchema),
-    authGuard([ENUM_USER_ROLE.USER], true),
+    authGuard(ENUM_USER_ROLE.USER),
     DiscussionController.updateDiscussion,
   )
-  .delete(
-    validateRequest(DiscussionValidation.UpdateDiscussionZodSchema),
-    authGuard([ENUM_USER_ROLE.USER], true),
-    DiscussionController.deleteDiscussion,
-  )
+  .delete(authGuard(ENUM_USER_ROLE.USER), DiscussionController.deleteDiscussion)
 
 export const discussionRoutes = router

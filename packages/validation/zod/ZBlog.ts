@@ -39,7 +39,7 @@ const UpdateBlogZodSchema = z.object({
     .string()
     .nonempty({ message: 'Blog content must not be empty!' })
     .optional(),
-  user: z.string(),
+  user: z.string().optional(),
   published: z.boolean().default(true).optional(),
   comments: z.array(z.string()).optional(),
 })

@@ -17,6 +17,7 @@ const tokenVersionSchema = new Schema<ITokenVersion, TokenVersionModel>({
   user: {
     type: Types.ObjectId,
     required: true,
+    index: true,
   },
 })
 

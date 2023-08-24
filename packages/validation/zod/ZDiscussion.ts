@@ -26,7 +26,7 @@ const UpdateDiscussionZodSchema = z.object({
     .optional(),
   description: z.string().optional(),
   comments: z.array(z.string()).optional(),
-  user: z.string(),
+  user: z.string().optional(),
   status: z.boolean().optional(),
 })
 

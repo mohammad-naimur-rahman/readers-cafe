@@ -45,10 +45,10 @@ const updateDiscussion = catchAsync(async (req, res) => {
   })
 })
 
-const deleteDiscussion = catchAsync(async (req: RequestWithUser, res) => {
+const deleteDiscussion = catchAsync(async (req, res) => {
   const deltedDiscussion = await DiscussionService.deleteDiscussion(
     req.params.id,
-    req.user!,
+    (req as RequestWithUser).user!,
   )
   sendResponse<IDiscussion>(res, {
     statusCode: httpStatus.NO_CONTENT,

@@ -1,6 +1,6 @@
 import { Request } from 'express'
-import { IUser } from 'validation/types'
+import { JwtPayload } from 'jsonwebtoken'
 
 export interface RequestWithUser extends Request {
-  user?: IUser
+  user: JwtPayload
 }

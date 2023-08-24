@@ -1,6 +1,6 @@
 import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
 import httpStatus from 'http-status'
-import { Secret } from 'jsonwebtoken'
+import { JwtPayload, Secret } from 'jsonwebtoken'
 import { IAuth, IAuthUser, IUser } from 'validation/types'
 import config from '../../../config'
 import ApiError from '../../../errors/ApiError'
@@ -126,7 +126,7 @@ const loginUser = async (
   }
 }
 
-const logoutUser = async (user: IUser) => {
+const logoutUser = async (user: JwtPayload) => {
   const currentTokenVersion = await TokenVersion.findOne({
     user: user._id,
   })

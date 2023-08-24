@@ -14,7 +14,7 @@ const UpdateReadingListZodSchema = z.object({
     .enum([...readingStatusEnumArray] as [string, ...string[]])
     .optional(),
   summary: z.string().optional(),
-  user: z.string(),
+  user: z.string().optional(),
 })
 
 export const ReadingListValidation = {

@@ -47,8 +47,11 @@ const updateBlog = catchAsync(async (req, res) => {
   })
 })
 
-const deleteBlog = catchAsync(async (req: RequestWithUser, res) => {
-  const deltedBlog = await BlogService.deleteBlog(req.params.id, req.user!)
+const deleteBlog = catchAsync(async (req, res) => {
+  const deltedBlog = await BlogService.deleteBlog(
+    req.params.id,
+    (req as RequestWithUser).user!,
+  )
   sendResponse<IBlog>(res, {
     statusCode: httpStatus.NO_CONTENT,
     data: deltedBlog,

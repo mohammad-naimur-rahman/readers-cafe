@@ -12,7 +12,7 @@ router
   .get(BlogController.getALllBlogs)
   .post(
     validateRequest(BlogValidation.CreateBlogZodSchema),
-    authGuard([ENUM_USER_ROLE.USER], true),
+    authGuard(ENUM_USER_ROLE.USER),
     BlogController.createBlog,
   )
 
@@ -21,13 +21,9 @@ router
   .get(BlogController.getBlog)
   .patch(
     validateRequest(BlogValidation.UpdateBlogZodSchema),
-    authGuard([ENUM_USER_ROLE.USER], true),
+    authGuard(ENUM_USER_ROLE.USER),
     BlogController.updateBlog,
   )
-  .delete(
-    validateRequest(BlogValidation.UpdateBlogZodSchema),
-    authGuard([ENUM_USER_ROLE.USER], true),
-    BlogController.deleteBlog,
-  )
+  .delete(authGuard(ENUM_USER_ROLE.USER), BlogController.deleteBlog)
 
 export const blogRoutes = router

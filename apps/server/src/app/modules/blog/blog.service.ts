@@ -1,5 +1,6 @@
+import { JwtPayload } from 'jsonwebtoken'
 import { startSession } from 'mongoose'
-import { IBlog, IUser } from 'validation/types'
+import { IBlog } from 'validation/types'
 import { User } from '../user/user.model'
 import { Blog } from './blog.model'
 
@@ -56,7 +57,10 @@ const updateBlog = async (
   return updatedBlog
 }
 
-const deleteBlog = async (id: string, user: IUser): Promise<IBlog | null> => {
+const deleteBlog = async (
+  id: string,
+  user: JwtPayload,
+): Promise<IBlog | null> => {
   const session = await startSession()
   session.startTransaction()
 

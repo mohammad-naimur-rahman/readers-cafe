@@ -15,7 +15,7 @@ const UpdateSummaryZodSchema = z.object({
     .nonempty({ message: 'Summary content must not be empty!' })
     .optional(),
   book: z.string().optional(),
-  user: z.string(),
+  user: z.string().optional(),
   reviews: z.array(z.string()).optional(),
 })
 
