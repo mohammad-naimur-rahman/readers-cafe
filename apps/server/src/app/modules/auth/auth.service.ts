@@ -1,9 +1,13 @@
 import { DecodedIdToken } from 'firebase-admin/lib/auth/token-verifier'
 import httpStatus from 'http-status'
+import { Secret } from 'jsonwebtoken'
 import { IAuth, IAuthUser, IUser } from 'validation/types'
+import config from '../../../config'
 import ApiError from '../../../errors/ApiError'
+import { jwtHelpers } from '../../../helpers/jwtHelpers'
 import admin from '../../../lib/firebaseConfig'
 import { User } from '../user/user.model'
+import { TokenVersion } from './tokenVersionModule'
 
 const signUpUser = async (
   authorization: string | undefined,
@@ -42,13 +46,29 @@ const signUpUser = async (
   if (!createdUser) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Failed to create user!')
   }
+  const { _id: userId, role } = createdUser
+
+  const createdTokenVersion = await TokenVersion.create({
+    user: userId,
+  })
+
+  const accessToken = jwtHelpers.createToken(
+    { userId, role, tokenVersion: createdTokenVersion.tokenVersion },
+    config.jwt.secret as Secret,
+    config.jwt.expires_in as string,
+  )
+
+  const refreshToken = jwtHelpers.createToken(
+    { userId, role },
+    config.jwt.refresh_secret as Secret,
+    config.jwt.refresh_expires_in as string,
+  )
 
   return {
     user: createdUser,
     token: {
-      accessToken: authorization,
-      iat: decodedValue.iat,
-      exp: decodedValue.exp,
+      accessToken,
+      refreshToken,
     },
   }
 }
@@ -72,25 +92,59 @@ const loginUser = async (
 
   const decodedValue: DecodedIdToken = await admin.auth().verifyIdToken(token)
 
-  await admin.auth().setCustomUserClaims(decodedValue.uid, {
-    admin: user.role === 'admin',
-  })
-
   if (decodedValue.email !== email) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid token!')
   }
+  const { _id: userId, role } = user
+
+  const currentTokenVersion = await TokenVersion.findOne({
+    user: userId,
+  })
+
+  if (!currentTokenVersion) {
+    throw new ApiError(httpStatus.BAD_REQUEST, `User probably did't sign up!`)
+  }
+
+  const accessToken = jwtHelpers.createToken(
+    { userId, role, tokenVersion: currentTokenVersion.tokenVersion },
+    config.jwt.secret as Secret,
+    config.jwt.expires_in as string,
+  )
+
+  const refreshToken = jwtHelpers.createToken(
+    { userId, role },
+    config.jwt.refresh_secret as Secret,
+    config.jwt.refresh_expires_in as string,
+  )
 
   return {
     user,
     token: {
-      accessToken: authorization,
-      iat: decodedValue.iat,
-      exp: decodedValue.exp,
+      accessToken,
+      refreshToken,
     },
   }
+}
+
+const logoutUser = async (id: string) => {
+  const currentTokenVersion = await TokenVersion.findOne({
+    user: id,
+  })
+
+  if (!currentTokenVersion) {
+    throw new ApiError(httpStatus.BAD_REQUEST, 'Token Version not found!')
+  }
+
+  await TokenVersion.findOneAndUpdate(
+    { user: id },
+    { tokenVersion: +currentTokenVersion.tokenVersion + 1 },
+    { new: true },
+  )
+  return null
 }
 
 export const AuthService = {
   signUpUser,
   loginUser,
+  logoutUser,
 }

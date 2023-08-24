@@ -28,7 +28,7 @@ const allRoutes = [
   { path: '/genre', routes: genreRoutes },
   { path: '/readingList', routes: readingListRoutes },
   { path: '/review', routes: reviewRoutes },
-  { path: '/shortContent', routes: shortContentRoutes },
+  { path: '/short-content', routes: shortContentRoutes },
   { path: '/summary', routes: summaryRoutes },
   { path: '/auth', routes: authRoutes },
 ]
