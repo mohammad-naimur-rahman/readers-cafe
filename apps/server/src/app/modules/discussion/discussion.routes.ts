@@ -18,8 +18,16 @@ router
 
 router
   .route('/:id')
-  .get(DiscussionController.getALllDiscussions)
-  .patch(DiscussionController.updateDiscussion)
-  .delete(DiscussionController.deleteDiscussion)
+  .get(DiscussionController.getDiscussion)
+  .patch(
+    validateRequest(DiscussionValidation.UpdateDiscussionZodSchema),
+    authGuard([ENUM_USER_ROLE.USER], true),
+    DiscussionController.updateDiscussion,
+  )
+  .delete(
+    validateRequest(DiscussionValidation.UpdateDiscussionZodSchema),
+    authGuard([ENUM_USER_ROLE.USER], true),
+    DiscussionController.deleteDiscussion,
+  )
 
 export const discussionRoutes = router

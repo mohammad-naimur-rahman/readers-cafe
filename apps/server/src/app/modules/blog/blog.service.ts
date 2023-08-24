@@ -56,10 +56,7 @@ const updateBlog = async (
   return updatedBlog
 }
 
-const deleteBlog = async (
-  id: string,
-  payload: IUser,
-): Promise<IBlog | null> => {
+const deleteBlog = async (id: string, user: IUser): Promise<IBlog | null> => {
   const session = await startSession()
   session.startTransaction()
 
@@ -68,7 +65,7 @@ const deleteBlog = async (
 
     // also delete the reference from user
     await User.updateOne(
-      { _id: payload._id },
+      { _id: user._id },
       { $pull: { blogs: id } },
       {
         new: true,

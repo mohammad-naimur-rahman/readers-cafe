@@ -1,5 +1,6 @@
 import httpStatus from 'http-status'
 import { IDiscussion } from 'validation/types'
+import { RequestWithUser } from '../../../interfaces/RequestResponseTypes'
 import catchAsync from '../../../shared/catchAsync'
 import sendResponse from '../../../shared/sendResponse'
 import { DiscussionService } from './discussion.service'
@@ -44,9 +45,10 @@ const updateDiscussion = catchAsync(async (req, res) => {
   })
 })
 
-const deleteDiscussion = catchAsync(async (req, res) => {
+const deleteDiscussion = catchAsync(async (req: RequestWithUser, res) => {
   const deltedDiscussion = await DiscussionService.deleteDiscussion(
     req.params.id,
+    req.user!,
   )
   sendResponse<IDiscussion>(res, {
     statusCode: httpStatus.NO_CONTENT,

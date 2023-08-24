@@ -8,6 +8,12 @@ const DiscussionSchema = new Schema<IDiscussion, DiscussionModel>(
       type: String,
       required: true,
     },
+    slug: {
+      type: String,
+      required: true,
+      unique: true,
+      index: true,
+    },
     description: String,
     comments: [
       {
@@ -18,6 +24,10 @@ const DiscussionSchema = new Schema<IDiscussion, DiscussionModel>(
     user: {
       type: Types.ObjectId,
       ref: 'User',
+    },
+    status: {
+      type: Boolean,
+      default: true,
     },
   },
   {

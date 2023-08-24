@@ -13,6 +13,7 @@ const blogSchema = new Schema<IBlog, BlogModel>(
       type: String,
       unique: true,
       required: true,
+      index: true,
     },
     coverImage: imageSchema,
     blogContent: {
