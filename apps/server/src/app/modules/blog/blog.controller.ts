@@ -1,5 +1,6 @@
 import httpStatus from 'http-status'
 import { IBlog } from 'validation/types'
+import { RequestWithUser } from '../../../interfaces/RequestResponseTypes'
 import catchAsync from '../../../shared/catchAsync'
 import sendResponse from '../../../shared/sendResponse'
 import { BlogService } from './blog.service'
@@ -46,8 +47,8 @@ const updateBlog = catchAsync(async (req, res) => {
   })
 })
 
-const deleteBlog = catchAsync(async (req, res) => {
-  const deltedBlog = await BlogService.deleteBlog(req.params.id)
+const deleteBlog = catchAsync(async (req: RequestWithUser, res) => {
+  const deltedBlog = await BlogService.deleteBlog(req.params.id, req.user!)
   sendResponse<IBlog>(res, {
     statusCode: httpStatus.NO_CONTENT,
     data: deltedBlog,

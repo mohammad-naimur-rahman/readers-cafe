@@ -33,8 +33,6 @@ export const authGuard =
         throw new ApiError(httpStatus.FORBIDDEN, 'Forbidden Access!')
       }
 
-      console.log(currentTokenVersion.tokenVersion, tokenVersion)
-
       // If user logs out, it updates the token version and next time the previous token doesn't work
       if (currentTokenVersion?.tokenVersion !== tokenVersion) {
         throw new ApiError(httpStatus.FORBIDDEN, 'You have logged out!')

@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-import { IBlog } from 'validation/types'
+import { IBlog, IUser } from 'validation/types'
 import { User } from '../user/user.model'
 import { Blog } from './blog.model'
 
@@ -55,9 +55,33 @@ const updateBlog = async (
   return updatedBlog
 }
 
-const deleteBlog = async (id: string): Promise<IBlog | null> => {
-  const deletedBlog = await Blog.findByIdAndDelete(id)
-  return deletedBlog
+const deleteBlog = async (
+  id: string,
+  payload: IUser,
+): Promise<IBlog | null> => {
+  const session = await mongoose.startSession()
+  session.startTransaction()
+
+  try {
+    const deletedBlog = await Blog.findByIdAndDelete(id, { session })
+
+    await User.findByIdAndUpdate(
+      payload._id,
+      { $pull: { blogs: id } },
+      {
+        session,
+      },
+    )
+
+    await session.commitTransaction()
+
+    return deletedBlog
+  } catch (error) {
+    await session.abortTransaction()
+    throw error
+  } finally {
+    session.endSession()
+  }
 }
 
 export const BlogService = {

@@ -24,6 +24,10 @@ router
     authGuard([ENUM_USER_ROLE.USER], true),
     BlogController.updateBlog,
   )
-  .delete(authGuard([ENUM_USER_ROLE.USER], true), BlogController.deleteBlog)
+  .delete(
+    validateRequest(BlogValidation.UpdateBlogZodSchema),
+    authGuard([ENUM_USER_ROLE.USER], true),
+    BlogController.deleteBlog,
+  )
 
 export const blogRoutes = router
