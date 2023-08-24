@@ -9,7 +9,7 @@ import { TokenVersion } from '../modules/auth/tokenVersionModule'
 
 export const authGuard =
   (...requiredRoles: string[]) =>
-  async (req: Request, res: Response, next: NextFunction) => {
+  async (req: Request, _res: Response, next: NextFunction) => {
     try {
       const token = req.headers.authorization
 

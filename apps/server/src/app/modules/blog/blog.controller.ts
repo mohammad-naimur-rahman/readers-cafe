@@ -6,7 +6,10 @@ import sendResponse from '../../../shared/sendResponse'
 import { BlogService } from './blog.service'
 
 const createBlog = catchAsync(async (req, res) => {
-  const createdBlog = await BlogService.createBlog(req.body)
+  const createdBlog = await BlogService.createBlog(
+    req.body,
+    (req as RequestWithUser).user,
+  )
   sendResponse<IBlog>(res, {
     statusCode: httpStatus.CREATED,
     data: createdBlog,
@@ -14,7 +17,7 @@ const createBlog = catchAsync(async (req, res) => {
   })
 })
 
-const getALllBlogs = catchAsync(async (req, res) => {
+const getALllBlogs = catchAsync(async (_req, res) => {
   const allBlogs = await BlogService.getAllBlogs()
   sendResponse<IBlog[]>(res, {
     statusCode: httpStatus.OK,
@@ -39,7 +42,11 @@ const updateBlog = catchAsync(async (req, res) => {
     body,
     params: { id },
   } = req
-  const updatedBlog = await BlogService.updateBlog(id, body)
+  const updatedBlog = await BlogService.updateBlog(
+    id,
+    body,
+    (req as RequestWithUser).user,
+  )
   sendResponse<IBlog>(res, {
     statusCode: httpStatus.OK,
     data: updatedBlog,
@@ -50,7 +57,7 @@ const updateBlog = catchAsync(async (req, res) => {
 const deleteBlog = catchAsync(async (req, res) => {
   const deltedBlog = await BlogService.deleteBlog(
     req.params.id,
-    (req as RequestWithUser).user!,
+    (req as RequestWithUser).user,
   )
   sendResponse<IBlog>(res, {
     statusCode: httpStatus.NO_CONTENT,

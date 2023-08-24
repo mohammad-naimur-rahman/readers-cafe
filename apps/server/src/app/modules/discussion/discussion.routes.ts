@@ -24,6 +24,9 @@ router
     authGuard(ENUM_USER_ROLE.USER),
     DiscussionController.updateDiscussion,
   )
-  .delete(authGuard(ENUM_USER_ROLE.USER), DiscussionController.deleteDiscussion)
+  .delete(
+    authGuard(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.ADMIN),
+    DiscussionController.deleteDiscussion,
+  )
 
 export const discussionRoutes = router

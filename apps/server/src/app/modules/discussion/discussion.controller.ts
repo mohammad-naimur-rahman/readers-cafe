@@ -6,7 +6,10 @@ import sendResponse from '../../../shared/sendResponse'
 import { DiscussionService } from './discussion.service'
 
 const createDiscussion = catchAsync(async (req, res) => {
-  const createdDiscussion = await DiscussionService.createDiscussion(req.body)
+  const createdDiscussion = await DiscussionService.createDiscussion(
+    req.body,
+    (req as RequestWithUser).user,
+  )
   sendResponse<IDiscussion>(res, {
     statusCode: httpStatus.CREATED,
     data: createdDiscussion,
@@ -14,7 +17,7 @@ const createDiscussion = catchAsync(async (req, res) => {
   })
 })
 
-const getALllDiscussions = catchAsync(async (req, res) => {
+const getALllDiscussions = catchAsync(async (_req, res) => {
   const allDiscussions = await DiscussionService.getAllDiscussions()
   sendResponse<IDiscussion[]>(res, {
     statusCode: httpStatus.OK,
@@ -37,7 +40,11 @@ const updateDiscussion = catchAsync(async (req, res) => {
     body,
     params: { id },
   } = req
-  const updatedDiscussion = await DiscussionService.updateDiscussion(id, body)
+  const updatedDiscussion = await DiscussionService.updateDiscussion(
+    id,
+    body,
+    (req as RequestWithUser).user,
+  )
   sendResponse<IDiscussion>(res, {
     statusCode: httpStatus.OK,
     data: updatedDiscussion,
@@ -48,7 +55,7 @@ const updateDiscussion = catchAsync(async (req, res) => {
 const deleteDiscussion = catchAsync(async (req, res) => {
   const deltedDiscussion = await DiscussionService.deleteDiscussion(
     req.params.id,
-    (req as RequestWithUser).user!,
+    (req as RequestWithUser).user,
   )
   sendResponse<IDiscussion>(res, {
     statusCode: httpStatus.NO_CONTENT,

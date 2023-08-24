@@ -24,6 +24,10 @@ router
     authGuard(ENUM_USER_ROLE.USER),
     BlogController.updateBlog,
   )
-  .delete(authGuard(ENUM_USER_ROLE.USER), BlogController.deleteBlog)
+  .delete(
+    // Admin can delete anything if he wants
+    authGuard(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.ADMIN),
+    BlogController.deleteBlog,
+  )
 
 export const blogRoutes = router

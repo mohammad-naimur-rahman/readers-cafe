@@ -1,14 +1,23 @@
+import httpStatus from 'http-status'
 import { JwtPayload } from 'jsonwebtoken'
 import { startSession } from 'mongoose'
 import { IBlog } from 'validation/types'
+import ApiError from '../../../errors/ApiError'
 import { User } from '../user/user.model'
 import { Blog } from './blog.model'
 
-const createBlog = async (payload: IBlog): Promise<IBlog> => {
+const createBlog = async (payload: IBlog, user: JwtPayload): Promise<IBlog> => {
   const session = await startSession()
   session.startTransaction()
 
   try {
+    // checking if the same user is trying to dot the operation
+    if (user.userId !== payload.user) {
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        'You are not allowed to do this operation!',
+      )
+    }
     const createdBlog = await Blog.create([payload], { session })
 
     // add refernce to the user
@@ -34,8 +43,8 @@ const createBlog = async (payload: IBlog): Promise<IBlog> => {
 }
 
 const getAllBlogs = async (): Promise<IBlog[]> => {
-  const AllBlogs = await Blog.find({ published: true })
-  return AllBlogs
+  const allBlogs = await Blog.find({ published: true })
+  return allBlogs
 }
 
 const getBlog = async (id: string): Promise<IBlog | null> => {
@@ -49,7 +58,22 @@ const getBlog = async (id: string): Promise<IBlog | null> => {
 const updateBlog = async (
   id: string,
   payload: Partial<IBlog>,
+  user: JwtPayload,
 ): Promise<IBlog | null> => {
+  // check if the document exists
+  const blog = await Blog.findById(id)
+
+  if (!blog) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Blog not found!')
+  }
+
+  // checking if the same user is trying to dot the operation
+  if (user.userId !== blog.user.toString()) {
+    throw new ApiError(
+      httpStatus.BAD_REQUEST,
+      'You are not allowed to do this operation!',
+    )
+  }
   const updatedBlog = await Blog.findOneAndUpdate({ _id: id }, payload, {
     new: true,
     runValidators: true,
@@ -57,19 +81,31 @@ const updateBlog = async (
   return updatedBlog
 }
 
-const deleteBlog = async (
-  id: string,
-  user: JwtPayload,
-): Promise<IBlog | null> => {
+const deleteBlog = async (id: string, user: JwtPayload): Promise<null> => {
   const session = await startSession()
   session.startTransaction()
 
   try {
-    const deletedBlog = await Blog.findByIdAndDelete(id, { session })
+    // check if the document exists
+    const blog = await Blog.findById(id)
+
+    if (!blog) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'Blog not found!')
+    }
+
+    // checking if the same user is trying to dot the operation
+    if (user.userId !== blog.user.toString()) {
+      throw new ApiError(
+        httpStatus.BAD_REQUEST,
+        'You are not allowed to do this operation!',
+      )
+    }
+
+    await Blog.findByIdAndDelete(id, { session })
 
     // also delete the reference from user
     await User.updateOne(
-      { _id: user._id },
+      { _id: user.userId },
       { $pull: { blogs: id } },
       {
         new: true,
@@ -80,7 +116,7 @@ const deleteBlog = async (
 
     await session.commitTransaction()
 
-    return deletedBlog
+    return null
   } catch (error) {
     await session.abortTransaction()
     throw error
