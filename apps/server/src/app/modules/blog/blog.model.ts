@@ -24,6 +24,10 @@ const blogSchema = new Schema<IBlog, BlogModel>(
       ref: 'User',
       required: true,
     },
+    published: {
+      type: Boolean,
+      default: true,
+    },
     comments: [
       {
         type: Types.ObjectId,

@@ -9,5 +9,6 @@ export interface IBlog {
   coverImage?: IImage
   blogContent: string
   user: Types.ObjectId | IUser
+  published?: boolean
   comments: Types.ObjectId[]
 }

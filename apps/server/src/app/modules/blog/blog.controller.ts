@@ -23,11 +23,13 @@ const getALllBlogs = catchAsync(async (req, res) => {
 })
 
 const getBlog = catchAsync(async (req, res) => {
-  const Blog = await BlogService.getBlog(req.params.id)
+  const blog = await BlogService.getBlog(req.params.id)
   sendResponse<IBlog>(res, {
     statusCode: httpStatus.OK,
-    data: Blog,
-    message: 'Blog retrieved successfully!',
+    data: blog,
+    message: blog
+      ? 'Blog retrieved successfully!'
+      : `The blog is public or doesn't exist!`,
   })
 })
 

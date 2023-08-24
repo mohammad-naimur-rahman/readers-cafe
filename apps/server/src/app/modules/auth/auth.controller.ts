@@ -2,6 +2,7 @@ import httpStatus from 'http-status'
 import { IAuthUser, IUser } from 'validation/types'
 import config from '../../../config'
 import ApiError from '../../../errors/ApiError'
+import { RequestWithUser } from '../../../interfaces/RequestResponseTypes'
 import catchAsync from '../../../shared/catchAsync'
 import sendResponse from '../../../shared/sendResponse'
 import { AuthService } from './auth.service'
@@ -66,8 +67,8 @@ const loginUser = catchAsync(async (req, res) => {
   })
 })
 
-const logoutUser = catchAsync(async (req, res) => {
-  await AuthService.logoutUser(req.body.id)
+const logoutUser = catchAsync(async (req: RequestWithUser, res) => {
+  await AuthService.logoutUser(req.user!)
   sendResponse<IUser>(res, {
     success: true,
     statusCode: httpStatus.NO_CONTENT,

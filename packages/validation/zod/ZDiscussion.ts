@@ -1,4 +1,3 @@
-import { Types } from 'mongoose'
 import { z } from 'zod'
 
 const CreateDiscussionZodSchema = z.object({
@@ -6,8 +5,8 @@ const CreateDiscussionZodSchema = z.object({
     message: 'Discussion topic is required and must not be empty!',
   }),
   description: z.string().optional(),
-  comments: z.array(z.instanceof(Types.ObjectId)).optional(),
-  user: z.instanceof(Types.ObjectId),
+  comments: z.array(z.string()).optional(),
+  user: z.string(),
 })
 
 const UpdateDiscussionZodSchema = z.object({
@@ -16,8 +15,8 @@ const UpdateDiscussionZodSchema = z.object({
     .nonempty({ message: 'Discussion topic must not be empty!' })
     .optional(),
   description: z.string().optional(),
-  comments: z.array(z.instanceof(Types.ObjectId)).optional(),
-  user: z.instanceof(Types.ObjectId).optional(),
+  comments: z.array(z.string()).optional(),
+  user: z.string(),
 })
 
 const DiscussionValidation = {

@@ -1,4 +1,3 @@
-import { Types } from 'mongoose'
 import { z } from 'zod'
 import { ZImage } from './ZImage'
 
@@ -17,8 +16,9 @@ const CreateBlogZodSchema = z.object({
   blogContent: z
     .string()
     .nonempty({ message: 'Blog content is required and must not be empty!' }),
-  user: z.instanceof(Types.ObjectId),
-  comments: z.array(z.instanceof(Types.ObjectId)).optional(),
+  user: z.string(),
+  published: z.boolean().default(true),
+  comments: z.array(z.string()).optional(),
 })
 
 const UpdateBlogZodSchema = z.object({
@@ -39,13 +39,12 @@ const UpdateBlogZodSchema = z.object({
     .string()
     .nonempty({ message: 'Blog content must not be empty!' })
     .optional(),
-  user: z.instanceof(Types.ObjectId).optional(),
-  comments: z.array(z.instanceof(Types.ObjectId)).optional(),
+  user: z.string(),
+  published: z.boolean().default(true).optional(),
+  comments: z.array(z.string()).optional(),
 })
 
-const BlogValidation = {
+export const BlogValidation = {
   CreateBlogZodSchema,
   UpdateBlogZodSchema,
 }
-
-export default BlogValidation

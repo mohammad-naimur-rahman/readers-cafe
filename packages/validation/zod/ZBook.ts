@@ -1,6 +1,5 @@
-import { ZImage } from './ZImage'
-import { Types } from 'mongoose'
 import { z } from 'zod'
+import { ZImage } from './ZImage'
 
 const CreateBookZodSchema = z.object({
   title: z
@@ -8,7 +7,7 @@ const CreateBookZodSchema = z.object({
     .nonempty({ message: 'Title is required and must not be empty!' }),
   description: z.string().optional(),
   authors: z
-    .array(z.instanceof(Types.ObjectId))
+    .array(z.string())
     .nonempty({ message: 'At least one author is required!' }),
   pageCount: z.number().positive().optional(),
   publishedDate: z.date().optional(),
@@ -17,9 +16,9 @@ const CreateBookZodSchema = z.object({
       ZImage,
     })
     .optional(),
-  genre: z.instanceof(Types.ObjectId),
+  genre: z.string(),
   maturityRating: z.string().optional(),
-  summaries: z.array(z.instanceof(Types.ObjectId)).optional(),
+  summaries: z.array(z.string()).optional(),
 })
 
 const UpdateBookZodSchema = z.object({
@@ -28,7 +27,7 @@ const UpdateBookZodSchema = z.object({
     .nonempty({ message: 'Title must not be empty!' })
     .optional(),
   description: z.string().optional(),
-  authors: z.array(z.instanceof(Types.ObjectId)).optional(),
+  authors: z.array(z.string()).optional(),
   pageCount: z.number().positive().optional(),
   publishedDate: z.date().optional(),
   image: z
@@ -36,9 +35,9 @@ const UpdateBookZodSchema = z.object({
       ZImage,
     })
     .optional(),
-  genre: z.instanceof(Types.ObjectId).optional(),
+  genre: z.string().optional(),
   maturityRating: z.string().optional(),
-  summaries: z.array(z.instanceof(Types.ObjectId)).optional(),
+  summaries: z.array(z.string()).optional(),
 })
 
 const BookValidation = {

@@ -1,4 +1,3 @@
-import { Types } from 'mongoose'
 import { z } from 'zod'
 
 const CreateReviewZodSchema = z.object({
@@ -9,8 +8,8 @@ const CreateReviewZodSchema = z.object({
   reviewText: z
     .string()
     .nonempty({ message: 'Review text is required and must not be empty!' }),
-  user: z.instanceof(Types.ObjectId),
-  summary: z.instanceof(Types.ObjectId),
+  user: z.string(),
+  summary: z.string(),
 })
 
 const UpdateReviewZodSchema = z.object({
@@ -23,8 +22,8 @@ const UpdateReviewZodSchema = z.object({
     .string()
     .nonempty({ message: 'Review text must not be empty!' })
     .optional(),
-  user: z.instanceof(Types.ObjectId).optional(),
-  summary: z.instanceof(Types.ObjectId).optional(),
+  user: z.string().optional(),
+  summary: z.string().optional(),
 })
 
 const ReviewValidation = {

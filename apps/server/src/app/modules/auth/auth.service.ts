@@ -126,9 +126,9 @@ const loginUser = async (
   }
 }
 
-const logoutUser = async (id: string) => {
+const logoutUser = async (user: IUser) => {
   const currentTokenVersion = await TokenVersion.findOne({
-    user: id,
+    user: user._id,
   })
 
   if (!currentTokenVersion) {
@@ -136,7 +136,7 @@ const logoutUser = async (id: string) => {
   }
 
   await TokenVersion.findOneAndUpdate(
-    { user: id },
+    { user: user._id },
     { tokenVersion: +currentTokenVersion.tokenVersion + 1 },
     { new: true },
   )

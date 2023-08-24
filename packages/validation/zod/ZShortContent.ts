@@ -1,6 +1,5 @@
-import { ZImage } from './ZImage'
-import { Types } from 'mongoose'
 import { z } from 'zod'
+import { ZImage } from './ZImage'
 
 interface IImage {
   blurImage?: string
@@ -17,8 +16,8 @@ const CreateShortContentZodSchema = z.object({
       ZImage,
     })
     .optional(),
-  user: z.instanceof(Types.ObjectId),
-  comments: z.array(z.instanceof(Types.ObjectId)).optional(),
+  user: z.string(),
+  comments: z.array(z.string()).optional(),
 })
 
 const UpdateShortContentZodSchema = z.object({
@@ -31,8 +30,8 @@ const UpdateShortContentZodSchema = z.object({
       ZImage,
     })
     .optional(),
-  user: z.instanceof(Types.ObjectId).optional(),
-  comments: z.array(z.instanceof(Types.ObjectId)).optional(),
+  user: z.string(),
+  comments: z.array(z.string()).optional(),
 })
 
 const ShortContentValidation = {

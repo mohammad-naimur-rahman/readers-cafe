@@ -32,13 +32,16 @@ const createBlog = async (payload: IBlog): Promise<IBlog> => {
 }
 
 const getAllBlogs = async (): Promise<IBlog[]> => {
-  const AllBlogs = await Blog.find()
+  const AllBlogs = await Blog.find({ published: true })
   return AllBlogs
 }
 
 const getBlog = async (id: string): Promise<IBlog | null> => {
   const singleBlog = await Blog.findById(id)
-  return singleBlog
+  if (singleBlog?.published) {
+    return singleBlog
+  }
+  return null
 }
 
 const updateBlog = async (

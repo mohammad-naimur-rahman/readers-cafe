@@ -1,10 +1,9 @@
-import { Types } from 'mongoose'
 import { z } from 'zod'
 
 const CreateDonationZodSchema = z.object({
   amount: z.number().positive({ message: 'Amount must be a positive number!' }),
-  donorUser: z.instanceof(Types.ObjectId),
-  receiverUser: z.instanceof(Types.ObjectId),
+  donorUser: z.string(),
+  receiverUser: z.string(),
 })
 
 const UpdateDonationZodSchema = z.object({
@@ -12,8 +11,8 @@ const UpdateDonationZodSchema = z.object({
     .number()
     .positive({ message: 'Amount must be a positive number!' })
     .optional(),
-  donorUser: z.instanceof(Types.ObjectId).optional(),
-  receiverUser: z.instanceof(Types.ObjectId).optional(),
+  donorUser: z.string().optional(),
+  receiverUser: z.string().optional(),
 })
 
 const DonationValidation = {
