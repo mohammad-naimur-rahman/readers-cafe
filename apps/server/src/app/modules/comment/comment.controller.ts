@@ -1,11 +1,15 @@
 import httpStatus from 'http-status'
 import { IComment } from 'validation/types'
+import { RequestWithUser } from '../../../interfaces/RequestResponseTypes'
 import catchAsync from '../../../shared/catchAsync'
 import sendResponse from '../../../shared/sendResponse'
 import { CommentService } from './comment.service'
 
 const createComment = catchAsync(async (req, res) => {
-  const createdComment = await CommentService.createComment(req.body)
+  const createdComment = await CommentService.createComment(
+    req.body,
+    (req as RequestWithUser).user,
+  )
   sendResponse<IComment>(res, {
     statusCode: httpStatus.CREATED,
     data: createdComment,
@@ -31,19 +35,6 @@ const getComment = catchAsync(async (req, res) => {
   })
 })
 
-const updateComment = catchAsync(async (req, res) => {
-  const {
-    body,
-    params: { id },
-  } = req
-  const updatedComment = await CommentService.updateComment(id, body)
-  sendResponse<IComment>(res, {
-    statusCode: httpStatus.OK,
-    data: updatedComment,
-    message: 'Comment updated successfully!',
-  })
-})
-
 const deleteComment = catchAsync(async (req, res) => {
   const deltedComment = await CommentService.deleteComment(req.params.id)
   sendResponse<IComment>(res, {
@@ -57,6 +48,5 @@ export const CommentController = {
   createComment,
   getALllComments,
   getComment,
-  updateComment,
   deleteComment,
 }
