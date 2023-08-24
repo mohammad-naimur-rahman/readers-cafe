@@ -8,9 +8,9 @@ import { Blog } from './blog.model'
 
 const createBlog = async (payload: IBlog, user: JwtPayload): Promise<IBlog> => {
   const session = await startSession()
-  session.startTransaction()
 
   try {
+    session.startTransaction()
     // checking if the same user is trying to dot the operation
     if (user.userId !== payload.user) {
       throw new ApiError(
@@ -83,9 +83,9 @@ const updateBlog = async (
 
 const deleteBlog = async (id: string, user: JwtPayload): Promise<null> => {
   const session = await startSession()
-  session.startTransaction()
 
   try {
+    session.startTransaction()
     // check if the document exists
     const blog = await Blog.findById(id)
 

@@ -27,11 +27,13 @@ const getALllDiscussions = catchAsync(async (_req, res) => {
 })
 
 const getDiscussion = catchAsync(async (req, res) => {
-  const Discussion = await DiscussionService.getDiscussion(req.params.id)
+  const discussion = await DiscussionService.getDiscussion(req.params.id)
   sendResponse<IDiscussion>(res, {
     statusCode: httpStatus.OK,
-    data: Discussion,
-    message: 'Discussion retrieved successfully!',
+    data: discussion,
+    message: discussion
+      ? 'Discussion retrieved successfully!'
+      : 'No discussion found!',
   })
 })
 
