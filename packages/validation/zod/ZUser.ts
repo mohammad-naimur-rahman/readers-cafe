@@ -32,9 +32,7 @@ const updateUserValidationSchema = z.object({
   readingList: z.array(z.string()).optional(),
 })
 
-const UserValidation = {
+export const UserValidation = {
   createUserValidationSchema,
   updateUserValidationSchema,
 }
-
-export default UserValidation

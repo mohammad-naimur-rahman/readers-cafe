@@ -40,9 +40,7 @@ const UpdateBookZodSchema = z.object({
   summaries: z.array(z.string()).optional(),
 })
 
-const BookValidation = {
+export const BookValidation = {
   CreateBookZodSchema,
   UpdateBookZodSchema,
 }
-
-export default BookValidation

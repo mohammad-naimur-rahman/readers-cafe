@@ -26,9 +26,7 @@ const UpdateReviewZodSchema = z.object({
   summary: z.string().optional(),
 })
 
-const ReviewValidation = {
+export const ReviewValidation = {
   CreateReviewZodSchema,
   UpdateReviewZodSchema,
 }
-
-export default ReviewValidation

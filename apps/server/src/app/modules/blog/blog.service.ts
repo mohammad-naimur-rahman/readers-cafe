@@ -1,15 +1,16 @@
-import mongoose from 'mongoose'
+import { startSession } from 'mongoose'
 import { IBlog, IUser } from 'validation/types'
 import { User } from '../user/user.model'
 import { Blog } from './blog.model'
 
 const createBlog = async (payload: IBlog): Promise<IBlog> => {
-  const session = await mongoose.startSession()
+  const session = await startSession()
   session.startTransaction()
 
   try {
     const createdBlog = await Blog.create([payload], { session })
 
+    // add refernce to the user
     await User.findByIdAndUpdate(
       payload.user,
       { $push: { blogs: createdBlog[0]._id } },
@@ -59,16 +60,19 @@ const deleteBlog = async (
   id: string,
   payload: IUser,
 ): Promise<IBlog | null> => {
-  const session = await mongoose.startSession()
+  const session = await startSession()
   session.startTransaction()
 
   try {
     const deletedBlog = await Blog.findByIdAndDelete(id, { session })
 
-    await User.findByIdAndUpdate(
-      payload._id,
+    // also delete the reference from user
+    await User.updateOne(
+      { _id: payload._id },
       { $pull: { blogs: id } },
       {
+        new: true,
+        runValidators: true,
         session,
       },
     )

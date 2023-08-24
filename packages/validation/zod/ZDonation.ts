@@ -15,9 +15,7 @@ const UpdateDonationZodSchema = z.object({
   receiverUser: z.string().optional(),
 })
 
-const DonationValidation = {
+export const DonationValidation = {
   CreateDonationZodSchema,
   UpdateDonationZodSchema,
 }
-
-export default DonationValidation

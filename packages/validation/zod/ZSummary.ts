@@ -19,9 +19,7 @@ const UpdateSummaryZodSchema = z.object({
   reviews: z.array(z.string()).optional(),
 })
 
-const SummaryValidation = {
+export const SummaryValidation = {
   CreateSummaryZodSchema,
   UpdateSummaryZodSchema,
 }
-
-export default SummaryValidation

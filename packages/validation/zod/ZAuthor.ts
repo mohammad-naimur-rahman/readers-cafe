@@ -12,9 +12,7 @@ const UpdateAuthorZodSchema = z.object({
   books: z.array(z.string()).optional(),
 })
 
-const AuthorValidation = {
+export const AuthorValidation = {
   CreateAuthorZodSchema,
   UpdateAuthorZodSchema,
 }
-
-export default AuthorValidation

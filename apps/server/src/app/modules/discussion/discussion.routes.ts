@@ -1,4 +1,8 @@
 import { Router } from 'express'
+import { DiscussionValidation } from 'validation/zod'
+import ENUM_USER_ROLE from '../../../enums/user'
+import { authGuard } from '../../middlewares/authGuard'
+import validateRequest from '../../middlewares/validateRequest'
 import { DiscussionController } from './discussion.controller'
 
 const router = Router()
@@ -6,7 +10,11 @@ const router = Router()
 router
   .route('/')
   .get(DiscussionController.getALllDiscussions)
-  .post(DiscussionController.createDiscussion)
+  .post(
+    validateRequest(DiscussionValidation.CreateDiscussionZodSchema),
+    authGuard([ENUM_USER_ROLE.USER], true),
+    DiscussionController.createDiscussion,
+  )
 
 router
   .route('/:id')

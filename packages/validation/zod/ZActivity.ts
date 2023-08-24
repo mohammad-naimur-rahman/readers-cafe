@@ -15,9 +15,7 @@ const UpdateActivityZodSchema = z.object({
   whomWith: z.string().optional(),
 })
 
-const ActivityValidation = {
+export const ActivityValidation = {
   CreateActivityZodSchema,
   UpdateActivityZodSchema,
 }
-
-export default ActivityValidation

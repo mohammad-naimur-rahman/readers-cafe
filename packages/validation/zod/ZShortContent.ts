@@ -34,9 +34,7 @@ const UpdateShortContentZodSchema = z.object({
   comments: z.array(z.string()).optional(),
 })
 
-const ShortContentValidation = {
+export const ShortContentValidation = {
   CreateShortContentZodSchema,
   UpdateShortContentZodSchema,
 }
-
-export default ShortContentValidation

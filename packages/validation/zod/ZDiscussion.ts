@@ -19,9 +19,7 @@ const UpdateDiscussionZodSchema = z.object({
   user: z.string(),
 })
 
-const DiscussionValidation = {
+export const DiscussionValidation = {
   CreateDiscussionZodSchema,
   UpdateDiscussionZodSchema,
 }
-
-export default DiscussionValidation

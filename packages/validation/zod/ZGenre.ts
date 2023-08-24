@@ -13,9 +13,7 @@ const UpdateGenreZodSchema = z.object({
   books: z.array(z.string()).optional(),
 })
 
-const GenreValidation = {
+export const GenreValidation = {
   CreateGenreZodSchema,
   UpdateGenreZodSchema,
 }
-
-export default GenreValidation

@@ -26,9 +26,7 @@ const UpdateCommentZodSchema = z.object({
   blog: z.string().optional(),
 })
 
-const CommentValidation = {
+export const CommentValidation = {
   CreateCommentZodSchema,
   UpdateCommentZodSchema,
 }
-
-export default CommentValidation

@@ -17,9 +17,7 @@ const UpdateReadingListZodSchema = z.object({
   user: z.string(),
 })
 
-const ReadingListValidation = {
+export const ReadingListValidation = {
   CreateReadingListZodSchema,
   UpdateReadingListZodSchema,
 }
-
-export default ReadingListValidation
