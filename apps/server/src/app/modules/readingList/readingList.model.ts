@@ -17,6 +17,7 @@ const readingListSchema = new Schema<IReadingList, ReadingListModel>(
     },
     user: {
       type: Types.ObjectId,
+      ref: 'User',
       required: true,
     },
   },

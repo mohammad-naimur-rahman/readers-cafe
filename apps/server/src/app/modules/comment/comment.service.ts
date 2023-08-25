@@ -90,7 +90,7 @@ const getComment = async (id: string): Promise<IComment | null> => {
   return singleComment
 }
 
-const deleteComment = async (id: string): Promise<IComment | null> => {
+const deleteComment = async (id: string): Promise<null> => {
   const session = await startSession()
   try {
     session.startTransaction()
@@ -150,15 +150,14 @@ const deleteComment = async (id: string): Promise<IComment | null> => {
     }
 
     await session.commitTransaction()
+
+    return null
   } catch (error) {
     await session.abortTransaction()
     throw error
   } finally {
     session.endSession()
   }
-
-  const deletedComment = await Comment.findByIdAndDelete(id)
-  return deletedComment
 }
 
 export const CommentService = {

@@ -16,6 +16,10 @@ const summarySchema = new Schema<ISummary, SummaryModel>(
       type: Types.ObjectId,
       ref: 'User',
     },
+    published: {
+      type: Boolean,
+      default: true,
+    },
     reviews: [
       {
         type: Types.ObjectId,

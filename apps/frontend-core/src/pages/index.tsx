@@ -5,6 +5,7 @@ import {
   UserCredential,
   signInWithPopup,
 } from 'firebase/auth'
+import { useState } from 'react'
 
 export default function IndexPage() {
   const loginWithGoogle = async e => {
@@ -35,11 +36,59 @@ export default function IndexPage() {
     }
   }
 
+  const [bookName, setbookName] = useState('')
+  const [books, setbooks] = useState([])
+
+  const searchBook = async e => {
+    e.preventDefault()
+    const data = await axios.get(
+      `https://www.googleapis.com/books/v1/volumes?q=${bookName}`,
+    )
+    setbooks(data.data.items)
+    console.log(data.data.items)
+  }
+
   return (
     <div>
       <form onSubmit={loginWithGoogle}>
         <button type="submit">Login with google</button>
       </form>
+      <form onSubmit={searchBook}>
+        <input
+          type="text"
+          placeholder="Book name"
+          value={bookName}
+          onChange={e => setbookName(e.target.value)}
+        />
+        <button type="submit">Search book</button>
+      </form>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          paddingBlock: '20px',
+        }}
+      >
+        {books?.map(book => (
+          <div
+            style={{
+              border: '1px solid gredy',
+              padding: '10px',
+              marginBlock: '5px',
+            }}
+            key={book.id}
+          >
+            {book.volumeInfo?.imageLinks?.thumbnail && (
+              <img
+                src={book.volumeInfo?.imageLinks?.thumbnail}
+                alt={book.volumeInfo.title}
+              />
+            )}
+            <h4>{book.volumeInfo.title}</h4>
+            <p>{book.volumeInfo.maturityRating}</p>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }

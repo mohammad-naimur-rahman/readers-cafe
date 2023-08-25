@@ -14,6 +14,7 @@ const bookSchema = new Schema<IBook, BookModel>(
       {
         type: Types.ObjectId,
         requried: true,
+        ref: 'Author',
       },
     ],
     pageCount: Number,
@@ -22,7 +23,14 @@ const bookSchema = new Schema<IBook, BookModel>(
     genre: {
       type: Types.ObjectId,
       required: true,
+      ref: 'Genre',
     },
+    summaries: [
+      {
+        type: Types.ObjectId,
+        ref: 'Summary',
+      },
+    ],
   },
   {
     timestamps: true,

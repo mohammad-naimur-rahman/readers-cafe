@@ -9,6 +9,5 @@ export interface IBook {
   publishedDate?: Date
   image?: IImage
   genre: Types.ObjectId | IBook
-  maturityRating?: string
   summaries: Types.ObjectId[]
 }

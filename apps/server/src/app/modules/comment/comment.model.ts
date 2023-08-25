@@ -11,6 +11,7 @@ const commentSchema = new Schema<IComment, CommentModel>(
     },
     user: {
       type: Types.ObjectId,
+      ref: 'User',
       required: true,
     },
     commentFor: {

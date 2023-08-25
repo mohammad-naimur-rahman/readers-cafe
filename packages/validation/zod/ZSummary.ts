@@ -6,6 +6,7 @@ const CreateSummaryZodSchema = z.object({
   }),
   book: z.string(),
   user: z.string(),
+  published: z.boolean().default(true),
   reviews: z.array(z.string()).optional(),
 })
 
@@ -16,6 +17,7 @@ const UpdateSummaryZodSchema = z.object({
     .optional(),
   book: z.string().optional(),
   user: z.string().optional(),
+  published: z.boolean().default(true).optional(),
   reviews: z.array(z.string()).optional(),
 })
 

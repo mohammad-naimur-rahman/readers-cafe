@@ -17,7 +17,6 @@ const CreateBookZodSchema = z.object({
     })
     .optional(),
   genre: z.string(),
-  maturityRating: z.string().optional(),
   summaries: z.array(z.string()).optional(),
 })
 
@@ -36,7 +35,6 @@ const UpdateBookZodSchema = z.object({
     })
     .optional(),
   genre: z.string().optional(),
-  maturityRating: z.string().optional(),
   summaries: z.array(z.string()).optional(),
 })
 
