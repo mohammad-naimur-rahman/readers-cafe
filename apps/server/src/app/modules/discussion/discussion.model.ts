@@ -1,4 +1,5 @@
 import { Schema, Types, model } from 'mongoose'
+import slugify from 'slugify'
 import { IDiscussion } from 'validation/types'
 import { DiscussionModel } from './discussion.interface'
 
@@ -10,9 +11,11 @@ const DiscussionSchema = new Schema<IDiscussion, DiscussionModel>(
     },
     slug: {
       type: String,
-      required: true,
+      required: false,
       unique: true,
-      index: true,
+      index: {
+        unique: true,
+      },
     },
     description: String,
     comments: [
@@ -37,6 +40,13 @@ const DiscussionSchema = new Schema<IDiscussion, DiscussionModel>(
     },
   },
 )
+
+// Generating automatic slug from the title
+// eslint-disable-next-line func-names
+DiscussionSchema.pre('save', function (next) {
+  this.slug = slugify(this.topic, { replacement: '-', lower: true, trim: true })
+  next()
+})
 
 export const Discussion = model<IDiscussion, DiscussionModel>(
   'Discussion',

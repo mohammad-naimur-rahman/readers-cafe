@@ -14,18 +14,15 @@ const createDiscussion = async (
 
   try {
     session.startTransaction()
-    // checking if the same user is trying to dot the operation
-    if (user.userId !== payload.user) {
-      throw new ApiError(
-        httpStatus.BAD_REQUEST,
-        'You are not allowed to do this operation!',
-      )
-    }
-    const createdDiscussion = await Discussion.create([payload], { session })
+    // user id is inserted separately so that anyone can't put wrong user
+    const createdDiscussion = await Discussion.create(
+      [{ user: user.userId, ...payload }],
+      { session },
+    )
 
     // add refernce to the user
-    await User.findByIdAndUpdate(
-      payload.user,
+    await User.updateOne(
+      { _id: user.userId },
       { $push: { discussions: createdDiscussion[0]._id } },
       {
         new: true,
@@ -46,7 +43,7 @@ const createDiscussion = async (
 }
 
 const getAllDiscussions = async (): Promise<IDiscussion[]> => {
-  const alldiscussions = await Discussion.find({ published: true })
+  const alldiscussions = await Discussion.find()
   return alldiscussions
 }
 
@@ -60,23 +57,19 @@ const updateDiscussion = async (
   payload: Partial<IDiscussion>,
   user: JwtPayload,
 ): Promise<IDiscussion | null> => {
-  // check if the document exists
-  const discussion = await Discussion.findById(id)
+  // checking if the same user is trying to dot the operation
+  const discussion = await Discussion.findOne({ _id: id, user: user.userId })
 
   if (!discussion) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Discussion not found!')
   }
 
-  // checking if the same user is trying to dot the operation
-  if (user.userId !== discussion.user.toString()) {
-    throw new ApiError(
-      httpStatus.BAD_REQUEST,
-      'You are not allowed to do this operation!',
-    )
-  }
-  const updatedDiscussion = await Discussion.findOneAndUpdate(
-    { _id: id },
-    payload,
+  // User can not be updated as the blog writer remains the same
+  const { user: _, ...payloadData } = payload
+
+  const updatedDiscussion = await Discussion.findByIdAndUpdate(
+    id,
+    payloadData,
     {
       new: true,
       runValidators: true,
@@ -93,19 +86,11 @@ const deleteDiscussion = async (
 
   try {
     session.startTransaction()
-    // check if the document exists
-    const discussion = await Discussion.findById(id)
+    // check if the document exists and the same user is trying to dot the operation
+    const discussion = await Discussion.findOne({ _id: id, user: user.userId })
 
     if (!discussion) {
       throw new ApiError(httpStatus.NOT_FOUND, 'Discussion not found!')
-    }
-
-    // checking if the same user is trying to dot the operation
-    if (user.userId !== discussion.user.toString()) {
-      throw new ApiError(
-        httpStatus.BAD_REQUEST,
-        'You are not allowed to do this operation!',
-      )
     }
 
     await Discussion.findByIdAndDelete(id, { session })

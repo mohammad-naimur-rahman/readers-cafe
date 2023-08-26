@@ -5,9 +5,7 @@ const CreateBlogZodSchema = z.object({
   title: z
     .string()
     .nonempty({ message: 'Title is required and must not be empty!' }),
-  slug: z
-    .string()
-    .nonempty({ message: 'Slug is required and must not be empty!' }),
+  slug: z.string().optional(),
   coverImage: z
     .object({
       ZImage,
@@ -26,10 +24,7 @@ const UpdateBlogZodSchema = z.object({
     .string()
     .nonempty({ message: 'Title must not be empty!' })
     .optional(),
-  slug: z
-    .string()
-    .nonempty({ message: 'Slug is required and must not be empty!' })
-    .optional(),
+  slug: z.string().optional(),
   coverImage: z
     .object({
       ZImage,

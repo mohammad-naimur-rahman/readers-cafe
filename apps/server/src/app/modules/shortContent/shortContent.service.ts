@@ -14,20 +14,18 @@ const createShortContent = async (
 
   try {
     session.startTransaction()
-    // checking if the same user is trying to dot the operation
-    if (user.userId !== payload.user) {
-      throw new ApiError(
-        httpStatus.BAD_REQUEST,
-        'You are not allowed to do this operation!',
-      )
-    }
-    const createdShortContent = await ShortContent.create([payload], {
-      session,
-    })
+
+    // user id is inserted separately so that anyone can't put wrong user
+    const createdShortContent = await ShortContent.create(
+      [{ user: user.userId, ...payload }],
+      {
+        session,
+      },
+    )
 
     // add refernce to the user
-    await User.findByIdAndUpdate(
-      payload.user,
+    await User.updateOne(
+      { _id: user.userId },
       { $push: { shortContents: createdShortContent[0]._id } },
       {
         new: true,
@@ -62,22 +60,21 @@ const updateShortContent = async (
   payload: Partial<IShortContent>,
   user: JwtPayload,
 ): Promise<IShortContent | null> => {
-  const shortContent = await ShortContent.findById(id)
+  // checking if the same user is trying to dot the operation
+  const shortContent = await ShortContent.findOne({
+    _id: id,
+    user: user.userId,
+  })
 
   if (!shortContent) {
     throw new ApiError(httpStatus.NOT_FOUND, 'ShortContent not found')
   }
+  // User can not be updated as the blog writer remains the same
+  const { user: _, ...payloadData } = payload
 
-  // checking if the same user is trying to dot the operation
-  if (user.userId !== shortContent.user.toString()) {
-    throw new ApiError(
-      httpStatus.BAD_REQUEST,
-      'You are not allowed to do this operation!',
-    )
-  }
-  const updatedShortContent = await ShortContent.findOneAndUpdate(
-    { _id: id },
-    payload,
+  const updatedShortContent = await ShortContent.findByIdAndUpdate(
+    id,
+    payloadData,
     {
       new: true,
       runValidators: true,
@@ -94,20 +91,16 @@ const deleteShortContent = async (
 
   try {
     session.startTransaction()
-
-    const shortContent = await ShortContent.findById(id)
+    // check if the document exists and the same user is trying to dot the operation
+    const shortContent = await ShortContent.findOne({
+      _id: id,
+      user: user.userId,
+    })
 
     if (!shortContent) {
       throw new ApiError(httpStatus.NOT_FOUND, 'ShortContent not found')
     }
 
-    // checking if the same user is trying to dot the operation
-    if (user.userId !== shortContent.user.toString()) {
-      throw new ApiError(
-        httpStatus.BAD_REQUEST,
-        'You are not allowed to do this operation!',
-      )
-    }
     await ShortContent.findByIdAndDelete(id)
 
     // also delete the reference from user

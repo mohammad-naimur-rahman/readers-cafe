@@ -13,13 +13,13 @@ const createBlog = async (payload: IBlog, user: JwtPayload): Promise<IBlog> => {
     session.startTransaction()
 
     // user id is inserted separately so that anyone can't put wrong user
-    const createdBlog = await Blog.create([{ ...payload, user: user.userId }], {
+    const createdBlog = await Blog.create([{ user: user.userId, ...payload }], {
       session,
     })
 
     // add refernce to the user
-    await User.findByIdAndUpdate(
-      payload.user,
+    await User.updateOne(
+      { _id: user.userId },
       { $push: { blogs: createdBlog[0]._id } },
       {
         new: true,
@@ -87,7 +87,6 @@ const deleteBlog = async (id: string, user: JwtPayload): Promise<null> => {
       throw new ApiError(httpStatus.NOT_FOUND, 'Blog not found!')
     }
 
-    // Checking if the same user is trying to dot the operation
     await Blog.findByIdAndDelete(id, { session })
 
     // also delete the reference from user

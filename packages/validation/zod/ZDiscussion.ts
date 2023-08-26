@@ -4,9 +4,7 @@ const CreateDiscussionZodSchema = z.object({
   topic: z.string().nonempty({
     message: 'Discussion topic is required and must not be empty!',
   }),
-  slug: z.string().nonempty({
-    message: 'Discussion topic is required and must not be empty!',
-  }),
+  slug: z.string().optional(),
   description: z.string().optional(),
   comments: z.array(z.string()).optional(),
   user: z.string().optional(),
@@ -18,12 +16,7 @@ const UpdateDiscussionZodSchema = z.object({
     .string()
     .nonempty({ message: 'Discussion topic must not be empty!' })
     .optional(),
-  slug: z
-    .string()
-    .nonempty({
-      message: 'Discussion topic is required and must not be empty!',
-    })
-    .optional(),
+  slug: z.string().optional(),
   description: z.string().optional(),
   comments: z.array(z.string()).optional(),
   user: z.string().optional(),

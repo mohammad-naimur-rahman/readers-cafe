@@ -3,6 +3,7 @@ import { IImage } from './IImage'
 import { IUser } from './IUser'
 
 export interface IShortContent {
+  _id?: string
   caption: string
   image?: IImage
   user?: Types.ObjectId | IUser

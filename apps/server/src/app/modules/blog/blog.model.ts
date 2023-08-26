@@ -1,4 +1,5 @@
 import { Schema, Types, model } from 'mongoose'
+import slugify from 'slugify'
 import { imageSchema } from 'validation/schema/imageSchema'
 import { IBlog } from 'validation/types'
 import { BlogModel } from './blog.interface'
@@ -12,8 +13,10 @@ const blogSchema = new Schema<IBlog, BlogModel>(
     slug: {
       type: String,
       unique: true,
-      required: true,
-      index: true,
+      required: false,
+      index: {
+        unique: true,
+      },
     },
     coverImage: imageSchema,
     blogContent: {
@@ -43,5 +46,12 @@ const blogSchema = new Schema<IBlog, BlogModel>(
     },
   },
 )
+
+// Generating automatic slug from the title
+// eslint-disable-next-line func-names
+blogSchema.pre('save', function (next) {
+  this.slug = slugify(this.title, { replacement: '-', lower: true, trim: true })
+  next()
+})
 
 export const Blog = model<IBlog, BlogModel>('Blog', blogSchema)
