@@ -15,15 +15,10 @@ const createComment = async (
   const session = await startSession()
   try {
     session.startTransaction()
-
-    if (user.userId !== payload.user) {
-      throw new ApiError(
-        httpStatus.BAD_REQUEST,
-        'You are not allowed to do this operation!',
-      )
-    }
-
-    const createdComment = await Comment.create([payload], { session })
+    const createdComment = await Comment.create(
+      [{ ...payload, user: user.userId }],
+      { session },
+    )
 
     switch (createdComment[0].commentFor) {
       case 'blog':

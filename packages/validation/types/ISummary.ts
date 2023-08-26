@@ -5,7 +5,7 @@ import { IUser } from './IUser'
 export interface ISummary {
   content: string
   book: Types.ObjectId | IBook
-  user: Types.ObjectId | IUser
+  user?: Types.ObjectId | IUser
   published: boolean
   reviews: Types.ObjectId[]
 }

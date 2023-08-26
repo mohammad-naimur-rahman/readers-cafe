@@ -8,7 +8,7 @@ const CreateReviewZodSchema = z.object({
   reviewText: z
     .string()
     .nonempty({ message: 'Review text is required and must not be empty!' }),
-  user: z.string(),
+  user: z.string().optional(),
   summary: z.string(),
 })
 

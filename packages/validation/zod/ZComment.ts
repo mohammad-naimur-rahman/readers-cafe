@@ -6,7 +6,7 @@ const CreateCommentZodSchema = z.object({
     .string()
     .nonempty({ message: 'Comment text is required and must not be empty!' }),
   commentFor: z.enum([...commentForEnumArray] as [string, ...string[]]),
-  user: z.string(),
+  user: z.string().optional(),
   shortContent: z.string().optional(),
   discussion: z.string().optional(),
   blog: z.string().optional(),

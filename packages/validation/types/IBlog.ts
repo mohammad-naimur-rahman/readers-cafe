@@ -8,7 +8,7 @@ export interface IBlog {
   slug: string
   coverImage?: IImage
   blogContent: string
-  user: Types.ObjectId | IUser
+  user?: Types.ObjectId | IUser
   published?: boolean
   comments: Types.ObjectId[]
 }

@@ -5,7 +5,7 @@ const CreateSummaryZodSchema = z.object({
     message: 'Summary content is required and must not be empty!',
   }),
   book: z.string(),
-  user: z.string(),
+  user: z.string().optional(),
   published: z.boolean().default(true),
   reviews: z.array(z.string()).optional(),
 })

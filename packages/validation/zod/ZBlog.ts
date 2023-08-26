@@ -16,7 +16,7 @@ const CreateBlogZodSchema = z.object({
   blogContent: z
     .string()
     .nonempty({ message: 'Blog content is required and must not be empty!' }),
-  user: z.string(),
+  user: z.string().optional(),
   published: z.boolean().default(true),
   comments: z.array(z.string()).optional(),
 })

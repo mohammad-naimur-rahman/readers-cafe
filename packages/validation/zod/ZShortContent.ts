@@ -16,7 +16,7 @@ const CreateShortContentZodSchema = z.object({
       ZImage,
     })
     .optional(),
-  user: z.string(),
+  user: z.string().optional(),
   comments: z.array(z.string()).optional(),
 })
 

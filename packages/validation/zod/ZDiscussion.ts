@@ -9,7 +9,7 @@ const CreateDiscussionZodSchema = z.object({
   }),
   description: z.string().optional(),
   comments: z.array(z.string()).optional(),
-  user: z.string(),
+  user: z.string().optional(),
   status: z.boolean().default(true),
 })
 

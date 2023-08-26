@@ -6,7 +6,7 @@ const CreateReadingListZodSchema = z.object({
     required_error: 'Status is required!',
   }),
   summary: z.string(),
-  user: z.string(),
+  user: z.string().optional(),
 })
 
 const UpdateReadingListZodSchema = z.object({

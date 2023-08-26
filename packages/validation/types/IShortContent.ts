@@ -5,6 +5,6 @@ import { IUser } from './IUser'
 export interface IShortContent {
   caption: string
   image?: IImage
-  user: Types.ObjectId | IUser
+  user?: Types.ObjectId | IUser
   comments: Types.ObjectId[]
 }

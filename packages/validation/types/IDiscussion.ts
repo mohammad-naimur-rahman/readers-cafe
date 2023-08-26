@@ -6,6 +6,6 @@ export interface IDiscussion {
   slug: string
   description?: string
   comments: Types.ObjectId[]
-  user: Types.ObjectId | IUser
+  user?: Types.ObjectId | IUser
   status: boolean
 }

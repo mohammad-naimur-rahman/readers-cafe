@@ -13,7 +13,7 @@ const genreSchema = new Schema<IGenre, GenreModel>(
     books: [
       {
         type: Types.ObjectId,
-        ref: 'User',
+        ref: 'Book',
       },
     ],
   },

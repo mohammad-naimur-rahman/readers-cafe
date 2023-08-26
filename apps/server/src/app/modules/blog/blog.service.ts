@@ -11,14 +11,11 @@ const createBlog = async (payload: IBlog, user: JwtPayload): Promise<IBlog> => {
 
   try {
     session.startTransaction()
-    // checking if the same user is trying to dot the operation
-    if (user.userId !== payload.user) {
-      throw new ApiError(
-        httpStatus.BAD_REQUEST,
-        'You are not allowed to do this operation!',
-      )
-    }
-    const createdBlog = await Blog.create([payload], { session })
+
+    // user id is inserted separately so that anyone can't put wrong user
+    const createdBlog = await Blog.create([{ ...payload, user: user.userId }], {
+      session,
+    })
 
     // add refernce to the user
     await User.findByIdAndUpdate(
@@ -60,21 +57,17 @@ const updateBlog = async (
   payload: Partial<IBlog>,
   user: JwtPayload,
 ): Promise<IBlog | null> => {
-  // check if the document exists
-  const blog = await Blog.findById(id)
+  // check if the document exists and the same user is trying to dot the operation
+  const blog = await Blog.findOne({ _id: id, user: user.userId })
 
   if (!blog) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Blog not found!')
   }
 
-  // checking if the same user is trying to dot the operation
-  if (user.userId !== blog.user.toString()) {
-    throw new ApiError(
-      httpStatus.BAD_REQUEST,
-      'You are not allowed to do this operation!',
-    )
-  }
-  const updatedBlog = await Blog.findOneAndUpdate({ _id: id }, payload, {
+  // User can not be updated as the blog writer remains the same
+  const { user: _, ...payloadData } = payload
+
+  const updatedBlog = await Blog.findByIdAndUpdate(id, payloadData, {
     new: true,
     runValidators: true,
   })
@@ -86,21 +79,15 @@ const deleteBlog = async (id: string, user: JwtPayload): Promise<null> => {
 
   try {
     session.startTransaction()
-    // check if the document exists
-    const blog = await Blog.findById(id)
+
+    // check if the document exists and the same user is trying to dot the operation
+    const blog = await Blog.findOne({ _id: id, user: user.userId })
 
     if (!blog) {
       throw new ApiError(httpStatus.NOT_FOUND, 'Blog not found!')
     }
 
-    // checking if the same user is trying to dot the operation
-    if (user.userId !== blog.user.toString()) {
-      throw new ApiError(
-        httpStatus.BAD_REQUEST,
-        'You are not allowed to do this operation!',
-      )
-    }
-
+    // Checking if the same user is trying to dot the operation
     await Blog.findByIdAndDelete(id, { session })
 
     // also delete the reference from user

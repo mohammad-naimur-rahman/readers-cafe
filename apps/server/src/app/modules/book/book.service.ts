@@ -1,9 +1,11 @@
 import { IBook } from 'validation/types'
 import { Book } from './book.model'
 
-const createBook = async (payload: IBook): Promise<IBook> => {
-  const createdBook = await Book.create(payload)
-  return createdBook
+const createBook = async (payload: null): Promise<IBook> => {
+  console.log(payload)
+  // const createdBook = await Book.create(payload)
+  // return createdBook
+  return null
 }
 
 const getAllBooks = async (): Promise<IBook[]> => {

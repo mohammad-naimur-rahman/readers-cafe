@@ -11,7 +11,7 @@ const authorSchema = new Schema<IAuthor, AuthorModel>(
     books: [
       {
         type: Types.ObjectId,
-        ref: 'User',
+        ref: 'Book',
       },
     ],
   },

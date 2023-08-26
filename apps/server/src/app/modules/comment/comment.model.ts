@@ -19,9 +19,18 @@ const commentSchema = new Schema<IComment, CommentModel>(
       enum: commentForEnumArray,
       required: true,
     },
-    shortContent: Types.ObjectId,
-    discussion: Types.ObjectId,
-    blog: Types.ObjectId,
+    shortContent: {
+      type: Types.ObjectId,
+      ref: 'ShortContent',
+    },
+    discussion: {
+      type: Types.ObjectId,
+      ref: 'Discussion',
+    },
+    blog: {
+      type: Types.ObjectId,
+      ref: 'Blog',
+    },
   },
   {
     timestamps: true,
