@@ -64,7 +64,7 @@ const updateDiscussion = async (
     throw new ApiError(httpStatus.NOT_FOUND, 'Discussion not found!')
   }
 
-  // User can not be updated as the blog writer remains the same
+  // User can not be updated as the discussion writer remains the same
   const { user: _, ...payloadData } = payload
 
   const updatedDiscussion = await Discussion.findByIdAndUpdate(

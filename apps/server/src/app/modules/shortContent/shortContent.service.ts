@@ -69,7 +69,7 @@ const updateShortContent = async (
   if (!shortContent) {
     throw new ApiError(httpStatus.NOT_FOUND, 'ShortContent not found')
   }
-  // User can not be updated as the blog writer remains the same
+  // User can not be updated as the content writer remains the same
   const { user: _, ...payloadData } = payload
 
   const updatedShortContent = await ShortContent.findByIdAndUpdate(
