@@ -1,4 +1,4 @@
-# Turborepo starter
+# Reader's Café
 
 This is an official starter Turborepo.
 
