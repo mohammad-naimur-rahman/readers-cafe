@@ -17,19 +17,19 @@ import { userRoutes } from '../modules/user/user.routes'
 const router = Router()
 
 const allRoutes = [
-  { path: '/user', routes: userRoutes },
-  { path: '/activity', routes: activityRoutes },
-  { path: '/author', routes: authorRoutes },
-  { path: '/blog', routes: blogRoutes },
-  { path: '/book', routes: bookRoutes },
-  { path: '/comment', routes: commentRoutes },
-  { path: '/discussion', routes: discussionRoutes },
-  { path: '/donation', routes: donationRoutes },
-  { path: '/genre', routes: genreRoutes },
-  { path: '/readingList', routes: readingListRoutes },
-  { path: '/review', routes: reviewRoutes },
-  { path: '/short-content', routes: shortContentRoutes },
-  { path: '/summary', routes: summaryRoutes },
+  { path: '/users', routes: userRoutes },
+  { path: '/activities', routes: activityRoutes },
+  { path: '/authors', routes: authorRoutes },
+  { path: '/blogs', routes: blogRoutes },
+  { path: '/books', routes: bookRoutes },
+  { path: '/comments', routes: commentRoutes },
+  { path: '/discussions', routes: discussionRoutes },
+  { path: '/donations', routes: donationRoutes },
+  { path: '/genres', routes: genreRoutes },
+  { path: '/readingLists', routes: readingListRoutes },
+  { path: '/reviews', routes: reviewRoutes },
+  { path: '/short-contents', routes: shortContentRoutes },
+  { path: '/summaries', routes: summaryRoutes },
   { path: '/auth', routes: authRoutes },
 ]
 
