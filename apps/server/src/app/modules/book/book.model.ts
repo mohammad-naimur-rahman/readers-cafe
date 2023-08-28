@@ -18,7 +18,7 @@ const bookSchema = new Schema<IBook, BookModel>(
       },
     ],
     pageCount: Number,
-    publishedDate: Date,
+    publicationYear: String,
     image: imageSchema,
     genre: {
       type: Types.ObjectId,

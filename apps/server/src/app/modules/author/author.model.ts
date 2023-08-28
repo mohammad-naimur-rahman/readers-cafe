@@ -7,6 +7,7 @@ const authorSchema = new Schema<IAuthor, AuthorModel>(
     fullName: {
       type: String,
       required: true,
+      unique: true,
     },
     books: [
       {

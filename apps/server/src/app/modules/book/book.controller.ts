@@ -1,11 +1,15 @@
 import httpStatus from 'http-status'
 import { IBook } from 'validation/types'
+import { RequestWithUser } from '../../../interfaces/RequestResponseTypes'
 import catchAsync from '../../../shared/catchAsync'
 import sendResponse from '../../../shared/sendResponse'
 import { BookService } from './book.service'
 
 const createBook = catchAsync(async (req, res) => {
-  const createdBook = await BookService.createBook(req.body)
+  const createdBook = await BookService.createBook(
+    req.body,
+    (req as RequestWithUser).user,
+  )
   sendResponse<IBook>(res, {
     statusCode: httpStatus.CREATED,
     data: createdBook,

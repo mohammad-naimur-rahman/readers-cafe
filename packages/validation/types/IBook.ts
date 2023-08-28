@@ -6,7 +6,7 @@ export interface IBook {
   description?: string
   authors: Types.ObjectId[]
   pageCount?: number
-  publishedDate?: Date
+  publicationYear?: string
   image?: IImage
   genre: Types.ObjectId | IBook
   summaries: Types.ObjectId[]

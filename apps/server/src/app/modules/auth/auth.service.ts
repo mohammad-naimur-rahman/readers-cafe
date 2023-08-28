@@ -7,6 +7,7 @@ import ApiError from '../../../errors/ApiError'
 import { jwtHelpers } from '../../../helpers/jwtHelpers'
 import admin from '../../../lib/firebaseConfig'
 import { User } from '../user/user.model'
+import { IRefreshTokenResponse } from './auth.interface'
 import { TokenVersion } from './tokenVersionModule'
 
 const signUpUser = async (
@@ -143,8 +144,48 @@ const logoutUser = async (user: JwtPayload) => {
   return null
 }
 
+const newAccessToken = async (
+  authorization: string,
+): Promise<IRefreshTokenResponse> => {
+  const token = authorization?.split(' ')[1]
+  // Verifying token
+  let verifiedToken = null
+  try {
+    verifiedToken = jwtHelpers.verifyToken(
+      token,
+      config.jwt.refresh_secret as Secret,
+    )
+  } catch (err) {
+    throw new ApiError(httpStatus.FORBIDDEN, 'Invalid Refresh Token')
+  }
+
+  const { userId, tokenVersion } = verifiedToken
+
+  // checking if user exists
+  const isUserExist = await User.findById(userId)
+  if (!isUserExist) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User does not exist')
+  }
+
+  // generate new token
+  const newAccessToken = jwtHelpers.createToken(
+    {
+      id: isUserExist.id,
+      role: isUserExist.role,
+      tokenVersion,
+    },
+    config.jwt.secret as Secret,
+    config.jwt.expires_in as string,
+  )
+
+  return {
+    accessToken: newAccessToken,
+  }
+}
+
 export const AuthService = {
   signUpUser,
   loginUser,
   logoutUser,
+  newAccessToken,
 }

@@ -9,8 +9,10 @@ router.post('/login', AuthController.loginUser)
 router.post('/signup', AuthController.signupUser)
 router.patch(
   '/logout',
-  authGuard([ENUM_USER_ROLE.USER, ENUM_USER_ROLE.ADMIN]),
+  authGuard(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.ADMIN),
   AuthController.logoutUser,
 )
+
+router.get('/access-token', AuthController.newAccessToken)
 
 export const authRoutes = router
