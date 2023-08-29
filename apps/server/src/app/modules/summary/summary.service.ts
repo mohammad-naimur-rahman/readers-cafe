@@ -106,15 +106,13 @@ const deleteSummary = async (
     )
 
     await session.commitTransaction()
+    return null
   } catch (error) {
     await session.abortTransaction()
     throw error
   } finally {
     session.endSession()
   }
-
-  const deletedSummary = await Summary.findByIdAndDelete(id)
-  return deletedSummary
 }
 
 export const SummaryService = {

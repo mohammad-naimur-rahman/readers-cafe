@@ -93,7 +93,7 @@ const deleteComment = async (id: string): Promise<null> => {
     const comment = await Comment.findById(id)
 
     if (!comment) {
-      throw new ApiError(httpStatus.NOT_FOUND, 'comment not found!')
+      throw new ApiError(httpStatus.NOT_FOUND, 'Comment not found!')
     }
 
     await Comment.findByIdAndDelete(id, { session })

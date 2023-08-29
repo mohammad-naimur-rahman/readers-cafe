@@ -53,13 +53,12 @@ const updateSummary = catchAsync(async (req, res) => {
 })
 
 const deleteSummary = catchAsync(async (req, res) => {
-  const deltedSummary = await SummaryService.deleteSummary(
+  await SummaryService.deleteSummary(
     req.params.id,
     (req as RequestWithUser).user,
   )
   sendResponse<ISummary>(res, {
     statusCode: httpStatus.NO_CONTENT,
-    data: deltedSummary,
     message: 'Summary deleted successfully!',
   })
 })

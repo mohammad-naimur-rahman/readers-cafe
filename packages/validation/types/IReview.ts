@@ -5,6 +5,6 @@ import { IUser } from './IUser'
 export interface IReview {
   starRating: number
   reviewText: string
-  user: Types.ObjectId | IUser
+  user?: Types.ObjectId | IUser
   summary: Types.ObjectId | ISummary
 }
