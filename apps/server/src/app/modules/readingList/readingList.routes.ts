@@ -1,17 +1,31 @@
 import { Router } from 'express'
+import { ReadingListValidation } from 'validation/zod'
+import ENUM_USER_ROLE from '../../../enums/user'
+import { authGuard } from '../../middlewares/authGuard'
+import validateRequest from '../../middlewares/validateRequest'
 import { ReadingListController } from './readingList.controller'
 
 const router = Router()
 
 router
   .route('/')
-  .get(ReadingListController.getALllReadingLists)
-  .post(ReadingListController.createReadingList)
+  .get(authGuard(ENUM_USER_ROLE.USER), ReadingListController.getReadingList)
+  .post(
+    validateRequest(ReadingListValidation.CreateReadingListZodSchema),
+    authGuard(ENUM_USER_ROLE.USER),
+    ReadingListController.createReadingList,
+  )
 
 router
   .route('/:id')
-  .get(ReadingListController.getReadingList)
-  .patch(ReadingListController.updateReadingList)
-  .delete(ReadingListController.deleteReadingList)
+  .patch(
+    validateRequest(ReadingListValidation.UpdateReadingListZodSchema),
+    authGuard(ENUM_USER_ROLE.USER),
+    ReadingListController.updateReadingList,
+  )
+  .delete(
+    authGuard(ENUM_USER_ROLE.USER),
+    ReadingListController.deleteReadingList,
+  )
 
 export const readingListRoutes = router

@@ -86,6 +86,7 @@ const deleteDiscussion = async (
 
   try {
     session.startTransaction()
+
     // check if the document exists and the same user is trying to dot the operation
     const discussion = await Discussion.findOne({ _id: id, user: user.userId })
 

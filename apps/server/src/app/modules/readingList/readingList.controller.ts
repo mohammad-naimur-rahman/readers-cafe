@@ -1,5 +1,6 @@
 import httpStatus from 'http-status'
 import { IReadingList } from 'validation/types'
+import { RequestWithUser } from '../../../interfaces/RequestResponseTypes'
 import catchAsync from '../../../shared/catchAsync'
 import sendResponse from '../../../shared/sendResponse'
 import { ReadingListService } from './readingList.service'
@@ -7,6 +8,7 @@ import { ReadingListService } from './readingList.service'
 const createReadingList = catchAsync(async (req, res) => {
   const createdReadingList = await ReadingListService.createReadingList(
     req.body,
+    (req as RequestWithUser).user,
   )
   sendResponse<IReadingList>(res, {
     statusCode: httpStatus.CREATED,
@@ -15,17 +17,10 @@ const createReadingList = catchAsync(async (req, res) => {
   })
 })
 
-const getALllReadingLists = catchAsync(async (req, res) => {
-  const allReadingLists = await ReadingListService.getAllReadingLists()
-  sendResponse<IReadingList[]>(res, {
-    statusCode: httpStatus.OK,
-    data: allReadingLists,
-    message: 'All ReadingLists retrieved successfully!',
-  })
-})
-
 const getReadingList = catchAsync(async (req, res) => {
-  const ReadingList = await ReadingListService.getReadingList(req.params.id)
+  const ReadingList = await ReadingListService.getReadingList(
+    (req as RequestWithUser).user,
+  )
   sendResponse<IReadingList>(res, {
     statusCode: httpStatus.OK,
     data: ReadingList,
@@ -41,6 +36,7 @@ const updateReadingList = catchAsync(async (req, res) => {
   const updatedReadingList = await ReadingListService.updateReadingList(
     id,
     body,
+    (req as RequestWithUser).user,
   )
   sendResponse<IReadingList>(res, {
     statusCode: httpStatus.OK,
@@ -50,19 +46,18 @@ const updateReadingList = catchAsync(async (req, res) => {
 })
 
 const deleteReadingList = catchAsync(async (req, res) => {
-  const deltedReadingList = await ReadingListService.deleteReadingList(
+  await ReadingListService.deleteReadingList(
     req.params.id,
+    (req as RequestWithUser).user,
   )
   sendResponse<IReadingList>(res, {
     statusCode: httpStatus.NO_CONTENT,
-    data: deltedReadingList,
     message: 'ReadingList deleted successfully!',
   })
 })
 
 export const ReadingListController = {
   createReadingList,
-  getALllReadingLists,
   getReadingList,
   updateReadingList,
   deleteReadingList,

@@ -8,7 +8,7 @@ const readingListSchema = new Schema<IReadingList, ReadingListModel>(
     status: {
       type: String,
       enum: readingStatusEnumArray,
-      required: true,
+      default: 'Will read',
     },
     summary: {
       type: Types.ObjectId,
