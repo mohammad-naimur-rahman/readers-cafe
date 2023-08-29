@@ -1,5 +1,4 @@
 import { Router } from 'express'
-import { activityRoutes } from '../modules/activity/activity.routes'
 import { authRoutes } from '../modules/auth/auth.routes'
 import { authorRoutes } from '../modules/author/author.routes'
 import { blogRoutes } from '../modules/blog/blog.routes'
@@ -18,7 +17,6 @@ const router = Router()
 
 const allRoutes = [
   { path: '/users', routes: userRoutes },
-  { path: '/activities', routes: activityRoutes },
   { path: '/authors', routes: authorRoutes },
   { path: '/blogs', routes: blogRoutes },
   { path: '/books', routes: bookRoutes },
@@ -26,7 +24,7 @@ const allRoutes = [
   { path: '/discussions', routes: discussionRoutes },
   { path: '/donations', routes: donationRoutes },
   { path: '/genres', routes: genreRoutes },
-  { path: '/readingLists', routes: readingListRoutes },
+  { path: '/reading-lists', routes: readingListRoutes },
   { path: '/reviews', routes: reviewRoutes },
   { path: '/short-contents', routes: shortContentRoutes },
   { path: '/summaries', routes: summaryRoutes },
