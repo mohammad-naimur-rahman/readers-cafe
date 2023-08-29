@@ -1,5 +1,6 @@
 import httpStatus from 'http-status'
 import { IUser } from 'validation/types/IUser'
+import { RequestWithUser } from '../../../interfaces/RequestResponseTypes'
 import catchAsync from '../../../shared/catchAsync'
 import sendResponse from '../../../shared/sendResponse'
 import { UserService } from './user.service'
@@ -14,7 +15,10 @@ const getALllUsers = catchAsync(async (req, res) => {
 })
 
 const getUser = catchAsync(async (req, res) => {
-  const user = await UserService.getUser(req.params.id)
+  const user = await UserService.getUser(
+    req.params.id,
+    (req as RequestWithUser).user,
+  )
   sendResponse<IUser>(res, {
     statusCode: httpStatus.OK,
     data: user,
@@ -27,7 +31,11 @@ const updateUser = catchAsync(async (req, res) => {
     body,
     params: { id },
   } = req
-  const updatedUser = await UserService.updateUser(id, body)
+  const updatedUser = await UserService.updateUser(
+    id,
+    body,
+    (req as RequestWithUser).user,
+  )
   sendResponse<IUser>(res, {
     statusCode: httpStatus.OK,
     data: updatedUser,
