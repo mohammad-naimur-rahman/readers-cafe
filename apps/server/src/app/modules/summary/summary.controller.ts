@@ -1,11 +1,15 @@
 import httpStatus from 'http-status'
 import { ISummary } from 'validation/types'
+import { RequestWithUser } from '../../../interfaces/RequestResponseTypes'
 import catchAsync from '../../../shared/catchAsync'
 import sendResponse from '../../../shared/sendResponse'
 import { SummaryService } from './summary.service'
 
 const createSummary = catchAsync(async (req, res) => {
-  const createdSummary = await SummaryService.createSummary(req.body)
+  const createdSummary = await SummaryService.createSummary(
+    req.body,
+    (req as RequestWithUser).user,
+  )
   sendResponse<ISummary>(res, {
     statusCode: httpStatus.CREATED,
     data: createdSummary,
@@ -36,7 +40,11 @@ const updateSummary = catchAsync(async (req, res) => {
     body,
     params: { id },
   } = req
-  const updatedSummary = await SummaryService.updateSummary(id, body)
+  const updatedSummary = await SummaryService.updateSummary(
+    id,
+    body,
+    (req as RequestWithUser).user,
+  )
   sendResponse<ISummary>(res, {
     statusCode: httpStatus.OK,
     data: updatedSummary,
@@ -45,7 +53,10 @@ const updateSummary = catchAsync(async (req, res) => {
 })
 
 const deleteSummary = catchAsync(async (req, res) => {
-  const deltedSummary = await SummaryService.deleteSummary(req.params.id)
+  const deltedSummary = await SummaryService.deleteSummary(
+    req.params.id,
+    (req as RequestWithUser).user,
+  )
   sendResponse<ISummary>(res, {
     statusCode: httpStatus.NO_CONTENT,
     data: deltedSummary,

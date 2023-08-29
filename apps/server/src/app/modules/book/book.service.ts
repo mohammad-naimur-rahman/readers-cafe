@@ -1,6 +1,8 @@
+import httpStatus from 'http-status'
 import { JwtPayload } from 'jsonwebtoken'
 import { Types } from 'mongoose'
 import { IBook } from 'validation/types'
+import ApiError from '../../../errors/ApiError'
 import { Author } from '../author/author.model'
 import { Genre } from '../genre/genre.model'
 import { Book } from './book.model'
@@ -20,6 +22,13 @@ const createBook = async (payload: IBook, user: JwtPayload): Promise<IBook> => {
   const createAuthor = async (fullName: string): Promise<void> => {
     let authorId
     if (Types.ObjectId.isValid(fullName)) {
+      const isExist = await Author.findById(fullName)
+      if (!isExist) {
+        throw new ApiError(
+          httpStatus.NOT_FOUND,
+          'No author found with this id!',
+        )
+      }
       authorId = fullName
     } else {
       const newAuthor = await Author.create({ fullName })

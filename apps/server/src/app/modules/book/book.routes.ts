@@ -24,9 +24,6 @@ router
     authGuard(ENUM_USER_ROLE.USER),
     BookController.updateBook,
   )
-  .delete(
-    authGuard(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.ADMIN),
-    BookController.deleteBook,
-  )
+  .delete(authGuard(ENUM_USER_ROLE.ADMIN), BookController.deleteBook)
 
 export const bookRoutes = router

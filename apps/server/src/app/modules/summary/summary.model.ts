@@ -11,6 +11,7 @@ const summarySchema = new Schema<ISummary, SummaryModel>(
     book: {
       type: Types.ObjectId,
       ref: 'Book',
+      required: true,
     },
     user: {
       type: Types.ObjectId,
