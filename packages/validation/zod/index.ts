@@ -1,4 +1,3 @@
-import { ActivityValidation } from './ZActivity'
 import { AuthorValidation } from './ZAuthor'
 import { BlogValidation } from './ZBlog'
 import { BookValidation } from './ZBook'
@@ -13,7 +12,6 @@ import { SummaryValidation } from './ZSummary'
 import { UserValidation } from './ZUser'
 
 export {
-  ActivityValidation,
   AuthorValidation,
   BlogValidation,
   BookValidation,

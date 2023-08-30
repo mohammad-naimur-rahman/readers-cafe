@@ -50,12 +50,6 @@ const userSchema = new Schema<IUser>(
         ref: 'ShortContent',
       },
     ],
-    activities: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Activity',
-      },
-    ],
     donations: [
       {
         type: Schema.Types.ObjectId,

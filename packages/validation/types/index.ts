@@ -1,4 +1,3 @@
-import { IActivity } from './IActivity'
 import { IAuth } from './IAuth'
 import { IAuthUser } from './IAuthUser'
 import { IAuthor } from './IAuthor'
@@ -16,7 +15,6 @@ import { ISummary } from './ISummary'
 import { IUser } from './IUser'
 
 export type {
-  IActivity,
   IAuth,
   IAuthUser,
   IAuthor,
