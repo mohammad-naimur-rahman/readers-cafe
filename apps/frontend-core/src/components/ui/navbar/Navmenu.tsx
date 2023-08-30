@@ -1,28 +1,16 @@
 import Link from 'next/link'
 import { Button } from '../button'
 
-const navigationMenu = [
-  {
-    href: '/summaries',
-    label: 'Summaries',
-  },
-  {
-    href: '/blogs',
-    label: 'Blogs',
-  },
-  {
-    href: '/discussions',
-    label: 'Discussions',
-  },
-  {
-    href: '/short-contents',
-    label: 'Short Contents',
-  },
-]
+interface Props {
+  navigationMenu: {
+    href: string
+    label: string
+  }[]
+}
 
-export default function Navmenu() {
+export default function Navmenu({ navigationMenu }: Props) {
   return (
-    <ul className="flex items-center">
+    <ul className="hidden md:flex items-center">
       {navigationMenu.map(({ href, label }) => (
         <li key={href}>
           <Link href={href}>

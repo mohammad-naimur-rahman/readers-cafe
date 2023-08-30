@@ -1,8 +1,28 @@
 import Link from 'next/link'
 import Img from '../img'
+import MobileNavmenu from './MobileNavmenu'
 import Navmenu from './Navmenu'
 import ProfileDropdown from './ProfileDropdown'
 import { ThemeSwitcher } from './ThemeSwitcher'
+
+const navigationMenu = [
+  {
+    href: '/summaries',
+    label: 'Summaries',
+  },
+  {
+    href: '/blogs',
+    label: 'Blogs',
+  },
+  {
+    href: '/discussions',
+    label: 'Discussions',
+  },
+  {
+    href: '/short-contents',
+    label: 'Short Contents',
+  },
+]
 
 export default function Navbar() {
   return (
@@ -15,12 +35,11 @@ export default function Navbar() {
           sizes="10vw"
         />
       </Link>
-
-      <Navmenu />
-
+      <Navmenu navigationMenu={navigationMenu} />
       <div className="flex items-center gap-5">
         <ThemeSwitcher />
         <ProfileDropdown />
+        <MobileNavmenu navigationMenu={navigationMenu} />
       </div>
     </nav>
   )

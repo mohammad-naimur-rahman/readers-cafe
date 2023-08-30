@@ -1,11 +1,14 @@
-import Navbar from '@/components/ui/navbar'
+import RootLayout from '@/components/layouts/RootLayout'
+import { ReactElement } from 'react'
 
-function IndexPage() {
+export default function IndexPage() {
   return (
     <div>
-      <Navbar />
+      <h1>Hlle</h1>
     </div>
   )
 }
 
-export default IndexPage
+IndexPage.getLayout = function getLayout(page: ReactElement) {
+  return <RootLayout title="Home">{page}</RootLayout>
+}
