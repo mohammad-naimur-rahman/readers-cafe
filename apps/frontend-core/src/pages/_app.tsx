@@ -1,4 +1,4 @@
-/* eslint-disable react/jsx-props-no-spreading */
+import { ThemeProvider } from '@/lib/ThemeProvider'
 import '@/styles/globals.css'
 import { NextPage } from 'next'
 import { AppProps } from 'next/app'
@@ -17,5 +17,9 @@ export default function MyApp({
 }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? (page => page)
 
-  return getLayout(<Component {...pageProps} />)
+  return getLayout(
+    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+      <Component {...pageProps} />
+    </ThemeProvider>,
+  )
 }
