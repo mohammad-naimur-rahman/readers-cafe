@@ -1,26 +1,26 @@
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import Img from '@/components/ui/img'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
-import FacebookIcon from './FacebookIcon'
-import GoogleIcon from './GoogleIcon'
+import EmailLoginComponent from './EmailLoginComponent'
+import FacookLoginComponent from './FacookLoginComponent'
+import GoogleLoginComponent from './GoogleLoginComponent'
 
 export default function LoginForm() {
   return (
-    <form className="flex flex-col gap-5 justify-center text-center">
-      <h2 className="text-2xl">Login | Reader&apos;s Café</h2>
-      <p className="text-muted-foreground">
+    <section>
+      <div className="flex justify-center items-center w-full mx-auto">
+        <h2 className="text-3xl text-center mr-3">Login</h2>
+        <Img src="/logo/logo.png" alt="Reader's Café" className="w-[180px]" />
+      </div>
+      <p className="text-muted-foreground text-center py-5">
         Enter your information below to create your account
       </p>
 
-      <section className="flex flex-col mx-auto gap-2.5 w-[350px]">
-        <Input type="email" placeholder="Enter your email" />
-        <Input type="password" placeholder="Enter your password" />
-        <Button variant="default" className="block w-full">
-          Login
-        </Button>
+      <EmailLoginComponent />
 
-        <div className="relative py-3">
+      <section className="flex flex-col mx-auto gap-3 w-full sm:w-[300px] lg:w-[350px] max-w-[350px]">
+        <div className="relative py-3 mt-3">
           <div className="absolute inset-0 flex items-center">
             <span className="w-full border-t" />
           </div>
@@ -30,25 +30,22 @@ export default function LoginForm() {
             </span>
           </div>
         </div>
-
-        <Button variant="outline" className="block w-full">
-          <GoogleIcon />
-        </Button>
-        <Button variant="outline" className="block w-full">
-          <FacebookIcon />
-        </Button>
+        <GoogleLoginComponent />
+        <FacookLoginComponent />
       </section>
-      <p className="flex items-center justify-center">
+      <p className="flex items-center justify-center py-3">
         Don&apos;t have an account?
         <Link href="/signup">
           <Button variant="link">Signup</Button>
         </Link>
       </p>
-      <Link href="/">
-        <Button variant="secondary">
-          <ArrowLeft className="w-4 h-4 mr-2" /> Go back home
-        </Button>
-      </Link>
-    </form>
+      <div className="flex pb-3 justify-center">
+        <Link href="/">
+          <Button variant="secondary">
+            <ArrowLeft className="w-4 h-4 mr-2" /> Go back home
+          </Button>
+        </Link>
+      </div>
+    </section>
   )
 }

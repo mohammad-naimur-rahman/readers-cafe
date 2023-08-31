@@ -10,5 +10,5 @@ export default function IndexPage() {
 }
 
 IndexPage.getLayout = function getLayout(page: ReactElement) {
-  return <RootLayout title="Home">{page}</RootLayout>
+  return <RootLayout title="Reader's café | Home">{page}</RootLayout>
 }

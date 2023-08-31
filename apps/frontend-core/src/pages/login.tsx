@@ -1,15 +1,24 @@
 import EmptyLayout from '@/components/layouts/Emptylayout'
 import LoginForm from '@/components/pages/login/LoginForm'
-import Img from '@/components/ui/img'
 import { ReactElement } from 'react'
+import Lottie from 'react-lottie'
+import animationData from '../../public/lottie/bookReading.json'
 
 export default function LoginPage() {
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice',
+    },
+  }
   return (
-    <section className="flex min-h-screen items-center">
-      <div className="w-1/2">
-        <Img src="/images/authPage/login.png" alt="login image" />
+    <section className="flex flex-col md:flex-row min-h-screen items-center">
+      <div className="w-full md:w-1/2">
+        <Lottie options={defaultOptions} height="90%" width="90%" />
       </div>
-      <div className="w-1/2">
+      <div className="w-full md:w-1/2">
         <LoginForm />
       </div>
     </section>
@@ -17,5 +26,5 @@ export default function LoginPage() {
 }
 
 LoginPage.getLayout = function getLayout(page: ReactElement) {
-  return <EmptyLayout title="Login">{page}</EmptyLayout>
+  return <EmptyLayout title="Login | Reader's café">{page}</EmptyLayout>
 }

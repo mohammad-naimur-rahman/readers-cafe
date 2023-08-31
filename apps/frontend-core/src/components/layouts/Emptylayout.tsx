@@ -11,7 +11,7 @@ export default function EmptyLayout({ title, children }: Props) {
   return (
     <>
       <Head>
-        <title>{title} | Reader&apos;s café</title>
+        <title>{title}</title>
       </Head>
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
         <main className="container">{children}</main>
