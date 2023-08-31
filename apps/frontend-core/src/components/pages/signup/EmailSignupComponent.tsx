@@ -13,28 +13,50 @@ import { manageUserData } from '@/utils/auth/manageUserData'
 import { zodResolver } from '@hookform/resolvers/zod'
 import axios from 'axios'
 import { UserCredential, createUserWithEmailAndPassword } from 'firebase/auth'
+import { Dispatch, SetStateAction } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-hot-toast'
 import { IAuthUser } from 'validation/types'
 import z from 'zod'
+import SpinnerIcon from '../login/SpinnerIcon'
 
 const loginSchema = z.object({
+  fullName: z.string({ required_error: 'Full name is required!' }).trim(),
   email: z.string({ required_error: 'Email is required!' }).email({
     message: 'Email is required!',
   }),
   password: z.string({ required_error: 'Password is required!' }).min(4, {
     message: 'Password must be at least 4 characters!',
   }),
+  repeatPassword: z
+    .string({ required_error: 'Type your password again!' })
+    .min(4, {
+      message: 'Password must be at least 4 characters!',
+    }),
 })
 
-export default function EmailSignupComponent() {
+interface Props {
+  isLoading: boolean
+  setIsLoading: Dispatch<SetStateAction<boolean>>
+}
+
+export default function EmailSignupComponent({
+  isLoading,
+  setIsLoading,
+}: Props) {
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
   })
 
   const onSubmit = async (values: z.infer<typeof loginSchema>) => {
-    const { email, password } = values
+    const { fullName, email, password, repeatPassword } = values
+    if (password !== repeatPassword) {
+      toast.error('Passwords do not match!')
+      return
+    }
+
     try {
+      setIsLoading(true)
       const response: UserCredential = await createUserWithEmailAndPassword(
         auth,
         email,
@@ -45,7 +67,7 @@ export default function EmailSignupComponent() {
         const token = await user.getIdToken()
         const result = await axios.post(
           `${env.NEXT_PUBLIC_apiUrl}/auth/signup`,
-          { email: user.email },
+          { email: user.email, fullName },
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -54,12 +76,14 @@ export default function EmailSignupComponent() {
         )
 
         if (result?.data?.success) {
-          toast.success('Logged in successfully!')
+          setIsLoading(false)
+          toast.success('Signed up successfully!')
           const authData: IAuthUser = result?.data?.data
           manageUserData(authData)
         }
       }
     } catch (err) {
+      setIsLoading(false)
       toast.error(err.message)
     }
   }
@@ -72,11 +96,31 @@ export default function EmailSignupComponent() {
       >
         <FormField
           control={form.control}
+          name="fullName"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  placeholder="Enter your fullname"
+                  {...field}
+                  disabled={isLoading}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
           name="email"
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input placeholder="Enter your email" {...field} />
+                <Input
+                  placeholder="Enter your email"
+                  {...field}
+                  disabled={isLoading}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -88,13 +132,37 @@ export default function EmailSignupComponent() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input placeholder="Enter your password" {...field} />
+                <Input
+                  type="password"
+                  placeholder="Enter your password"
+                  {...field}
+                  disabled={isLoading}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <FormField
+          control={form.control}
+          name="repeatPassword"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  type="password"
+                  placeholder="Repeat your password"
+                  {...field}
+                  disabled={isLoading}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit" disabled={isLoading}>
+          {isLoading ? <SpinnerIcon /> : 'Signup'}
+        </Button>
       </form>
     </Form>
   )

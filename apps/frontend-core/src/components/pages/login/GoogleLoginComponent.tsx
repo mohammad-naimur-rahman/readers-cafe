@@ -50,7 +50,7 @@ export default function GoogleLoginComponent({
       }
     } catch (err) {
       setIsLoading(false)
-      toast.error(err.message)
+      toast.error(err?.response?.data?.message)
     }
   }
 
@@ -59,6 +59,7 @@ export default function GoogleLoginComponent({
       type="button"
       variant="outline"
       className="block w-full"
+      disabled={isLoading}
       onClick={handleGoogleLogin}
     >
       {isLoading ? <SpinnerIcon /> : <GoogleIcon />}

@@ -11,15 +11,15 @@ import {
 import { Dispatch, SetStateAction } from 'react'
 import { toast } from 'react-hot-toast'
 import { IAuthUser } from 'validation/types'
-import FacebookIcon from './FacebookIcon'
-import SpinnerIcon from './SpinnerIcon'
+import FacebookIcon from '../login/FacebookIcon'
+import SpinnerIcon from '../login/SpinnerIcon'
 
 interface Props {
   isLoading: boolean
   setIsLoading: Dispatch<SetStateAction<boolean>>
 }
 
-export default function FacookLoginComponent({
+export default function FacookSignupComponent({
   isLoading,
   setIsLoading,
 }: Props) {
@@ -32,8 +32,8 @@ export default function FacookLoginComponent({
       if (user) {
         const token = await user.getIdToken()
         const result = await axios.post(
-          `${env.NEXT_PUBLIC_apiUrl}/auth/login`,
-          { email: user.email },
+          `${env.NEXT_PUBLIC_apiUrl}/auth/signup`,
+          { email: user.email, fullName: user.displayName },
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -43,14 +43,14 @@ export default function FacookLoginComponent({
 
         if (result?.data?.success) {
           setIsLoading(false)
-          toast.success('Logged in successfully!')
+          toast.success('Signed up successfully!')
           const authData: IAuthUser = result?.data?.data
           manageUserData(authData)
         }
       }
     } catch (err) {
       setIsLoading(false)
-      toast.error(err?.response?.data?.message)
+      toast.error(err.message)
     }
   }
 

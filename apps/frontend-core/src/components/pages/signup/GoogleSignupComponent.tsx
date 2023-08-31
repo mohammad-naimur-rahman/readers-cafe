@@ -4,27 +4,27 @@ import auth from '@/lib/firebaseConfig'
 import { manageUserData } from '@/utils/auth/manageUserData'
 import axios from 'axios'
 import {
-  FacebookAuthProvider,
+  GoogleAuthProvider,
   UserCredential,
   signInWithPopup,
 } from 'firebase/auth'
 import { Dispatch, SetStateAction } from 'react'
 import { toast } from 'react-hot-toast'
 import { IAuthUser } from 'validation/types'
-import FacebookIcon from './FacebookIcon'
-import SpinnerIcon from './SpinnerIcon'
+import GoogleIcon from '../login/GoogleIcon'
+import SpinnerIcon from '../login/SpinnerIcon'
 
 interface Props {
   isLoading: boolean
   setIsLoading: Dispatch<SetStateAction<boolean>>
 }
 
-export default function FacookLoginComponent({
+export default function GoogleSignupComponent({
   isLoading,
   setIsLoading,
 }: Props) {
-  const handleFacebookLogin = async () => {
-    const provider = new FacebookAuthProvider()
+  const handleGoogleLogin = async () => {
+    const provider = new GoogleAuthProvider()
     try {
       setIsLoading(true)
       const response: UserCredential = await signInWithPopup(auth, provider)
@@ -32,8 +32,8 @@ export default function FacookLoginComponent({
       if (user) {
         const token = await user.getIdToken()
         const result = await axios.post(
-          `${env.NEXT_PUBLIC_apiUrl}/auth/login`,
-          { email: user.email },
+          `${env.NEXT_PUBLIC_apiUrl}/auth/signup`,
+          { email: user.email, fullName: user.displayName },
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -43,14 +43,14 @@ export default function FacookLoginComponent({
 
         if (result?.data?.success) {
           setIsLoading(false)
-          toast.success('Logged in successfully!')
+          toast.success('Signed up successfully!')
           const authData: IAuthUser = result?.data?.data
           manageUserData(authData)
         }
       }
     } catch (err) {
       setIsLoading(false)
-      toast.error(err?.response?.data?.message)
+      toast.error(err.message)
     }
   }
 
@@ -60,9 +60,9 @@ export default function FacookLoginComponent({
       variant="outline"
       className="block w-full"
       disabled={isLoading}
-      onClick={handleFacebookLogin}
+      onClick={handleGoogleLogin}
     >
-      {isLoading ? <SpinnerIcon /> : <FacebookIcon />}
+      {isLoading ? <SpinnerIcon /> : <GoogleIcon />}
     </Button>
   )
 }

@@ -73,7 +73,7 @@ export default function EmailLoginComponent({
       }
     } catch (err) {
       setIsLoading(false)
-      toast.error(err.message)
+      toast.error(err?.response?.data?.message)
     }
   }
 
@@ -106,6 +106,7 @@ export default function EmailLoginComponent({
             <FormItem>
               <FormControl>
                 <Input
+                  type="password"
                   placeholder="Enter your password"
                   {...field}
                   disabled={isLoading}

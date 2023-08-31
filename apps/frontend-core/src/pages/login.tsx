@@ -3,15 +3,15 @@ import LoginForm from '@/components/pages/login/LoginForm'
 import { lottieDefaultOptions } from '@/constants/lottieDeafultOptions'
 import { ReactElement } from 'react'
 import Lottie from 'react-lottie'
-import animationData from '../../public/lottie/bookReading.json'
+import animationData from '../../public/lottie/bookReading3.json'
 
 export default function LoginPage() {
   return (
-    <section className="flex flex-col md:flex-row min-h-screen items-center">
+    <section className="flex flex-col md:flex-row min-h-screen items-center gap-5">
       <div className="w-full md:w-1/2">
         <div className="max-w-xs md:max-w-lg flex items-center justify-center mx-auto">
           <Lottie
-            options={lottieDefaultOptions(animationData)}
+            options={lottieDefaultOptions(animationData, false)}
             height="90%"
             width="90%"
           />

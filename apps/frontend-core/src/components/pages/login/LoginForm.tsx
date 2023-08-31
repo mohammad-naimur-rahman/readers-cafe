@@ -9,6 +9,7 @@ import GoogleLoginComponent from './GoogleLoginComponent'
 
 export default function LoginForm() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
+
   return (
     <section>
       <div className="flex justify-center items-center w-full mx-auto">
