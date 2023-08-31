@@ -1,43 +1,110 @@
 import { Button } from '@/components/ui/button'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { useState } from 'react'
+import { env } from '@/configs/env'
+import auth from '@/lib/firebaseConfig'
+import { manageUserData } from '@/utils/auth/manageUserData'
+import { zodResolver } from '@hookform/resolvers/zod'
+import axios from 'axios'
+import {
+  GoogleAuthProvider,
+  UserCredential,
+  signInWithEmailAndPassword,
+} from 'firebase/auth'
+import { useForm } from 'react-hook-form'
+import { toast } from 'react-hot-toast'
+import { IAuthUser } from 'validation/types'
+import z from 'zod'
+
+const loginSchema = z.object({
+  email: z.string({ required_error: 'Email is required!' }).email({
+    message: 'Email is required!',
+  }),
+  password: z.string({ required_error: 'Password is required!' }).min(4, {
+    message: 'Password must be at least 4 characters!',
+  }),
+})
 
 export default function EmailLoginComponent() {
-  const [loginData, setloginData] = useState({
-    email: '',
-    password: '',
+  const form = useForm<z.infer<typeof loginSchema>>({
+    resolver: zodResolver(loginSchema),
   })
 
-  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const onSubmit = async (values: z.infer<typeof loginSchema>) => {
+    const { email, password } = values
+    const provider = new GoogleAuthProvider()
+    provider.addScope('https://www.googleapis.com/auth/contacts.readonly')
+    provider.setCustomParameters({
+      admin: 'true',
+    })
+    try {
+      const response: UserCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      )
+      const { user } = response
+      if (user) {
+        const token = await user.getIdToken()
+        const result = await axios.post(
+          `${env.NEXT_PUBLIC_apiUrl}/auth/login`,
+          { email: user.email },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        )
 
-    console.log(loginData)
+        if (result?.data?.success) {
+          toast.success('Logged in successfully!')
+          const authData: IAuthUser = result?.data?.data
+          manageUserData(authData)
+        }
+      }
+    } catch (err) {
+      toast.error(err.message)
+    }
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setloginData({ ...loginData, [name]: value })
-  }
   return (
-    <form
-      className="flex flex-col gap-2.5 justify-center text-center w-full sm:w-[300px] lg:w-[350px] mx-auto max-w-[350px]"
-      onSubmit={handleLogin}
-    >
-      <Input
-        type="email"
-        name="email"
-        placeholder="Enter your email"
-        onChange={handleChange}
-      />
-      <Input
-        type="password"
-        name="password"
-        placeholder="Enter your password"
-        onChange={handleChange}
-      />
-      <Button variant="default" className="block w-full">
-        Login
-      </Button>
-    </form>
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex flex-col gap-2.5 justify-center w-full sm:w-[300px] lg:w-[350px] mx-auto max-w-[350px]"
+      >
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input placeholder="Enter your email" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input placeholder="Enter your password" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit">Submit</Button>
+      </form>
+    </Form>
   )
 }

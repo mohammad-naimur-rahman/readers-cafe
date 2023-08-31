@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button'
+import { env } from '@/configs/env'
 import auth from '@/lib/firebaseConfig'
 import { manageUserData } from '@/utils/auth/manageUserData'
 import axios from 'axios'
@@ -7,6 +8,7 @@ import {
   UserCredential,
   signInWithPopup,
 } from 'firebase/auth'
+import { toast } from 'react-hot-toast'
 import { IAuthUser } from 'validation/types'
 import GoogleIcon from './GoogleIcon'
 
@@ -23,7 +25,7 @@ export default function GoogleLoginComponent() {
       if (user) {
         const token = await user.getIdToken()
         const result = await axios.post(
-          'http://localhost:5000/api/v1/auth/login',
+          `${env.NEXT_PUBLIC_apiUrl}/auth/login`,
           { email: user.email },
           {
             headers: {
@@ -32,11 +34,14 @@ export default function GoogleLoginComponent() {
           },
         )
 
-        const authData: IAuthUser = result?.data?.data
-        manageUserData(authData)
+        if (result?.data?.success) {
+          toast.success('Logged in successfully!')
+          const authData: IAuthUser = result?.data?.data
+          manageUserData(authData)
+        }
       }
     } catch (err) {
-      // console.log(err.response.data)
+      toast.error(err.message)
     }
   }
   return (
