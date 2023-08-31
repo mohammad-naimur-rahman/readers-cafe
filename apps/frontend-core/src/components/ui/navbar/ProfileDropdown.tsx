@@ -20,7 +20,6 @@ import { initUserData } from './Navmenu'
 
 export default function ProfileDropdown() {
   const user = getCookie('userData')
-
   const userParsed: ICookieUser = user ? JSON.parse(user) : {}
 
   const [userData, setuserData] = useState<ICookieUser>(
@@ -71,14 +70,18 @@ export default function ProfileDropdown() {
         {userData?._id ? (
           <>
             <DropdownMenuGroup>
-              <DropdownMenuItem className="cursor-pointer">
-                <User className="w-4 h-4 mr-2" />
-                Profile
-              </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer">
-                <LayoutDashboard className="w-4 h-4 mr-2" />
-                Dashboard
-              </DropdownMenuItem>
+              <Link href="/dashboard/profile">
+                <DropdownMenuItem className="cursor-pointer">
+                  <User className="w-4 h-4 mr-2" />
+                  Profile
+                </DropdownMenuItem>
+              </Link>
+              <Link href="/dashboard/profile">
+                <DropdownMenuItem className="cursor-pointer">
+                  <LayoutDashboard className="w-4 h-4 mr-2" />
+                  Dashboard
+                </DropdownMenuItem>
+              </Link>
             </DropdownMenuGroup>
 
             <LogoutButton setuserData={setuserData} />
