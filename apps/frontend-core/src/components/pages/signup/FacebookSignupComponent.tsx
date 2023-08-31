@@ -11,8 +11,8 @@ import {
 import { Dispatch, SetStateAction } from 'react'
 import { toast } from 'react-hot-toast'
 import { IAuthUser } from 'validation/types'
-import FacebookIcon from '../login/FacebookIcon'
-import SpinnerIcon from '../login/SpinnerIcon'
+import FacebookIcon from '../../ui/icons/FacebookIcon'
+import SpinnerIcon from '../../ui/icons/SpinnerIcon'
 
 interface Props {
   isLoading: boolean
@@ -50,7 +50,7 @@ export default function FacookSignupComponent({
       }
     } catch (err) {
       setIsLoading(false)
-      toast.error(err.message)
+      toast.error(err?.response?.data?.message)
     }
   }
 

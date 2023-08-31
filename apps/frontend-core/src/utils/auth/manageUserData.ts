@@ -1,3 +1,4 @@
+import { ICookieUser } from '@/types/ICookieUser'
 import { setCookie } from 'cookies-next'
 import jwtDecode from 'jwt-decode'
 import { IAuthUser, ITokenData, IUser } from 'validation/types'
@@ -16,7 +17,7 @@ export const manageUserData = (authData: IAuthUser) => {
 
   // Taking only the necessary data
   const userData: IUser = authData?.user
-  const userDataToSave = {
+  const userDataToSave: ICookieUser = {
     _id: userData?.id,
     email: userData?.email,
     name: userData?.fullName,

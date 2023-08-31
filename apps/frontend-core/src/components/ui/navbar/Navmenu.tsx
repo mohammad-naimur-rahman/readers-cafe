@@ -8,6 +8,8 @@ interface Props {
   }[]
 }
 
+export const initUserData = { _id: '', name: '', email: '' }
+
 export default function Navmenu({ navigationMenu }: Props) {
   return (
     <ul className="hidden md:flex items-center">

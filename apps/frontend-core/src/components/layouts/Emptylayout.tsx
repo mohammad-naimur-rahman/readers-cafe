@@ -15,7 +15,7 @@ export default function EmptyLayout({ title, children }: Props) {
         <title>{title}</title>
       </Head>
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-        <main className="container">{children}</main>
+        <div>{children}</div>
         <Toaster position="top-center" reverseOrder={false} />
       </ThemeProvider>
     </>

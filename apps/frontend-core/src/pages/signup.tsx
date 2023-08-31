@@ -7,7 +7,7 @@ import animationData from '../../public/lottie/bookReading2.json'
 
 export default function SignupPage() {
   return (
-    <section className="flex flex-col md:flex-row min-h-screen items-center gap-5">
+    <section className="container flex flex-col md:flex-row min-h-screen items-center gap-5">
       <div className="w-full order-2 md:order-1 md:w-1/2">
         <SignupForm />
       </div>

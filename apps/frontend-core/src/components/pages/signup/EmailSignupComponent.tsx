@@ -18,20 +18,20 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'react-hot-toast'
 import { IAuthUser } from 'validation/types'
 import z from 'zod'
-import SpinnerIcon from '../login/SpinnerIcon'
+import SpinnerIcon from '../../ui/icons/SpinnerIcon'
 
 const loginSchema = z.object({
   fullName: z.string({ required_error: 'Full name is required!' }).trim(),
   email: z.string({ required_error: 'Email is required!' }).email({
     message: 'Email is required!',
   }),
-  password: z.string({ required_error: 'Password is required!' }).min(4, {
-    message: 'Password must be at least 4 characters!',
+  password: z.string({ required_error: 'Password is required!' }).min(6, {
+    message: 'Password must be at least 6 characters!',
   }),
   repeatPassword: z
     .string({ required_error: 'Type your password again!' })
-    .min(4, {
-      message: 'Password must be at least 4 characters!',
+    .min(6, {
+      message: 'Password must be at least 6 characters!',
     }),
 })
 
@@ -84,7 +84,7 @@ export default function EmailSignupComponent({
       }
     } catch (err) {
       setIsLoading(false)
-      toast.error(err.message)
+      toast.error(err?.response?.data?.message)
     }
   }
 
@@ -101,7 +101,7 @@ export default function EmailSignupComponent({
             <FormItem>
               <FormControl>
                 <Input
-                  placeholder="Enter your fullname"
+                  placeholder="Enter your full name"
                   {...field}
                   disabled={isLoading}
                 />

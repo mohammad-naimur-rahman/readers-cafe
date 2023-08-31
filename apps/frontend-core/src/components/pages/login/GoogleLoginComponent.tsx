@@ -11,8 +11,8 @@ import {
 import { Dispatch, SetStateAction } from 'react'
 import { toast } from 'react-hot-toast'
 import { IAuthUser } from 'validation/types'
-import GoogleIcon from './GoogleIcon'
-import SpinnerIcon from './SpinnerIcon'
+import GoogleIcon from '../../ui/icons/GoogleIcon'
+import SpinnerIcon from '../../ui/icons/SpinnerIcon'
 
 interface Props {
   isLoading: boolean

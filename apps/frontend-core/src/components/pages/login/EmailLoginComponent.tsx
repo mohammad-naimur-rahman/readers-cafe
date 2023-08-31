@@ -18,14 +18,14 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'react-hot-toast'
 import { IAuthUser } from 'validation/types'
 import z from 'zod'
-import SpinnerIcon from './SpinnerIcon'
+import SpinnerIcon from '../../ui/icons/SpinnerIcon'
 
 const loginSchema = z.object({
   email: z.string({ required_error: 'Email is required!' }).email({
     message: 'Email is required!',
   }),
-  password: z.string({ required_error: 'Password is required!' }).min(4, {
-    message: 'Password must be at least 4 characters!',
+  password: z.string({ required_error: 'Password is required!' }).min(6, {
+    message: 'Password must be at least 6 characters!',
   }),
 })
 

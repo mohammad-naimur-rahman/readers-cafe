@@ -26,7 +26,9 @@ export const authGuard =
 
       const { role, userId, tokenVersion } = verifiedUser
 
-      const currentTokenVersion = await TokenVersion.findOne({ user: userId })
+      const currentTokenVersion = await TokenVersion.findOne({
+        user: userId,
+      })
 
       if (!currentTokenVersion) {
         throw new ApiError(httpStatus.FORBIDDEN, 'You may need to sign up!')

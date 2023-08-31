@@ -7,7 +7,7 @@ import animationData from '../../public/lottie/bookReading3.json'
 
 export default function LoginPage() {
   return (
-    <section className="flex flex-col md:flex-row min-h-screen items-center gap-5">
+    <section className="container flex flex-col md:flex-row min-h-screen items-center gap-5">
       <div className="w-full md:w-1/2">
         <div className="max-w-xs md:max-w-lg flex items-center justify-center mx-auto">
           <Lottie

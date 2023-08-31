@@ -11,8 +11,8 @@ import {
 import { Dispatch, SetStateAction } from 'react'
 import { toast } from 'react-hot-toast'
 import { IAuthUser } from 'validation/types'
-import GoogleIcon from '../login/GoogleIcon'
-import SpinnerIcon from '../login/SpinnerIcon'
+import GoogleIcon from '../../ui/icons/GoogleIcon'
+import SpinnerIcon from '../../ui/icons/SpinnerIcon'
 
 interface Props {
   isLoading: boolean
@@ -50,7 +50,7 @@ export default function GoogleSignupComponent({
       }
     } catch (err) {
       setIsLoading(false)
-      toast.error(err.message)
+      toast.error(err?.response?.data?.message)
     }
   }
 

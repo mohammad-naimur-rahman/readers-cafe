@@ -9,50 +9,81 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { LayoutDashboard, LogIn, LogOut, User } from 'lucide-react'
+import { ICookieUser } from '@/types/ICookieUser'
+import { getCookie } from 'cookies-next'
+import { LayoutDashboard, LogIn, User } from 'lucide-react'
 import Link from 'next/link'
+import { useState } from 'react'
+import Img from '../img'
+import LogoutButton from './LogoutButton'
+import { initUserData } from './Navmenu'
 
 export default function ProfileDropdown() {
+  const user = getCookie('userData')
+
+  const userParsed: ICookieUser = user ? JSON.parse(user) : {}
+
+  const [userData, setuserData] = useState<ICookieUser>(
+    userParsed || initUserData,
+  )
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-10 w-10">
             <AvatarImage src="/avatars/01.png" alt="@shadcn" />
-            <AvatarFallback>SC</AvatarFallback>
+            <AvatarFallback>
+              <Img
+                src="/images/navbar/avatar.png"
+                alt="User"
+                sizes="10vw"
+                width={100}
+                height={100}
+              />
+            </AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>
-        <DropdownMenuLabel className="font-normal">
-          <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">shadcn</p>
-            <p className="text-xs leading-none text-muted-foreground">
-              m@example.com
-            </p>
-          </div>
-        </DropdownMenuLabel>
-        <Link href="/login">
-          <DropdownMenuItem className="cursor-pointer">
-            <LogIn className="w-4 h-4 mr-2" /> Login
-          </DropdownMenuItem>
-        </Link>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem className="cursor-pointer">
-            <User className="w-4 h-4 mr-2" />
-            Profile
-          </DropdownMenuItem>
-          <DropdownMenuItem className="cursor-pointer">
-            <LayoutDashboard className="w-4 h-4 mr-2" />
-            Dashboard
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem className="cursor-pointer">
-          <LogOut className="w-4 h-4 mr-2" />
-          Log out
-        </DropdownMenuItem>
+        {userData?._id ? (
+          <>
+            <DropdownMenuLabel className="font-normal">
+              <div className="flex flex-col space-y-1">
+                <p className="text-sm font-medium leading-none">
+                  {userData?.name}
+                </p>
+                <p className="text-sm leading-none text-muted-foreground">
+                  {userData?.email}
+                </p>
+              </div>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+          </>
+        ) : (
+          <Link href="/login">
+            <DropdownMenuItem className="cursor-pointer">
+              <LogIn className="w-4 h-4 mr-2" /> Login
+            </DropdownMenuItem>
+          </Link>
+        )}
+
+        {userData?._id ? (
+          <>
+            <DropdownMenuGroup>
+              <DropdownMenuItem className="cursor-pointer">
+                <User className="w-4 h-4 mr-2" />
+                Profile
+              </DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer">
+                <LayoutDashboard className="w-4 h-4 mr-2" />
+                Dashboard
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+
+            <LogoutButton setuserData={setuserData} />
+          </>
+        ) : null}
       </DropdownMenuContent>
     </DropdownMenu>
   )

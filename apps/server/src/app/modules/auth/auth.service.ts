@@ -129,7 +129,7 @@ const loginUser = async (
 
 const logoutUser = async (user: JwtPayload) => {
   const currentTokenVersion = await TokenVersion.findOne({
-    user: user._id,
+    user: user.userId,
   })
 
   if (!currentTokenVersion) {
@@ -137,7 +137,7 @@ const logoutUser = async (user: JwtPayload) => {
   }
 
   await TokenVersion.findOneAndUpdate(
-    { user: user._id },
+    { user: user.userID },
     { tokenVersion: +currentTokenVersion.tokenVersion + 1 },
     { new: true },
   )
