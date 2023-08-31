@@ -12,6 +12,8 @@ import { IReadingList } from './IReadingList'
 import { IReview } from './IReview'
 import { IShortContent } from './IShortContent'
 import { ISummary } from './ISummary'
+import { IToken } from './IToken'
+import { ITokenData } from './ITokenData'
 import { IUser } from './IUser'
 
 export type {
@@ -29,5 +31,7 @@ export type {
   IReview,
   IShortContent,
   ISummary,
+  IToken,
+  ITokenData,
   IUser,
 }

@@ -1,6 +1,7 @@
 import { ThemeProvider } from '@/lib/ThemeProvider'
 import Head from 'next/head'
 import { ReactNode } from 'react'
+import { Toaster } from 'react-hot-toast'
 import Navbar from '../ui/navbar'
 
 interface Props {
@@ -17,6 +18,7 @@ export default function RootLayout({ title, children }: Props) {
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
         <Navbar />
         <main className="h-min-body mt-16 container">{children}</main>
+        <Toaster position="top-center" reverseOrder={false} />
       </ThemeProvider>
     </>
   )
