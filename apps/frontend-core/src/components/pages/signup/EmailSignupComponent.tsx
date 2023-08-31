@@ -12,13 +12,11 @@ import auth from '@/lib/firebaseConfig'
 import { manageUserData } from '@/utils/auth/manageUserData'
 import { zodResolver } from '@hookform/resolvers/zod'
 import axios from 'axios'
-import { UserCredential, signInWithEmailAndPassword } from 'firebase/auth'
-import { Dispatch, SetStateAction } from 'react'
+import { UserCredential, createUserWithEmailAndPassword } from 'firebase/auth'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-hot-toast'
 import { IAuthUser } from 'validation/types'
 import z from 'zod'
-import SpinnerIcon from './SpinnerIcon'
 
 const loginSchema = z.object({
   email: z.string({ required_error: 'Email is required!' }).email({
@@ -29,15 +27,7 @@ const loginSchema = z.object({
   }),
 })
 
-interface Props {
-  isLoading: boolean
-  setIsLoading: Dispatch<SetStateAction<boolean>>
-}
-
-export default function EmailLoginComponent({
-  isLoading,
-  setIsLoading,
-}: Props) {
+export default function EmailSignupComponent() {
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
   })
@@ -45,8 +35,7 @@ export default function EmailLoginComponent({
   const onSubmit = async (values: z.infer<typeof loginSchema>) => {
     const { email, password } = values
     try {
-      setIsLoading(true)
-      const response: UserCredential = await signInWithEmailAndPassword(
+      const response: UserCredential = await createUserWithEmailAndPassword(
         auth,
         email,
         password,
@@ -55,7 +44,7 @@ export default function EmailLoginComponent({
       if (user) {
         const token = await user.getIdToken()
         const result = await axios.post(
-          `${env.NEXT_PUBLIC_apiUrl}/auth/login`,
+          `${env.NEXT_PUBLIC_apiUrl}/auth/signup`,
           { email: user.email },
           {
             headers: {
@@ -65,14 +54,12 @@ export default function EmailLoginComponent({
         )
 
         if (result?.data?.success) {
-          setIsLoading(false)
           toast.success('Logged in successfully!')
           const authData: IAuthUser = result?.data?.data
           manageUserData(authData)
         }
       }
     } catch (err) {
-      setIsLoading(false)
       toast.error(err.message)
     }
   }
@@ -89,11 +76,7 @@ export default function EmailLoginComponent({
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input
-                  placeholder="Enter your email"
-                  {...field}
-                  disabled={isLoading}
-                />
+                <Input placeholder="Enter your email" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -105,19 +88,13 @@ export default function EmailLoginComponent({
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input
-                  placeholder="Enter your password"
-                  {...field}
-                  disabled={isLoading}
-                />
+                <Input placeholder="Enter your password" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={isLoading}>
-          {isLoading ? <SpinnerIcon /> : 'Login'}
-        </Button>
+        <Button type="submit">Submit</Button>
       </form>
     </Form>
   )

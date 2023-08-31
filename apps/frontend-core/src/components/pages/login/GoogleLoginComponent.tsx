@@ -8,18 +8,25 @@ import {
   UserCredential,
   signInWithPopup,
 } from 'firebase/auth'
+import { Dispatch, SetStateAction } from 'react'
 import { toast } from 'react-hot-toast'
 import { IAuthUser } from 'validation/types'
 import GoogleIcon from './GoogleIcon'
+import SpinnerIcon from './SpinnerIcon'
 
-export default function GoogleLoginComponent() {
+interface Props {
+  isLoading: boolean
+  setIsLoading: Dispatch<SetStateAction<boolean>>
+}
+
+export default function GoogleLoginComponent({
+  isLoading,
+  setIsLoading,
+}: Props) {
   const handleGoogleLogin = async () => {
     const provider = new GoogleAuthProvider()
-    provider.addScope('https://www.googleapis.com/auth/contacts.readonly')
-    provider.setCustomParameters({
-      admin: 'true',
-    })
     try {
+      setIsLoading(true)
       const response: UserCredential = await signInWithPopup(auth, provider)
       const { user } = response
       if (user) {
@@ -35,15 +42,18 @@ export default function GoogleLoginComponent() {
         )
 
         if (result?.data?.success) {
+          setIsLoading(false)
           toast.success('Logged in successfully!')
           const authData: IAuthUser = result?.data?.data
           manageUserData(authData)
         }
       }
     } catch (err) {
+      setIsLoading(false)
       toast.error(err.message)
     }
   }
+
   return (
     <Button
       type="button"
@@ -51,7 +61,7 @@ export default function GoogleLoginComponent() {
       className="block w-full"
       onClick={handleGoogleLogin}
     >
-      <GoogleIcon />
+      {isLoading ? <SpinnerIcon /> : <GoogleIcon />}
     </Button>
   )
 }

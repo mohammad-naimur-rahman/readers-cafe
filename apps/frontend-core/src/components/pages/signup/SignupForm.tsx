@@ -2,24 +2,19 @@ import { Button } from '@/components/ui/button'
 import Img from '@/components/ui/img'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
-import { useState } from 'react'
-import EmailLoginComponent from './EmailLoginComponent'
-import FacookLoginComponent from './FacookLoginComponent'
-import GoogleLoginComponent from './GoogleLoginComponent'
+import EmailSignupComponent from './EmailSignupComponent'
 
-export default function LoginForm() {
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+export default function SignupForm() {
   return (
     <section>
       <div className="flex justify-center items-center w-full mx-auto">
-        <h2 className="text-3xl text-center mr-3">Login</h2>
+        <h2 className="text-3xl text-center mr-3">Signup</h2>
         <Img src="/logo/logo.png" alt="Reader's Café" className="w-[180px]" />
       </div>
       <p className="text-muted-foreground text-center py-5">
-        Enter your information below to login to your account
+        Enter your information below to create your account
       </p>
-
-      <EmailLoginComponent isLoading={isLoading} setIsLoading={setIsLoading} />
+      <EmailSignupComponent />
 
       <section className="flex flex-col mx-auto gap-3 w-full sm:w-[300px] lg:w-[350px] max-w-[350px]">
         <div className="relative py-3 mt-3">
@@ -32,19 +27,13 @@ export default function LoginForm() {
             </span>
           </div>
         </div>
-        <GoogleLoginComponent
-          isLoading={isLoading}
-          setIsLoading={setIsLoading}
-        />
-        <FacookLoginComponent
-          isLoading={isLoading}
-          setIsLoading={setIsLoading}
-        />
+        {/* <GoogleLoginComponent />
+        <FacookLoginComponent /> */}
       </section>
       <p className="flex items-center justify-center py-3">
-        Don&apos;t have an account?
-        <Link href="/signup">
-          <Button variant="link">Signup</Button>
+        Already have an account?
+        <Link href="/login">
+          <Button variant="link">Login</Button>
         </Link>
       </p>
       <div className="flex pb-3 justify-center">
