@@ -1,7 +1,11 @@
 import {
+  FileText,
   FolderKanban,
+  Image,
+  LayoutList,
   MessageCircle,
   PlusCircle,
+  ScrollText,
   Star,
   UserSquare,
 } from 'lucide-react'
@@ -18,10 +22,26 @@ export const dashboardNavLinks = [
     label: 'Create Content',
     icon: <PlusCircle />,
     children: [
-      { label: 'Summary', href: '/dashboard/create/summary' },
-      { label: 'Blog', href: '/dashboard/create/blog' },
-      { label: 'Discussion', href: '/dashboard/create/discussion' },
-      { label: 'Short Content', href: '/dashboard/create/short-content' },
+      {
+        label: 'Summary',
+        href: '/dashboard/create/summary',
+        icon: <LayoutList />,
+      },
+      {
+        label: 'Blog',
+        href: '/dashboard/create/blog',
+        icon: <FileText />,
+      },
+      {
+        label: 'Discussion',
+        href: '/dashboard/create/discussion',
+        icon: <ScrollText />,
+      },
+      {
+        label: 'Short Content',
+        href: '/dashboard/create/short-content',
+        icon: <Image />,
+      },
     ],
   },
   {
@@ -29,10 +49,26 @@ export const dashboardNavLinks = [
     label: 'All Contents',
     icon: <FolderKanban />,
     children: [
-      { label: 'Summary', href: '/dashboard/contents/summary' },
-      { label: 'Blog', href: '/dashboard/contents/blog' },
-      { label: 'Discussion', href: '/dashboard/contents/discussion' },
-      { label: 'Short Content', href: '/dashboard/contents/short-content' },
+      {
+        label: 'Summary',
+        href: '/dashboard/contents/summary',
+        icon: <LayoutList />,
+      },
+      {
+        label: 'Blog',
+        href: '/dashboard/contents/blog',
+        icon: <FileText />,
+      },
+      {
+        label: 'Discussion',
+        href: '/dashboard/contents/discussion',
+        icon: <ScrollText />,
+      },
+      {
+        label: 'Short Content',
+        href: '/dashboard/contents/short-content',
+        icon: <Image />,
+      },
     ],
   },
   {

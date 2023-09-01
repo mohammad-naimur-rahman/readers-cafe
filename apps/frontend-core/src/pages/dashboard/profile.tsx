@@ -2,7 +2,7 @@ import DashboardLayout from '@/components/layouts/DashboardLayout'
 import { ReactElement } from 'react'
 
 export default function ProfilePage() {
-  return <div>profile</div>
+  return <section>h</section>
 }
 
 ProfilePage.getLayout = function getLayout(page: ReactElement) {

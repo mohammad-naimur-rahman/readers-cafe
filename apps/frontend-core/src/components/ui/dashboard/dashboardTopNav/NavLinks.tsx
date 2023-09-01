@@ -16,19 +16,25 @@ export default function NavLinks() {
         <div>
           {link.hasChildren ? (
             <Accordion type="single" collapsible className="w-full">
-              <AccordionItem value="item-1">
+              <AccordionItem value={link.label}>
                 <AccordionTrigger className="font-normal self-start items-center">
                   <div className="flex items-center gap-4">
                     <span className="w-5 h-5">{link.icon}</span>
-                    <span className="">{link.label}</span>
+                    <span className="font-semibold">{link.label}</span>
                   </div>
                 </AccordionTrigger>
                 <AccordionContent>
                   <div className="flex flex-col">
                     {link.children.map(child => (
                       <Link href={child.href}>
-                        <Button className="my-1" variant="ghost">
-                          {child.label}
+                        <Button
+                          className="my-1 text-secondary-foreground text-[15px] opacity-75"
+                          variant="link"
+                        >
+                          <div className="flex items-center gap-4">
+                            <span className="w-5 h-5">{child.icon}</span>
+                            {child.label}
+                          </div>
                         </Button>
                       </Link>
                     ))}
@@ -41,7 +47,7 @@ export default function NavLinks() {
               <Link href={link.href}>
                 <span className="flex items-center gap-4 hover:underline py-4">
                   <span className="w-5 h-5">{link.icon}</span>
-                  <span>{link.label}</span>
+                  <span className="font-semibold">{link.label}</span>
                 </span>
               </Link>
               <Separator />
