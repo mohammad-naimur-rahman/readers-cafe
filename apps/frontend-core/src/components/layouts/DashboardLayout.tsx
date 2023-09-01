@@ -10,6 +10,7 @@ interface Props {
   children: ReactNode
 }
 
+//* Redux is limited to dashboard only, because in dashboard it is better to have client side code
 export default function DashboardLayout({ title, children }: Props) {
   return (
     <EmptyLayout title={title}>

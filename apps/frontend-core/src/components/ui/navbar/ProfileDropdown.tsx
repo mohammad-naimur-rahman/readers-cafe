@@ -9,6 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { initUserData } from '@/constants/initUserData'
 import { ICookieUser } from '@/types/ICookieUser'
 import { getCookie } from 'cookies-next'
 import { LayoutDashboard, LogIn, User } from 'lucide-react'
@@ -16,7 +17,6 @@ import Link from 'next/link'
 import { useState } from 'react'
 import Img from '../img'
 import LogoutButton from './LogoutButton'
-import { initUserData } from './Navmenu'
 
 export default function ProfileDropdown() {
   const user = getCookie('userData')

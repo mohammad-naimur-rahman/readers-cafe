@@ -24,7 +24,7 @@ const blogsApi = api.injectEndpoints({
     updateBook: build.mutation({
       query: ({ id, payload, token }) => ({
         url: `/blogs/${id}`,
-        method: 'PUT',
+        method: 'PATCH',
         body: payload,
         headers: {
           Authorization: `Bearer ${token}`,

@@ -12,5 +12,7 @@ module.exports = {
     'react/require-default-props': 'off',
     'react/prop-types': 'off',
     'no-underscore-dangle': 'off',
+    'arrow-body-style': 'off',
+    'react/function-component-definition': 'off',
   },
 }

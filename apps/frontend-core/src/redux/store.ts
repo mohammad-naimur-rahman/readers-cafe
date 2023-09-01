@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 
 import api from './api/apiSlice'
 
+//* Redux is limited to dashboard only, because in dashboard it is better to have client side code
 const store = configureStore({
   reducer: {
     [api.reducerPath]: api.reducer,

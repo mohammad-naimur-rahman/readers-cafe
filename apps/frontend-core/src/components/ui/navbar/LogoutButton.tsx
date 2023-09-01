@@ -1,4 +1,5 @@
 import { env } from '@/configs/env'
+import { initUserData } from '@/constants/initUserData'
 import auth from '@/lib/firebaseConfig'
 import { ICookieUser } from '@/types/ICookieUser'
 import axios from 'axios'
@@ -9,7 +10,6 @@ import { Dispatch, SetStateAction, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { DropdownMenuItem, DropdownMenuSeparator } from '../dropdown-menu'
 import SpinnerIcon from '../icons/SpinnerIcon'
-import { initUserData } from './Navmenu'
 
 interface Props {
   setuserData: Dispatch<SetStateAction<ICookieUser>>
