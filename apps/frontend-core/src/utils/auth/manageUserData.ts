@@ -24,11 +24,15 @@ export const manageUserData = (authData: IAuthUser) => {
     image: userData?.profilePicture,
   }
 
-  setCookie('accessToken', accessToken, { maxAge: accessTokenExpiration })
-  setCookie('refreshToken', refreshToken, { maxAge: refreshTokenExpiration })
+  setCookie('accessToken', accessToken, {
+    maxAge: accessTokenExpiration / 1000,
+  })
+  setCookie('refreshToken', refreshToken, {
+    maxAge: refreshTokenExpiration / 1000,
+  })
 
   // Saving usee data with refresh token expiration because when refresh token will expire, user needs to login again
   setCookie('userData', JSON.stringify(userDataToSave), {
-    maxAge: refreshTokenExpiration,
+    maxAge: refreshTokenExpiration / 1000,
   })
 }

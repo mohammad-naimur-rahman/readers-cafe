@@ -57,6 +57,6 @@
     @apply bg-background text-foreground;
   }
   .min-h-screen-nav {
-    @apply min-h-[calc(100dvh_-_64px)];
+    @apply min-h-[calc(100dvh_-_80px)];
   }
 }

@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
-    "dev": "turbo run dev --parallel",
+    "dev": "turbo run dev --parallel --no-daemon",
     "dev:frontend": "yarn workspace frontend-core dev",
     "dev:admin": "yarn workspace admin-dashboard dev",
     "dev:server": "yarn workspace server dev",

@@ -1,5 +1,7 @@
 import { dashboardNavLinks } from '@/constants/dashboardNavLinks'
+import clsx from 'clsx'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import {
   Accordion,
   AccordionContent,
@@ -10,6 +12,8 @@ import { Button } from '../../button'
 import { Separator } from '../../separator'
 
 export default function NavLinks() {
+  const { pathname } = useRouter()
+  console.log(pathname)
   return (
     <div className="flex flex-col gap-2">
       {dashboardNavLinks.map(link => (
@@ -45,7 +49,14 @@ export default function NavLinks() {
           ) : (
             <>
               <Link href={link.href}>
-                <span className="flex items-center gap-4 hover:underline py-4">
+                <span
+                  className={clsx(
+                    'flex items-center gap-4 hover:underline py-4',
+                    {
+                      'text-primary': pathname === link.href,
+                    },
+                  )}
+                >
                   <span className="w-5 h-5">{link.icon}</span>
                   <span className="font-semibold">{link.label}</span>
                 </span>

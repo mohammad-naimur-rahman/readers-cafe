@@ -1,9 +1,9 @@
+import animationData from '@/assets/lottie/bookReading3.json'
 import EmptyLayout from '@/components/layouts/Emptylayout'
 import LoginForm from '@/components/pages/login/LoginForm'
 import { lottieDefaultOptions } from '@/constants/lottieDeafultOptions'
 import { ReactElement } from 'react'
 import Lottie from 'react-lottie'
-import animationData from '../../public/lottie/bookReading3.json'
 
 export default function LoginPage() {
   return (

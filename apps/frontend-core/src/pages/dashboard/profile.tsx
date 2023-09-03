@@ -1,5 +1,6 @@
 import DashboardLayout from '@/components/layouts/DashboardLayout'
 import Bio from '@/components/pages/dashboard/profile/Bio'
+import DashbaordErrorComponent from '@/components/ui/dashboard/common/DashbaordErrorComponent'
 
 import Img from '@/components/ui/img'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -28,10 +29,18 @@ export default function ProfilePage() {
     }
   }, [isError, error])
 
+  if (isError) {
+    return (
+      <DashbaordErrorComponent
+        errorMessage={(error as IError)?.data?.message}
+      />
+    )
+  }
+
   return (
     <section>
       <div className="flex flex-col text-center justify-center items-center">
-        <div className="w-36 h-36 rounded-full overflow-hidden my-5">
+        <div className="w-36 h-36 rounded-full overflow-hidden mb-5 mt-10">
           {isLoading ? (
             <Skeleton className="w-full h-full" />
           ) : (
