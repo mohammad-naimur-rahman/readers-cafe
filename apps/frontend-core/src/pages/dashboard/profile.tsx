@@ -1,5 +1,6 @@
 import DashboardLayout from '@/components/layouts/DashboardLayout'
 import Bio from '@/components/pages/dashboard/profile/Bio'
+import FullName from '@/components/pages/dashboard/profile/FullName'
 import DashbaordErrorComponent from '@/components/ui/dashboard/common/DashbaordErrorComponent'
 
 import Img from '@/components/ui/img'
@@ -7,7 +8,10 @@ import { Skeleton } from '@/components/ui/skeleton'
 
 import { useCookieToken } from '@/hooks/useCookieToken'
 import { useCookieUser } from '@/hooks/useCookieUser'
-import { useGetProfileQuery } from '@/redux/features/user/userApi'
+import {
+  useGetProfileQuery,
+  useUpdateProfileMutation,
+} from '@/redux/features/user/userApi'
 import { IError } from '@/types/IError'
 
 import { ReactElement, useEffect } from 'react'
@@ -15,6 +19,7 @@ import { toast } from 'react-hot-toast'
 import { IUser } from 'validation/types'
 
 export default function ProfilePage() {
+  // Geting profile information
   const { _id: id } = useCookieUser()
   const { accessToken: token } = useCookieToken()
   const { isLoading, isError, error, data } = useGetProfileQuery({
@@ -23,11 +28,31 @@ export default function ProfilePage() {
   })
   const userData: IUser = data?.data
 
+  // Updating profile
+  const [
+    updateBook,
+    {
+      isLoading: isUpdating,
+      isSuccess: isUpdateSuccess,
+      isError: isUpdateError,
+      error: updateError,
+    },
+  ] = useUpdateProfileMutation()
+
+  // Managing notifications on loading and error state
   useEffect(() => {
     if (isError) {
       toast.error((error as IError)?.data?.message)
     }
-  }, [isError, error])
+
+    if (isUpdateError) {
+      toast.error((updateError as IError)?.data?.message)
+    }
+
+    if (isUpdateSuccess) {
+      toast.success('Profile Updated Successfully')
+    }
+  }, [isError, error, isUpdateError, isUpdateSuccess, updateError])
 
   if (isError) {
     return (
@@ -56,11 +81,13 @@ export default function ProfilePage() {
             </span>
           )}
         </div>
-        {isLoading ? (
-          <Skeleton className="my-2 w-64 h-10" />
-        ) : (
-          <h2 className="py-2 text-4xl">{userData?.fullName}</h2>
-        )}
+        <FullName
+          id={id}
+          token={token}
+          isLoading={isLoading}
+          fullName={userData?.fullName}
+          updateBook={updateBook}
+        />
         {isLoading ? (
           <Skeleton className="mb-5 w-64 h-5" />
         ) : (
@@ -72,7 +99,9 @@ export default function ProfilePage() {
           bio={userData?.bio}
           id={id}
           token={token}
-          isDataLoading={isLoading}
+          isLoading={isLoading}
+          isUpdating={isUpdating}
+          updateBook={updateBook}
         />
       </div>
     </section>

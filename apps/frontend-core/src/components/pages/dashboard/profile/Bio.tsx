@@ -10,21 +10,28 @@ import {
 } from '@/components/ui/dialog'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Textarea } from '@/components/ui/textarea'
-import { useUpdateProfileMutation } from '@/redux/features/user/userApi'
-import { IError } from '@/types/IError'
 import { DialogClose } from '@radix-ui/react-dialog'
 import { FileEdit } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { toast } from 'react-hot-toast'
 
 interface Props {
   bio: string
   id: string
   token: string
-  isDataLoading: boolean
+  isLoading: boolean
+  isUpdating: boolean
+  updateBook: (payload) => void
 }
 
-export default function Bio({ bio, id, token, isDataLoading }: Props) {
+export default function Bio({
+  bio,
+  id,
+  token,
+  isLoading,
+  isUpdating,
+  updateBook,
+}: Props) {
   const [updatedBio, setupdatedBio] = useState(bio)
 
   const handleBioChange = e => {
@@ -34,24 +41,14 @@ export default function Bio({ bio, id, token, isDataLoading }: Props) {
     }
     setupdatedBio(e.target.value)
   }
-  const [updateBook, { isLoading, isSuccess, isError, error }] =
-    useUpdateProfileMutation()
 
   const handleUpdateBio = () => {
     updateBook({ payload: { bio: updatedBio }, id, token })
   }
 
-  useEffect(() => {
-    if (isSuccess) {
-      toast.success('Bio updated successfully!')
-    }
-    if (isError) {
-      toast.error((error as IError)?.data?.message)
-    }
-  }, [isSuccess, isError, error])
   return (
     <>
-      {isDataLoading ? (
+      {isLoading ? (
         <Skeleton className="mb-5 w-full sm:w-[450px]  h-28" />
       ) : (
         <p className="italic text-primary pb-5 max-w-md">{bio}</p>
@@ -59,7 +56,7 @@ export default function Bio({ bio, id, token, isDataLoading }: Props) {
 
       <Dialog>
         <DialogTrigger asChild>
-          <ButtonExtended icon={<FileEdit />} isLoading={isLoading}>
+          <ButtonExtended icon={<FileEdit />} isLoading={isUpdating}>
             Update bio
           </ButtonExtended>
         </DialogTrigger>

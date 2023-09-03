@@ -17,4 +17,11 @@ export interface IUser {
   activities: Types.ObjectId[]
   donations: Types.ObjectId[]
   readingList: Types.ObjectId[]
+  socialMediaAccounts?: {
+    facebook?: string
+    instagram?: string
+    twitter?: string
+    youtube?: string
+    tiktok?: string
+  }
 }

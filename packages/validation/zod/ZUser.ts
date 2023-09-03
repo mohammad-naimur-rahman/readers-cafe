@@ -14,6 +14,15 @@ const createUserValidationSchema = z.object({
   activities: z.array(z.string()),
   donations: z.array(z.string()),
   readingList: z.array(z.string()),
+  socialMediaAccounts: z
+    .object({
+      facebook: z.string().optional(),
+      instagram: z.string().optional(),
+      twitter: z.string().optional(),
+      youtube: z.string().optional(),
+      tiktok: z.string().optional(),
+    })
+    .optional(),
 })
 
 const updateUserValidationSchema = z.object({
@@ -30,6 +39,15 @@ const updateUserValidationSchema = z.object({
   activities: z.array(z.string()).optional(),
   donations: z.array(z.string()).optional(),
   readingList: z.array(z.string()).optional(),
+  socialMediaAccounts: z
+    .object({
+      facebook: z.string().optional(),
+      instagram: z.string().optional(),
+      twitter: z.string().optional(),
+      youtube: z.string().optional(),
+      tiktok: z.string().optional(),
+    })
+    .optional(),
 })
 
 export const UserValidation = {

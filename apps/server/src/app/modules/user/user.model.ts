@@ -62,6 +62,13 @@ const userSchema = new Schema<IUser>(
         ref: 'Reading',
       },
     ],
+    socialMediaAccounts: {
+      facebook: String,
+      instagram: String,
+      twitter: String,
+      youtube: String,
+      tiktok: String,
+    },
   },
   {
     timestamps: true,
