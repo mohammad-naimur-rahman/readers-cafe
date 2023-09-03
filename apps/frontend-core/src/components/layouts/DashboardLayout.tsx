@@ -1,8 +1,8 @@
 import store from '@/redux/store'
 import { ReactNode } from 'react'
 import { Provider } from 'react-redux'
+import DashboardSideNav from '../ui/dashboard/dashboardSideNav'
 import DashboardTopNav from '../ui/dashboard/dashboardTopNav'
-import DashboardSideNav from '../ui/dashboard/dashboardTopNav/DashboardSideNav'
 import EmptyLayout from './Emptylayout'
 
 interface Props {

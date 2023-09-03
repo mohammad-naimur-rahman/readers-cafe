@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Img from '../../img'
 import { Separator } from '../../separator'
-import NavLinks from './NavLinks'
+import NavLinks from '../dashboardTopNav/NavLinks'
 
 export default function DashboardSideNav() {
   return (

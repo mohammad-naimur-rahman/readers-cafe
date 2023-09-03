@@ -1,11 +1,9 @@
 import DashboardLayout from '@/components/layouts/DashboardLayout'
 import Bio from '@/components/pages/dashboard/profile/Bio'
 import FullName from '@/components/pages/dashboard/profile/FullName'
+import ProfileImage from '@/components/pages/dashboard/profile/ProfileImage'
 import DashbaordErrorComponent from '@/components/ui/dashboard/common/DashbaordErrorComponent'
-
-import Img from '@/components/ui/img'
 import { Skeleton } from '@/components/ui/skeleton'
-
 import { useCookieToken } from '@/hooks/useCookieToken'
 import { useCookieUser } from '@/hooks/useCookieUser'
 import {
@@ -41,17 +39,9 @@ export default function ProfilePage() {
 
   // Managing notifications on loading and error state
   useEffect(() => {
-    if (isError) {
-      toast.error((error as IError)?.data?.message)
-    }
-
-    if (isUpdateError) {
-      toast.error((updateError as IError)?.data?.message)
-    }
-
-    if (isUpdateSuccess) {
-      toast.success('Profile Updated Successfully')
-    }
+    if (isError) toast.error((error as IError)?.data?.message)
+    if (isUpdateError) toast.error((updateError as IError)?.data?.message)
+    if (isUpdateSuccess) toast.success('Profile Updated Successfully')
   }, [isError, error, isUpdateError, isUpdateSuccess, updateError])
 
   if (isError) {
@@ -65,22 +55,13 @@ export default function ProfilePage() {
   return (
     <section>
       <div className="flex flex-col text-center justify-center items-center">
-        <div className="w-36 h-36 rounded-full overflow-hidden mb-5 mt-10">
-          {isLoading ? (
-            <Skeleton className="w-full h-full" />
-          ) : (
-            <span>
-              {userData?.profilePicture?.thumbnail ? (
-                <Img
-                  src={userData?.profilePicture?.thumbnail}
-                  alt={userData?.fullName}
-                />
-              ) : (
-                <Img src="/images/navbar/avatar.png" alt={userData?.fullName} />
-              )}
-            </span>
-          )}
-        </div>
+        <ProfileImage
+          id={id}
+          token={token}
+          isLoading={isLoading}
+          userData={userData}
+          updateBook={updateBook}
+        />
         <FullName
           id={id}
           token={token}

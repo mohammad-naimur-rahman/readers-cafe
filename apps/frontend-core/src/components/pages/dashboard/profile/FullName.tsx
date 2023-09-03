@@ -1,7 +1,7 @@
 import ButtonExtended from '@/components/ui/ButtonExtended'
 import { Input } from '@/components/ui/input'
 import { Skeleton } from '@/components/ui/skeleton'
-import { FileEdit, Pen, X } from 'lucide-react'
+import { FileSignature, Pen, X } from 'lucide-react'
 import { useState } from 'react'
 
 interface Props {
@@ -40,7 +40,10 @@ export default function FullName({
                 value={updatedName}
                 onChange={e => setupdatedName(e.target.value)}
               />
-              <ButtonExtended icon={<FileEdit />} onClick={handleUpdateName}>
+              <ButtonExtended
+                icon={<FileSignature />}
+                onClick={handleUpdateName}
+              >
                 Update
               </ButtonExtended>
               <X

@@ -11,6 +11,8 @@ const EnvSchema = z.object({
   NEXT_PUBLIC_measurementId: z.string().nonempty(),
   NEXT_PUBLIC_facebookAppId: z.string().nonempty(),
   NEXT_PUBLIC_facebookAppSecret: z.string().nonempty(),
+  NEXT_PUBLIC_uploadPreset: z.string().nonempty(),
+  NEXT_PUBLIC_cloudName: z.string().nonempty(),
 })
 
 export const env = EnvSchema.parse({
@@ -24,4 +26,6 @@ export const env = EnvSchema.parse({
   NEXT_PUBLIC_measurementId: process.env.NEXT_PUBLIC_measurementId,
   NEXT_PUBLIC_facebookAppId: process.env.NEXT_PUBLIC_facebookAppId,
   NEXT_PUBLIC_facebookAppSecret: process.env.NEXT_PUBLIC_facebookAppSecret,
+  NEXT_PUBLIC_uploadPreset: process.env.NEXT_PUBLIC_uploadPreset,
+  NEXT_PUBLIC_cloudName: process.env.NEXT_PUBLIC_cloudName,
 })
