@@ -3,9 +3,8 @@ import { IImage } from '../types'
 
 export const imageSchema = new Schema<IImage>(
   {
-    blurImage: String,
-    thumbnail: String,
-    poster: String,
+    url: String,
+    dominantColor: String,
   },
   {
     id: false,

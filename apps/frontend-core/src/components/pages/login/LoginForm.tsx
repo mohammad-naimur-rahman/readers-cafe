@@ -1,5 +1,6 @@
+import logo from '@/assets/logo/logo.png'
 import { Button } from '@/components/ui/button'
-import Img from '@/components/ui/img'
+import { LocalImg } from '@/components/ui/img'
 import { ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
@@ -14,7 +15,7 @@ export default function LoginForm() {
     <section>
       <div className="flex justify-center items-center w-full mx-auto">
         <h2 className="text-3xl text-center mr-3">Login</h2>
-        <Img src="/logo/logo.png" alt="Reader's Café" className="w-[180px]" />
+        <LocalImg src={logo} alt="Reader's Café" className="w-[180px]" />
       </div>
       <p className="text-muted-foreground text-center py-5">
         Enter your information below to login to your account

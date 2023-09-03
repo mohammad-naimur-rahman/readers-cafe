@@ -1,3 +1,4 @@
+import avatar from '@/assets/images/navbar/avatar.png'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import {
@@ -15,7 +16,7 @@ import { getCookie } from 'cookies-next'
 import { LayoutDashboard, LogIn, User } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
-import Img from '../img'
+import { LocalImg } from '../img'
 import LogoutButton from './LogoutButton'
 
 export default function ProfileDropdown() {
@@ -33,8 +34,8 @@ export default function ProfileDropdown() {
           <Avatar className="h-10 w-10">
             <AvatarImage src="/avatars/01.png" alt="@shadcn" />
             <AvatarFallback>
-              <Img
-                src="/images/navbar/avatar.png"
+              <LocalImg
+                src={avatar}
                 alt="User"
                 sizes="10vw"
                 width={100}

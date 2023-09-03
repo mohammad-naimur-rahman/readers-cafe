@@ -13,11 +13,10 @@ import { Separator } from '../../separator'
 
 export default function NavLinks() {
   const { pathname } = useRouter()
-  console.log(pathname)
   return (
     <div className="flex flex-col gap-2">
       {dashboardNavLinks.map(link => (
-        <div>
+        <div key={link.label}>
           {link.hasChildren ? (
             <Accordion type="single" collapsible className="w-full">
               <AccordionItem value={link.label}>
@@ -30,7 +29,7 @@ export default function NavLinks() {
                 <AccordionContent>
                   <div className="flex flex-col">
                     {link.children.map(child => (
-                      <Link href={child.href}>
+                      <Link href={child.href} key={child.href}>
                         <Button
                           className="my-1 text-secondary-foreground text-[15px] opacity-75"
                           variant="link"

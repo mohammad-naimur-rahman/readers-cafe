@@ -1,9 +1,13 @@
-import Img from '@/components/ui/img'
+import avatar from '@/assets/images/navbar/avatar.png'
+import animationData from '@/assets/lottie/imageUploading.json'
+import Img, { LocalImg } from '@/components/ui/img'
+import Overlay from '@/components/ui/overlay'
 import { Skeleton } from '@/components/ui/skeleton'
 import { env } from '@/configs/env'
+import { getColor } from '@/utils/auth/getColor'
 import axios from 'axios'
 import { Camera } from 'lucide-react'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { IUser } from 'validation/types'
 
@@ -22,11 +26,15 @@ export default function ProfileImage({
   userData,
   updateBook,
 }: Props) {
+  const [isUploading, setisUploading] = useState(false)
+
   const uploadButtonRef = useRef(null)
   const handleUpdateProfilePicture = async e => {
     e.preventDefault()
+
     try {
-      toast.success('File uploading...')
+      toast.success('Image uploading...')
+      setisUploading(true)
       const formData = new FormData()
       formData.append('file', e.target.files[0])
       formData.append('upload_preset', env.NEXT_PUBLIC_uploadPreset)
@@ -36,35 +44,41 @@ export default function ProfileImage({
       )
 
       if (res.status === 200) {
+        setisUploading(false)
+        const colors = await getColor(res.data.secure_url)
         updateBook({
           payload: {
             profilePicture: {
-              poster: res.data.secure_url,
+              url: res.data.secure_url,
+              dominantColor: colors,
             },
           },
           id,
           token,
         })
+      } else {
+        setisUploading(false)
       }
-    } catch (error) {
+    } catch (err) {
+      setisUploading(false)
       toast.error('Image upload failed!')
-      throw error
     }
   }
+
   return (
     <div className="w-36 h-36 rounded-full overflow-hidden mb-5 mt-10">
       {isLoading ? (
         <Skeleton className="w-full h-full" />
       ) : (
         <span className="relative w-full h-full inline-block group border rounded-full">
-          {userData?.profilePicture?.poster ? (
+          {userData?.profilePicture?.url ? (
             <Img
-              src={userData?.profilePicture?.poster}
+              src={userData?.profilePicture}
               alt={userData?.fullName}
               className="w-full h-full aspect-square object-cover"
             />
           ) : (
-            <Img src="/images/navbar/avatar.png" alt={userData?.fullName} />
+            <LocalImg src={avatar} alt={userData?.fullName} />
           )}
           <button
             type="button"
@@ -72,7 +86,7 @@ export default function ProfileImage({
             onClick={() => uploadButtonRef.current.click()}
           >
             <p className="text-sm">
-              {userData?.profilePicture?.poster ? 'Update' : 'Upload'}
+              {userData?.profilePicture?.url ? 'Update' : 'Upload'}
             </p>
             <Camera className="w-4 h-4" />
           </button>
@@ -85,6 +99,7 @@ export default function ProfileImage({
           />
         </span>
       )}
+      <Overlay animationData={animationData} isOpen={isUploading} />
     </div>
   )
 }

@@ -1,5 +1,6 @@
+import logo from '@/assets/logo/logo.png'
 import Link from 'next/link'
-import Img from '../img'
+import { LocalImg } from '../img'
 import MobileNavmenu from './MobileNavmenu'
 import Navmenu from './Navmenu'
 import ProfileDropdown from './ProfileDropdown'
@@ -28,8 +29,8 @@ export default function Navbar() {
   return (
     <nav className="flex items-center justify-between px-5 py-3 border h-16 fixed top-0 left-0 w-full gap-5">
       <Link href="/">
-        <Img
-          src="/logo/logo.png"
+        <LocalImg
+          src={logo}
           alt="Reader's cafe"
           className="w-48"
           sizes="10vw"
