@@ -3,9 +3,7 @@ import animationData from '@/assets/lottie/imageUploading.json'
 import Img, { LocalImg } from '@/components/ui/img'
 import Overlay from '@/components/ui/overlay'
 import { Skeleton } from '@/components/ui/skeleton'
-import { env } from '@/configs/env'
-import { getColor } from '@/utils/auth/getColor'
-import axios from 'axios'
+import { imageUploader } from '@/utils/imageUploader'
 import { Camera } from 'lucide-react'
 import { useRef, useState } from 'react'
 import { toast } from 'react-hot-toast'
@@ -33,32 +31,19 @@ export default function ProfileImage({
     e.preventDefault()
 
     try {
-      toast.success('Image uploading...')
       setisUploading(true)
-      const formData = new FormData()
-      formData.append('file', e.target.files[0])
-      formData.append('upload_preset', env.NEXT_PUBLIC_uploadPreset)
-      const res = await axios.post(
-        `https://api.cloudinary.com/v1_1/${env.NEXT_PUBLIC_cloudName}/image/upload`,
-        formData,
-      )
 
-      if (res.status === 200) {
-        setisUploading(false)
-        const colors = await getColor(res.data.secure_url)
-        updateBook({
-          payload: {
-            profilePicture: {
-              url: res.data.secure_url,
-              dominantColor: colors,
-            },
-          },
-          id,
-          token,
-        })
-      } else {
-        setisUploading(false)
-      }
+      const imageInfo = await imageUploader(e)
+
+      setisUploading(false)
+
+      updateBook({
+        payload: {
+          profilePicture: imageInfo,
+        },
+        id,
+        token,
+      })
     } catch (err) {
       setisUploading(false)
       toast.error('Image upload failed!')

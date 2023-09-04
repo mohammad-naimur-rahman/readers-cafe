@@ -2,7 +2,7 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable no-plusplus */
 /* eslint-disable no-bitwise */
-export function getColor(imageUrl) {
+export function getDominantColor(imageUrl) {
   return new Promise((resolve, reject) => {
     const img = new Image()
     img.crossOrigin = 'Anonymous' // To enable cross-origin image access
