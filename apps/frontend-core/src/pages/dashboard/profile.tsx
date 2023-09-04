@@ -2,24 +2,23 @@ import DashboardLayout from '@/components/layouts/DashboardLayout'
 import Bio from '@/components/pages/dashboard/profile/Bio'
 import FullName from '@/components/pages/dashboard/profile/FullName'
 import ProfileImage from '@/components/pages/dashboard/profile/ProfileImage'
+import SocialMediaAccounts from '@/components/pages/dashboard/profile/SocialMediaAccounts'
+import UserEmail from '@/components/pages/dashboard/profile/UserEmail'
 import DashbaordErrorComponent from '@/components/ui/dashboard/common/DashbaordErrorComponent'
-import { Skeleton } from '@/components/ui/skeleton'
-import { useCookieToken } from '@/hooks/useCookieToken'
-import { useCookieUser } from '@/hooks/useCookieUser'
 import {
   useGetProfileQuery,
   useUpdateProfileMutation,
 } from '@/redux/features/user/userApi'
 import { IError } from '@/types/IError'
+import { getIdAndToken } from '@/utils/getIdAndToken'
 
 import { ReactElement, useEffect } from 'react'
 import { toast } from 'react-hot-toast'
 import { IUser } from 'validation/types'
 
 export default function ProfilePage() {
-  // Geting profile information
-  const { _id: id } = useCookieUser()
-  const { accessToken: token } = useCookieToken()
+  // Geting user profile information
+  const { id, token } = getIdAndToken()
   const { isLoading, isError, error, data } = useGetProfileQuery({
     id,
     token,
@@ -28,7 +27,7 @@ export default function ProfilePage() {
 
   // Updating profile
   const [
-    updateBook,
+    updateProfile,
     {
       isLoading: isUpdating,
       isSuccess: isUpdateSuccess,
@@ -60,29 +59,31 @@ export default function ProfilePage() {
           token={token}
           isLoading={isLoading}
           userData={userData}
-          updateBook={updateBook}
+          updateProfile={updateProfile}
         />
         <FullName
           id={id}
           token={token}
           isLoading={isLoading}
           fullName={userData?.fullName}
-          updateBook={updateBook}
+          updateProfile={updateProfile}
         />
-        {isLoading ? (
-          <Skeleton className="mb-5 w-64 h-5" />
-        ) : (
-          <p className="pb-5 text-lg text-secondary-foreground">
-            {userData?.email}
-          </p>
-        )}
+        <UserEmail isLoading={isLoading} email={userData?.email} />
+
+        <SocialMediaAccounts
+          socialMediaAccounts={userData?.socialMediaAccounts}
+          id={id}
+          token={token}
+          isLoading={isLoading}
+          updateProfile={updateProfile}
+        />
         <Bio
           bio={userData?.bio}
           id={id}
           token={token}
           isLoading={isLoading}
           isUpdating={isUpdating}
-          updateBook={updateBook}
+          updateProfile={updateProfile}
         />
       </div>
     </section>

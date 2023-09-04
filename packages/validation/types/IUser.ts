@@ -1,6 +1,14 @@
 import { Types } from 'mongoose'
 import { IImage } from './IImage'
 
+export interface ISocialMediaAccounts {
+  facebook?: string
+  instagram?: string
+  twitter?: string
+  youtube?: string
+  tiktok?: string
+}
+
 export interface IUser {
   id?: string
   _id?: string
@@ -17,11 +25,5 @@ export interface IUser {
   activities: Types.ObjectId[]
   donations: Types.ObjectId[]
   readingList: Types.ObjectId[]
-  socialMediaAccounts?: {
-    facebook?: string
-    instagram?: string
-    twitter?: string
-    youtube?: string
-    tiktok?: string
-  }
+  socialMediaAccounts?: ISocialMediaAccounts
 }

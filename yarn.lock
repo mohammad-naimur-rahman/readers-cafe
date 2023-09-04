@@ -6808,6 +6808,11 @@ tailwindcss-animate@^1.0.7:
   resolved "https://registry.yarnpkg.com/tailwindcss-animate/-/tailwindcss-animate-1.0.7.tgz#318b692c4c42676cc9e67b19b78775742388bef4"
   integrity sha512-bl6mpH3T7I3UFxuvDEXLxy/VuFxBk5bbzplh7tXI68mwMokNYd1t9qPBHlnyTwfa4JGC4zP516I1hYYtQ/vspA==
 
+tailwindcss-brand-colors@^0.3.3:
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/tailwindcss-brand-colors/-/tailwindcss-brand-colors-0.3.3.tgz#06ed6323990df504efaf804fd1e169a0d5428e22"
+  integrity sha512-qNgt9e3q/1cF31jzQO5SRTfgJehqNKulgQx/ePpQgvxh8W5ATHzttW5MEOEZa6uyL4z92bk1YFHU2g6WfE9j6Q==
+
 tailwindcss@^3.3.3:
   version "3.3.3"
   resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-3.3.3.tgz#90da807393a2859189e48e9e7000e6880a736daf"

@@ -36,17 +36,46 @@ const updateUser = async (
     throw new ApiError(httpStatus.FORBIDDEN, `You can't update this user!`)
   }
 
-  // Preventing user to set their role to admin
-  const data = {
-    fullName: payload.fullName,
-    profilePicture: payload.profilePicture,
-    bio: payload.bio,
+  // Preventing the user from setting their role to admin
+  if (payload.role === 'admin') {
+    throw new ApiError(httpStatus.FORBIDDEN, `You can't set role to Admin`)
   }
 
-  const updatedUser = await User.findOneAndUpdate({ _id: id }, data, {
-    new: true,
-    runValidators: true,
-  })
+  // const data = {
+  //   fullName: payload.fullName,
+  //   profilePicture: payload.profilePicture,
+  //   bio: payload.bio,
+  // }
+
+  // const updatedUser = await User.findOneAndUpdate({ _id: id }, data, {
+  //   new: true,
+  //   runValidators: true,
+  // })
+
+  const updatedFields: Record<string, any> = {}
+
+  // Add fields to update to the updatedFields object
+  if (payload.fullName) updatedFields.fullName = payload.fullName
+  if (payload.profilePicture)
+    updatedFields.profilePicture = payload.profilePicture
+  if (payload.bio) updatedFields.bio = payload.bio
+  if (payload.socialMediaAccounts) {
+    const { facebook, instagram, twitter, youtube, tiktok } =
+      payload.socialMediaAccounts
+
+    if (facebook) updatedFields['socialMediaAccounts.facebook'] = facebook
+    if (instagram) updatedFields['socialMediaAccounts.instagram'] = instagram
+    if (twitter) updatedFields['socialMediaAccounts.twitter'] = twitter
+    if (youtube) updatedFields['socialMediaAccounts.youtube'] = youtube
+    if (tiktok) updatedFields['socialMediaAccounts.tiktok'] = tiktok
+  }
+
+  // Use findOneAndUpdate to update the specified fields in the document
+  const updatedUser = await User.findByIdAndUpdate(
+    id,
+    { $set: updatedFields },
+    { new: true, runValidators: true },
+  )
   return updatedUser
 }
 

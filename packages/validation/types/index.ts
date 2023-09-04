@@ -14,7 +14,7 @@ import { IShortContent } from './IShortContent'
 import { ISummary } from './ISummary'
 import { IToken } from './IToken'
 import { ITokenData } from './ITokenData'
-import { IUser } from './IUser'
+import { ISocialMediaAccounts, IUser } from './IUser'
 
 export type {
   IAuth,
@@ -30,6 +30,7 @@ export type {
   IReadingList,
   IReview,
   IShortContent,
+  ISocialMediaAccounts,
   ISummary,
   IToken,
   ITokenData,

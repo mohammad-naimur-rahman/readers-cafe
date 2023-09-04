@@ -14,7 +14,7 @@ interface Props {
   token: string
   isLoading: boolean
   userData: IUser
-  updateBook: (payload) => void
+  updateProfile: (payload) => void
 }
 
 export default function ProfileImage({
@@ -22,7 +22,7 @@ export default function ProfileImage({
   token,
   isLoading,
   userData,
-  updateBook,
+  updateProfile,
 }: Props) {
   const [isUploading, setisUploading] = useState(false)
 
@@ -37,7 +37,7 @@ export default function ProfileImage({
 
       setisUploading(false)
 
-      updateBook({
+      updateProfile({
         payload: {
           profilePicture: imageInfo,
         },
@@ -50,40 +50,40 @@ export default function ProfileImage({
     }
   }
 
+  if (isLoading) {
+    return <Skeleton className="w-full h-full" />
+  }
+
   return (
     <div className="w-36 h-36 rounded-full overflow-hidden mb-5 mt-10">
-      {isLoading ? (
-        <Skeleton className="w-full h-full" />
-      ) : (
-        <span className="relative w-full h-full inline-block group border rounded-full">
-          {userData?.profilePicture?.url ? (
-            <Img
-              src={userData?.profilePicture}
-              alt={userData?.fullName}
-              className="w-full h-full aspect-square object-cover"
-            />
-          ) : (
-            <LocalImg src={avatar} alt={userData?.fullName} />
-          )}
-          <button
-            type="button"
-            className="absolute bottom-0 left-0 w-full -mb-1 pb-3 pt-2 flex items-center justify-center bg-primary text-slate-100 gap-1.5 cursor-pointer group-hover:opacity-100 opacity-0 transition-opacity"
-            onClick={() => uploadButtonRef.current.click()}
-          >
-            <p className="text-sm">
-              {userData?.profilePicture?.url ? 'Update' : 'Upload'}
-            </p>
-            <Camera className="w-4 h-4" />
-          </button>
-          <input
-            type="file"
-            accept="image/*"
-            className="hidden"
-            ref={uploadButtonRef}
-            onChange={handleUpdateProfilePicture}
+      <span className="relative w-full h-full inline-block group border rounded-full">
+        {userData?.profilePicture?.url ? (
+          <Img
+            src={userData?.profilePicture}
+            alt={userData?.fullName}
+            className="w-full h-full aspect-square object-cover"
           />
-        </span>
-      )}
+        ) : (
+          <LocalImg src={avatar} alt={userData?.fullName} />
+        )}
+        <button
+          type="button"
+          className="absolute bottom-0 left-0 w-full -mb-1 pb-3 pt-2 flex items-center justify-center bg-primary text-slate-100 gap-1.5 cursor-pointer group-hover:opacity-100 opacity-0 transition-opacity"
+          onClick={() => uploadButtonRef.current.click()}
+        >
+          <p className="text-sm">
+            {userData?.profilePicture?.url ? 'Update' : 'Upload'}
+          </p>
+          <Camera className="w-4 h-4" />
+        </button>
+        <input
+          type="file"
+          accept="image/*"
+          className="hidden"
+          ref={uploadButtonRef}
+          onChange={handleUpdateProfilePicture}
+        />
+      </span>
       <Overlay animationData={animationData} isOpen={isUploading} />
     </div>
   )

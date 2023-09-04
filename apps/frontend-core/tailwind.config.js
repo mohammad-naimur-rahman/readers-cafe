@@ -72,5 +72,9 @@ module.exports = {
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [
+    require('tailwindcss-animate'),
+    require('tailwind-merge'),
+    require('tailwindcss-brand-colors'),
+  ],
 }

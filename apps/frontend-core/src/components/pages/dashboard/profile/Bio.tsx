@@ -12,7 +12,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Textarea } from '@/components/ui/textarea'
 import { DialogClose } from '@radix-ui/react-dialog'
 import { FileEdit } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from 'react-hot-toast'
 
 interface Props {
@@ -21,7 +21,7 @@ interface Props {
   token: string
   isLoading: boolean
   isUpdating: boolean
-  updateBook: (payload) => void
+  updateProfile: (payload) => void
 }
 
 export default function Bio({
@@ -30,9 +30,13 @@ export default function Bio({
   token,
   isLoading,
   isUpdating,
-  updateBook,
+  updateProfile,
 }: Props) {
   const [updatedBio, setupdatedBio] = useState(bio)
+
+  useEffect(() => {
+    setupdatedBio(bio)
+  }, [bio])
 
   const handleBioChange = e => {
     if (e.target.value.length > 200) {
@@ -43,16 +47,16 @@ export default function Bio({
   }
 
   const handleUpdateBio = () => {
-    updateBook({ payload: { bio: updatedBio }, id, token })
+    updateProfile({ payload: { bio: updatedBio }, id, token })
+  }
+
+  if (isLoading) {
+    return <Skeleton className="mb-5 w-full sm:w-[450px]  h-28" />
   }
 
   return (
     <>
-      {isLoading ? (
-        <Skeleton className="mb-5 w-full sm:w-[450px]  h-28" />
-      ) : (
-        <p className="italic text-primary pb-5 max-w-md">{bio}</p>
-      )}
+      <p className="italic text-primary pb-5 max-w-md">{bio}</p>
 
       <Dialog>
         <DialogTrigger asChild>
