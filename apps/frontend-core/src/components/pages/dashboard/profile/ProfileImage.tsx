@@ -51,7 +51,9 @@ export default function ProfileImage({
   }
 
   if (isLoading) {
-    return <Skeleton className="w-full h-full" />
+    return (
+      <Skeleton className="w-36 h-36 rounded-full overflow-hidden mb-5 mt-10" />
+    )
   }
 
   return (

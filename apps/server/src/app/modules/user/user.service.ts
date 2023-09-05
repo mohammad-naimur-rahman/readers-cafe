@@ -62,12 +62,12 @@ const updateUser = async (
   if (payload.socialMediaAccounts) {
     const { facebook, instagram, twitter, youtube, tiktok } =
       payload.socialMediaAccounts
-
-    if (facebook) updatedFields['socialMediaAccounts.facebook'] = facebook
-    if (instagram) updatedFields['socialMediaAccounts.instagram'] = instagram
-    if (twitter) updatedFields['socialMediaAccounts.twitter'] = twitter
-    if (youtube) updatedFields['socialMediaAccounts.youtube'] = youtube
-    if (tiktok) updatedFields['socialMediaAccounts.tiktok'] = tiktok
+    console.log(payload.socialMediaAccounts)
+    updatedFields['socialMediaAccounts.facebook'] = facebook || ''
+    updatedFields['socialMediaAccounts.instagram'] = instagram || ''
+    updatedFields['socialMediaAccounts.twitter'] = twitter || ''
+    updatedFields['socialMediaAccounts.youtube'] = youtube || ''
+    updatedFields['socialMediaAccounts.tiktok'] = tiktok || ''
   }
 
   // Use findOneAndUpdate to update the specified fields in the document

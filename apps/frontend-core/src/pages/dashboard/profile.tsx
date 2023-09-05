@@ -69,7 +69,6 @@ export default function ProfilePage() {
           updateProfile={updateProfile}
         />
         <UserEmail isLoading={isLoading} email={userData?.email} />
-
         <SocialMediaAccounts
           socialMediaAccounts={userData?.socialMediaAccounts}
           id={id}
