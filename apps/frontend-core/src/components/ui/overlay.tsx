@@ -11,7 +11,7 @@ export default function Overlay({ isOpen, animationData }: Props) {
   return (
     <div
       className={clsx(
-        'w-full h-screen flex items-center justify-center absolute left-0 top-0 backdrop-blur-sm z-10',
+        'w-full h-screen flex items-center justify-center absolute left-0 top-0 backdrop-blur-md z-10',
         { hidden: !isOpen },
       )}
     >

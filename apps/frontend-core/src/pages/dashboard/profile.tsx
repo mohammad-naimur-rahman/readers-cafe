@@ -1,3 +1,4 @@
+import animationData from '@/assets/lottie/updating3.json'
 import DashboardLayout from '@/components/layouts/DashboardLayout'
 import Bio from '@/components/pages/dashboard/profile/Bio'
 import FullName from '@/components/pages/dashboard/profile/FullName'
@@ -5,13 +6,13 @@ import ProfileImage from '@/components/pages/dashboard/profile/ProfileImage'
 import SocialMediaAccounts from '@/components/pages/dashboard/profile/SocialMediaAccounts'
 import UserEmail from '@/components/pages/dashboard/profile/UserEmail'
 import DashbaordErrorComponent from '@/components/ui/dashboard/common/DashbaordErrorComponent'
+import Overlay from '@/components/ui/overlay'
 import {
   useGetProfileQuery,
   useUpdateProfileMutation,
 } from '@/redux/features/user/userApi'
 import { IError } from '@/types/IError'
 import { getIdAndToken } from '@/utils/getIdAndToken'
-
 import { ReactElement, useEffect } from 'react'
 import { toast } from 'react-hot-toast'
 import { IUser } from 'validation/types'
@@ -85,6 +86,7 @@ export default function ProfilePage() {
           updateProfile={updateProfile}
         />
       </div>
+      <Overlay animationData={animationData} isOpen={isUpdating} />
     </section>
   )
 }
