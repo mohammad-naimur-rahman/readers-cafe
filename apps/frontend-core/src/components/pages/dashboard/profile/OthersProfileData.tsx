@@ -31,9 +31,12 @@ export default function OthersProfileData({ isLoading, userData }: Props) {
     <section className="self-start flex flex-col gap-6 ml-10 mt-10">
       <h2 className="text-3xl text-left">Your contents</h2>
       <Section topic="Summaries" number={userData?.summaries?.length} />
-      <Section topic="Blogs" number={userData?.summaries?.length} />
-      <Section topic="Discussions" number={userData?.summaries?.length} />
-      <Section topic="Short Contents" number={userData?.summaries?.length} />
+      <Section topic="Blogs" number={userData?.blogs?.length} />
+      <Section topic="Discussions" number={userData?.discussions?.length} />
+      <Section
+        topic="Short Contents"
+        number={userData?.shortContents?.length}
+      />
     </section>
   )
 }

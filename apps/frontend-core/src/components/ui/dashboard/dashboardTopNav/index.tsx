@@ -13,7 +13,7 @@ export default function DashboardTopNav() {
         </Button>
       </Link>
       <DashboardSearchBox />
-      <ThemeSwitcher />
+      <ThemeSwitcher className="w-[152px] text-right" />
     </nav>
   )
 }

@@ -13,6 +13,7 @@ import { manageUserData } from '@/utils/auth/manageUserData'
 import { zodResolver } from '@hookform/resolvers/zod'
 import axios from 'axios'
 import { UserCredential, signInWithEmailAndPassword } from 'firebase/auth'
+import { useRouter } from 'next/router'
 import { Dispatch, SetStateAction } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-hot-toast'
@@ -32,12 +33,18 @@ const loginSchema = z.object({
 interface Props {
   isLoading: boolean
   setIsLoading: Dispatch<SetStateAction<boolean>>
+  query: {
+    redirected?: boolean
+    prevPath?: string
+  }
 }
 
 export default function EmailLoginComponent({
   isLoading,
   setIsLoading,
+  query,
 }: Props) {
+  const { push } = useRouter()
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
   })
@@ -69,6 +76,11 @@ export default function EmailLoginComponent({
           toast.success('Logged in successfully!')
           const authData: IAuthUser = result?.data?.data
           manageUserData(authData)
+          if (query?.redirected) {
+            push(query?.prevPath)
+          } else {
+            push('/')
+          }
         }
       }
     } catch (err) {

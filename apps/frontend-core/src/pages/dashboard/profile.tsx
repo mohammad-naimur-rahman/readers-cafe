@@ -13,12 +13,13 @@ import {
   useUpdateProfileMutation,
 } from '@/redux/features/user/userApi'
 import { IError } from '@/types/IError'
+import { withAuth } from '@/utils/auth/withAuth'
 import { getIdAndToken } from '@/utils/getIdAndToken'
 import { ReactElement, useEffect } from 'react'
 import { toast } from 'react-hot-toast'
 import { IUser } from 'validation/types'
 
-export default function ProfilePage() {
+function ProfilePage() {
   // Geting user profile information
   const { id, token } = getIdAndToken()
   const { isLoading, isError, error, data } = useGetProfileQuery({
@@ -98,3 +99,11 @@ ProfilePage.getLayout = function getLayout(page: ReactElement) {
     <DashboardLayout title="Profile | Reader's café">{page}</DashboardLayout>
   )
 }
+
+export default ProfilePage
+
+export const getServerSideProps = withAuth(async () => {
+  return {
+    props: {},
+  }
+})

@@ -2,10 +2,12 @@ import animationData from '@/assets/lottie/bookReading3.json'
 import EmptyLayout from '@/components/layouts/Emptylayout'
 import LoginForm from '@/components/pages/login/LoginForm'
 import { lottieDefaultOptions } from '@/constants/lottieDeafultOptions'
+import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 import Lottie from 'react-lottie'
 
 export default function LoginPage() {
+  const { query } = useRouter()
   return (
     <section className="container flex flex-col md:flex-row min-h-screen items-center gap-5">
       <div className="w-full md:w-1/2">
@@ -18,7 +20,7 @@ export default function LoginPage() {
         </div>
       </div>
       <div className="w-full md:w-1/2">
-        <LoginForm />
+        <LoginForm query={query} />
       </div>
     </section>
   )

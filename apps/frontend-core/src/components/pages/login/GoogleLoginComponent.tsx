@@ -8,6 +8,7 @@ import {
   UserCredential,
   signInWithPopup,
 } from 'firebase/auth'
+import { useRouter } from 'next/router'
 import { Dispatch, SetStateAction } from 'react'
 import { toast } from 'react-hot-toast'
 import { IAuthUser } from 'validation/types'
@@ -17,12 +18,18 @@ import SpinnerIcon from '../../ui/icons/SpinnerIcon'
 interface Props {
   isLoading: boolean
   setIsLoading: Dispatch<SetStateAction<boolean>>
+  query: {
+    redirected?: boolean
+    prevPath?: string
+  }
 }
 
 export default function GoogleLoginComponent({
   isLoading,
   setIsLoading,
+  query,
 }: Props) {
+  const { push } = useRouter()
   const handleGoogleLogin = async () => {
     const provider = new GoogleAuthProvider()
     try {
@@ -46,6 +53,11 @@ export default function GoogleLoginComponent({
           toast.success('Logged in successfully!')
           const authData: IAuthUser = result?.data?.data
           manageUserData(authData)
+          if (query?.redirected) {
+            push(query?.prevPath)
+          } else {
+            push('/')
+          }
         }
       }
     } catch (err) {

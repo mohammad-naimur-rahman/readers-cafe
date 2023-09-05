@@ -8,7 +8,14 @@ import EmailLoginComponent from './EmailLoginComponent'
 import FacookLoginComponent from './FacookLoginComponent'
 import GoogleLoginComponent from './GoogleLoginComponent'
 
-export default function LoginForm() {
+interface Props {
+  query: {
+    redirected?: boolean
+    prevPath?: string
+  }
+}
+
+export default function LoginForm({ query }: Props) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   return (
@@ -21,7 +28,11 @@ export default function LoginForm() {
         Enter your information below to login to your account
       </p>
 
-      <EmailLoginComponent isLoading={isLoading} setIsLoading={setIsLoading} />
+      <EmailLoginComponent
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
+        query={query}
+      />
 
       <section className="flex flex-col mx-auto gap-3 w-full sm:w-[300px] lg:w-[350px] max-w-[350px]">
         <div className="relative py-3 mt-3">
@@ -37,10 +48,12 @@ export default function LoginForm() {
         <GoogleLoginComponent
           isLoading={isLoading}
           setIsLoading={setIsLoading}
+          query={query}
         />
         <FacookLoginComponent
           isLoading={isLoading}
           setIsLoading={setIsLoading}
+          query={query}
         />
       </section>
       <p className="flex items-center justify-center py-3">
