@@ -112,8 +112,8 @@ export default function SocialMediaAccounts({
     return <Skeleton className="w-72 h-5 my-3" />
   }
   return (
-    <div className="flex items-center">
-      <ul className="flex items-center mb-3">
+    <div className="flex items-center py-5">
+      <ul className="flex items-center">
         {socialMediaArray?.map(({ platform, link }) => (
           <li>
             {link ? <SocialMediaLink platform={platform} link={link} /> : null}

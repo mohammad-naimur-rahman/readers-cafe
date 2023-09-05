@@ -3,6 +3,7 @@ import {
   FolderKanban,
   Image,
   LayoutList,
+  List,
   MessageCircle,
   PlusCircle,
   ScrollText,
@@ -70,6 +71,12 @@ export const dashboardNavLinks = [
         icon: <Image />,
       },
     ],
+  },
+  {
+    hasChildren: false,
+    label: 'Reading List',
+    icon: <List />,
+    href: '/dashboard/reviews',
   },
   {
     hasChildren: false,

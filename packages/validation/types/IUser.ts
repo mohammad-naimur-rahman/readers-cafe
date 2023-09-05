@@ -22,7 +22,6 @@ export interface IUser {
   blogs: Types.ObjectId[]
   discussions: Types.ObjectId[]
   shortContents: Types.ObjectId[]
-  activities: Types.ObjectId[]
   donations: Types.ObjectId[]
   readingList: Types.ObjectId[]
   socialMediaAccounts?: ISocialMediaAccounts

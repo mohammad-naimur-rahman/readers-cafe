@@ -11,7 +11,6 @@ const createUserValidationSchema = z.object({
   blogs: z.array(z.string()),
   discussions: z.array(z.string()),
   shortContents: z.array(z.string()),
-  activities: z.array(z.string()),
   donations: z.array(z.string()),
   readingList: z.array(z.string()),
   socialMediaAccounts: z
@@ -36,7 +35,6 @@ const updateUserValidationSchema = z.object({
   blogs: z.array(z.string()).optional(),
   discussions: z.array(z.string()).optional(),
   shortContents: z.array(z.string()).optional(),
-  activities: z.array(z.string()).optional(),
   donations: z.array(z.string()).optional(),
   readingList: z.array(z.string()).optional(),
   socialMediaAccounts: z

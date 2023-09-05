@@ -2,6 +2,7 @@ import animationData from '@/assets/lottie/updating3.json'
 import DashboardLayout from '@/components/layouts/DashboardLayout'
 import Bio from '@/components/pages/dashboard/profile/Bio'
 import FullName from '@/components/pages/dashboard/profile/FullName'
+import OthersProfileData from '@/components/pages/dashboard/profile/OthersProfileData'
 import ProfileImage from '@/components/pages/dashboard/profile/ProfileImage'
 import SocialMediaAccounts from '@/components/pages/dashboard/profile/SocialMediaAccounts'
 import UserEmail from '@/components/pages/dashboard/profile/UserEmail'
@@ -85,6 +86,7 @@ export default function ProfilePage() {
           isUpdating={isUpdating}
           updateProfile={updateProfile}
         />
+        <OthersProfileData isLoading={isLoading} userData={userData} />
       </div>
       <Overlay animationData={animationData} isOpen={isUpdating} />
     </section>

@@ -40,18 +40,6 @@ const updateUser = async (
   if (payload.role === 'admin') {
     throw new ApiError(httpStatus.FORBIDDEN, `You can't set role to Admin`)
   }
-
-  // const data = {
-  //   fullName: payload.fullName,
-  //   profilePicture: payload.profilePicture,
-  //   bio: payload.bio,
-  // }
-
-  // const updatedUser = await User.findOneAndUpdate({ _id: id }, data, {
-  //   new: true,
-  //   runValidators: true,
-  // })
-
   const updatedFields: Record<string, any> = {}
 
   // Add fields to update to the updatedFields object
@@ -62,7 +50,6 @@ const updateUser = async (
   if (payload.socialMediaAccounts) {
     const { facebook, instagram, twitter, youtube, tiktok } =
       payload.socialMediaAccounts
-    console.log(payload.socialMediaAccounts)
     updatedFields['socialMediaAccounts.facebook'] = facebook || ''
     updatedFields['socialMediaAccounts.instagram'] = instagram || ''
     updatedFields['socialMediaAccounts.twitter'] = twitter || ''
