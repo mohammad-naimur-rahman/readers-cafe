@@ -1,5 +1,5 @@
-import { activityEnumArray } from './acitivityEnumArray'
+import { commentForEnumArray } from 'validation/constants/commentForEnumArray'
 import { genreEmunArray } from './genreEnumArray'
 import { readingStatusEnumArray } from './readingStatusEnumArray'
 
-export { activityEnumArray, genreEmunArray, readingStatusEnumArray }
+export { commentForEnumArray, genreEmunArray, readingStatusEnumArray }

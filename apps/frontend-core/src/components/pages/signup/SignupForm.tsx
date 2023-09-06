@@ -8,7 +8,14 @@ import EmailSignupComponent from './EmailSignupComponent'
 import FacookSignupComponent from './FacebookSignupComponent'
 import GoogleSignupComponent from './GoogleSignupComponent'
 
-export default function SignupForm() {
+interface Props {
+  query: {
+    redirected?: boolean
+    prevPath?: string
+  }
+}
+
+export default function SignupForm({ query }: Props) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   return (
@@ -20,7 +27,11 @@ export default function SignupForm() {
       <p className="text-muted-foreground text-center py-5">
         Enter your information below to create your account
       </p>
-      <EmailSignupComponent isLoading={isLoading} setIsLoading={setIsLoading} />
+      <EmailSignupComponent
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
+        query={query}
+      />
 
       <section className="flex flex-col mx-auto gap-3 w-full sm:w-[300px] lg:w-[350px] max-w-[350px]">
         <div className="relative py-3 mt-3">
@@ -36,10 +47,12 @@ export default function SignupForm() {
         <GoogleSignupComponent
           isLoading={isLoading}
           setIsLoading={setIsLoading}
+          query={query}
         />
         <FacookSignupComponent
           isLoading={isLoading}
           setIsLoading={setIsLoading}
+          query={query}
         />
       </section>
       <p className="flex items-center justify-center py-3">

@@ -11,7 +11,7 @@ const checkUserAuthentication = ctx => {
   return { auth: !!jwt }
 }
 
-const withAuth = WrappedComponent => {
+const withAuthWithourRedux = WrappedComponent => {
   const HocComponent = ({ ...props }) => {
     return <WrappedComponent {...props} />
   }
@@ -44,4 +44,4 @@ const withAuth = WrappedComponent => {
   return HocComponent
 }
 
-export default withAuth
+export default withAuthWithourRedux

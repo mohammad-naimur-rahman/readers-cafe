@@ -1,7 +1,8 @@
-import '@/styles/globals.css'
+import '@/styles/globals.scss'
 import { NextPage } from 'next'
 import { AppProps } from 'next/app'
 import { ReactElement, ReactNode } from 'react'
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode

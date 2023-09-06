@@ -58,9 +58,17 @@ export default function LoginForm({ query }: Props) {
       </section>
       <p className="flex items-center justify-center py-3">
         Don&apos;t have an account?
-        <Link href="/signup">
-          <Button variant="link">Signup</Button>
-        </Link>
+        {query?.redirected ? (
+          <Link
+            href={`/signup?redirected=${query.redirected}&prevPath=${query.prevPath}`}
+          >
+            <Button variant="link">Signup</Button>
+          </Link>
+        ) : (
+          <Link href="/signup">
+            <Button variant="link">Signup</Button>
+          </Link>
+        )}
       </p>
       <div className="flex pb-3 justify-center">
         <Link href="/">
