@@ -9,7 +9,7 @@
   }
 
   .rdw-option-wrapper {
-    background-color: var(--background) !important;
+    background-color: var(--secondary) !important;
     width: 32px;
     height: 32px;
     margin: 1px;
@@ -68,13 +68,13 @@
 
   .rdw-option-active {
     box-shadow: none !important;
-    background-color: hsl(var(--muted)) !important;
+    background-color: hsl(var(--secondary)) !important;
   }
 }
 
 .blog-editor {
   box-sizing: border-box;
-  height: calc(100vh - 120px) !important;
+  height: calc(100vh - 210px) !important;
   @apply rounded-lg;
 }
 
