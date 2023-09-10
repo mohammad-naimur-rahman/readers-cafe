@@ -14,6 +14,8 @@ const api = createApi({
     'discussion',
     'shortContents',
     'shortContent',
+    'summaries',
+    'summary',
   ],
   endpoints: () => ({}),
 })

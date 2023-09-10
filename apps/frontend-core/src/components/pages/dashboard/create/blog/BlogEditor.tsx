@@ -3,11 +3,11 @@ import { EditorState, convertToRaw } from 'draft-js'
 import { draftToMarkdown } from 'markdown-draft-js'
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { Editor } from 'react-draft-wysiwyg'
-import { IBlog } from 'validation/types'
+import { IBlog, ISummary } from 'validation/types'
 
 interface Props {
-  blogContents: IBlog
-  setblogContents: Dispatch<SetStateAction<IBlog>>
+  blogContents: IBlog | ISummary
+  setblogContents: Dispatch<SetStateAction<IBlog | ISummary>>
 }
 
 export default function BlogEditor({ blogContents, setblogContents }: Props) {
@@ -46,24 +46,10 @@ export default function BlogEditor({ blogContents, setblogContents }: Props) {
           ],
           inline: {
             inDropdown: false,
-            className: undefined,
-            component: undefined,
-            dropdownClassName: undefined,
-            options: [
-              'bold',
-              'italic',
-              'underline',
-              'strikethrough',
-              'monospace',
-              'superscript',
-              'subscript',
-            ],
+            options: ['bold', 'italic', 'underline', 'strikethrough'],
           },
           list: {
             inDropdown: false,
-            className: undefined,
-            component: undefined,
-            dropdownClassName: undefined,
             options: ['unordered', 'ordered'],
           },
         }}

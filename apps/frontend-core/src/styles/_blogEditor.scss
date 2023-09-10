@@ -5,13 +5,13 @@
   @apply rounded-lg;
 
   & > * {
-    margin: 0 5px !important;
+    margin: 0 8px !important;
   }
 
   .rdw-option-wrapper {
     background-color: var(--secondary) !important;
-    width: 32px;
-    height: 32px;
+    width: 35px;
+    height: 35px;
     margin: 1px;
     border: none !important;
     @apply rounded-md;
