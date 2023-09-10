@@ -1,3 +1,4 @@
+import imageUploadingAnimation from '@/assets/lottie/imageUploading.json'
 import animationData from '@/assets/lottie/savingFile.json'
 import DashboardLayout from '@/components/layouts/DashboardLayout'
 import ButtonExtended from '@/components/ui/ButtonExtended'
@@ -31,6 +32,8 @@ export default function CreateBlogPage() {
   const [createBlog, { isLoading, isError, error, isSuccess }] =
     useCreateBlogMutation()
 
+  const [isImageUploading, setisImageUploading] = useState(false)
+
   const [blogContents, setblogContents] = useState<IBlog>({
     title: '',
     coverImage: {
@@ -47,9 +50,14 @@ export default function CreateBlogPage() {
   }
 
   const handleCoverImage = async e => {
+    setisImageUploading(true)
     const result = await imageUploader(e)
     if (result) {
+      setisImageUploading(false)
       setblogContents({ ...blogContents, coverImage: result })
+    } else {
+      setisImageUploading(false)
+      toast.error('Image upload failed!')
     }
   }
 
@@ -126,6 +134,10 @@ export default function CreateBlogPage() {
         </ButtonExtended>
       </div>
       <Overlay animationData={animationData} isOpen={isLoading} />
+      <Overlay
+        animationData={imageUploadingAnimation}
+        isOpen={isImageUploading}
+      />
     </form>
   )
 }

@@ -6,7 +6,15 @@ const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: API_URL,
   }),
-  tagTypes: ['user', 'blogs', 'blog', 'discussions', 'discussion'],
+  tagTypes: [
+    'user',
+    'blogs',
+    'blog',
+    'discussions',
+    'discussion',
+    'shortContents',
+    'shortContent',
+  ],
   endpoints: () => ({}),
 })
 

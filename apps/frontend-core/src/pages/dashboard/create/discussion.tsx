@@ -49,7 +49,7 @@ export default function CreateiscussionPage() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col gap-2.5 justify-center mx-auto max-w-[900px]"
+        className="flex flex-col gap-2.5 justify-center mx-auto max-w-4xl"
       >
         <h2 className="text-3xl pt-3">Create Discussion</h2>
         <FormField
