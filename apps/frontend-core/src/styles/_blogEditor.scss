@@ -1,7 +1,8 @@
 .blog-toolbar {
   background: hsl(var(--background)) !important;
-  padding: 0 !important;
+  padding: 5px 0 !important;
   border: none !important;
+  @apply rounded-lg;
 
   & > * {
     margin: 0 5px !important;
@@ -21,6 +22,21 @@
 
     img {
       @apply dark:invert;
+    }
+  }
+
+  .rdw-link-modal,
+  .rdw-embedded-modal,
+  .rdw-image-modal {
+    background: hsl(var(--background)) !important;
+    box-shadow: none !important;
+    border-color: hsl(var(--border)) !important;
+    right: 0 !important;
+    left: unset !important;
+
+    button {
+      background: hsl(var(--background)) !important;
+      margin-right: 3px;
     }
   }
 
@@ -59,6 +75,7 @@
 .blog-editor {
   box-sizing: border-box;
   height: calc(100vh - 120px) !important;
+  @apply rounded-lg;
 }
 
 .public-DraftEditor-content {

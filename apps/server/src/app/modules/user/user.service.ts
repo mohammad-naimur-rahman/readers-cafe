@@ -40,7 +40,7 @@ const updateUser = async (
   if (payload.role === 'admin') {
     throw new ApiError(httpStatus.FORBIDDEN, `You can't set role to Admin`)
   }
-  const updatedFields: Record<string, any> = {}
+  const updatedFields: Record<string, unknown> = {}
 
   // Add fields to update to the updatedFields object
   if (payload.fullName) updatedFields.fullName = payload.fullName

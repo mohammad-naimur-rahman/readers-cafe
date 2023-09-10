@@ -1,9 +1,16 @@
 import styles from '@/styles/blogEditor.module.scss'
 import { EditorState, convertToRaw } from 'draft-js'
-import { useEffect, useState } from 'react'
+import { draftToMarkdown } from 'markdown-draft-js'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { Editor } from 'react-draft-wysiwyg'
+import { IBlog } from 'validation/types'
 
-export default function BlogEditor() {
+interface Props {
+  blogContents: IBlog
+  setblogContents: Dispatch<SetStateAction<IBlog>>
+}
+
+export default function BlogEditor({ blogContents, setblogContents }: Props) {
   const [editorState, setEditorState] = useState(null)
 
   useEffect(() => {
@@ -12,8 +19,8 @@ export default function BlogEditor() {
 
   const onEditorStateChange = state => {
     setEditorState(state)
-    const raw = convertToRaw(editorState.getCurrentContent())
-    console.log(raw)
+    const raw = draftToMarkdown(convertToRaw(editorState.getCurrentContent()))
+    setblogContents({ ...blogContents, blogContent: raw })
   }
 
   return (
