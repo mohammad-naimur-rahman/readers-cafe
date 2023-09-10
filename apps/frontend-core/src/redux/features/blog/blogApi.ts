@@ -21,7 +21,7 @@ const blogsApi = api.injectEndpoints({
       }),
       invalidatesTags: ['blogs'],
     }),
-    updateBook: build.mutation({
+    updateBlog: build.mutation({
       query: ({ id, payload, token }) => ({
         url: `/blogs/${id}`,
         method: 'PATCH',
@@ -50,5 +50,5 @@ export const {
   useGetBlogQuery,
   useGetBlogsQuery,
   useDeleteBlogMutation,
-  useUpdateBookMutation,
+  useUpdateBlogMutation,
 } = blogsApi

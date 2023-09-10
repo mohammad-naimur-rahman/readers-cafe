@@ -9,7 +9,7 @@ import Overlay from '@/components/ui/overlay'
 import { Textarea } from '@/components/ui/textarea'
 import { withAuth } from '@/utils/auth/withAuth'
 import { imageUploader } from '@/utils/imageUploader'
-import { PlusCircle } from 'lucide-react'
+import { FilePlus2 } from 'lucide-react'
 import { useRouter } from 'next/router'
 import { ReactElement, useId, useState } from 'react'
 import toast from 'react-hot-toast'
@@ -44,8 +44,13 @@ export default function CreateBookPage() {
     }
   }
 
+  const handleCreateBook = e => {
+    e.preventDefault()
+    console.log(book)
+  }
+
   return (
-    <form className="max-w-4xl mx-auto space-y-5">
+    <form className="max-w-4xl mx-auto space-y-5" onSubmit={handleCreateBook}>
       <h2 className="text-3xl pt-3">Create Book</h2>
 
       {!query?.redirectedFrom ? (
@@ -93,7 +98,7 @@ export default function CreateBookPage() {
         )}
       </div>
       <div className="flex justify-end">
-        <ButtonExtended icon={<PlusCircle />}>Create Book</ButtonExtended>
+        <ButtonExtended icon={<FilePlus2 />}>Create Book</ButtonExtended>
       </div>
       <Overlay
         animationData={imageUploadingAnimation}

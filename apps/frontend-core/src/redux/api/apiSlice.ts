@@ -16,6 +16,8 @@ const api = createApi({
     'shortContent',
     'summaries',
     'summary',
+    'books',
+    'authors',
   ],
   endpoints: () => ({}),
 })

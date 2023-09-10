@@ -1,15 +1,13 @@
-import ButtonExtended from '@/components/ui/ButtonExtended'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { API_URL } from '@/configs'
 import axios from 'axios'
 import clsx from 'clsx'
-import { PlusCircle } from 'lucide-react'
-import Link from 'next/link'
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { useDebounce } from 'use-debounce'
 import { IAuthor, IBook } from 'validation/types'
+import AddNewAuthor from './AddNewAuthor'
 import SelectedAuthors from './SelectedAuthors'
 
 interface Props {
@@ -34,6 +32,7 @@ export default function ManageAuthors({ book, setbook }: Props) {
         setsearching(false)
         setsearchedAuthors(result?.data?.data)
       } else {
+        setsearching(false)
         setsearchedAuthors([])
       }
     })()
@@ -63,11 +62,7 @@ export default function ManageAuthors({ book, setbook }: Props) {
             <p className="text-lg italic">Searching...</p>
           </div>
         ) : (
-          <div
-            className={clsx({
-              hidden: searchedAuthors?.length === 0,
-            })}
-          >
+          <div>
             {searchedAuthors?.length > 0 ? (
               <div className="flex flex-col gap-2">
                 {searchedAuthors?.map(author => (
@@ -80,7 +75,7 @@ export default function ManageAuthors({ book, setbook }: Props) {
                       setsearchValue('')
                       setbook({
                         ...book,
-                        authors: [...book.authors, book._id as any],
+                        authors: [...book.authors, author._id as any],
                       })
                     }}
                   >
@@ -90,12 +85,16 @@ export default function ManageAuthors({ book, setbook }: Props) {
               </div>
             ) : (
               <div className="w-full p-10 flex flex-col gap-4 items-center justify-center">
-                <p className="italic">No books found!</p>
-                <Link href="/dashboard/create/book?redirectedFrom=summary">
-                  <ButtonExtended icon={<PlusCircle />} type="button">
-                    Add new author
-                  </ButtonExtended>
-                </Link>
+                <p className="italic">No author found!</p>
+
+                <AddNewAuthor
+                  selectedAuthors={selectedAuthors}
+                  setselectedAuthors={setselectedAuthors}
+                  searchValue={searchValue}
+                  setsearchValue={setsearchValue}
+                  book={book}
+                  setbook={setbook}
+                />
               </div>
             )}
           </div>

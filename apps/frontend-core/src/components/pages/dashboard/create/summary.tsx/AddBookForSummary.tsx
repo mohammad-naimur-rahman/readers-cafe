@@ -37,6 +37,7 @@ export default function AddBookForSummary({
         setsearching(false)
         setsearchedBooks(result?.data?.data)
       } else {
+        setsearching(false)
         setsearchedBooks([])
       }
     })()
