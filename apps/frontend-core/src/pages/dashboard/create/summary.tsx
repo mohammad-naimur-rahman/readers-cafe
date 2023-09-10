@@ -4,6 +4,7 @@ import AddBookForSummary from '@/components/pages/dashboard/create/summary.tsx/A
 import ButtonExtended from '@/components/ui/ButtonExtended'
 import { Label } from '@/components/ui/label'
 import Overlay from '@/components/ui/overlay'
+import { Switch } from '@/components/ui/switch'
 import { useCreateSummaryMutation } from '@/redux/features/summary/summaryApi'
 import { IError } from '@/types/IError'
 import { withAuth } from '@/utils/auth/withAuth'
@@ -35,6 +36,10 @@ export default function CreateSummaryPage() {
     reviews: [],
   })
 
+  const onChangePublishStatus = e => {
+    setsummaryContents({ ...summaryContents, published: e })
+  }
+
   const handleCreateSummary = e => {
     e.preventDefault()
     if (!summaryContents.book || !summaryContents.content) {
@@ -59,18 +64,30 @@ export default function CreateSummaryPage() {
       <h2 className="text-3xl pt-3">Create Summary</h2>
       <div className="space-y-2 flex flex-col relative">
         <Label htmlFor={`${formId}-title`}>Book *</Label>
-        <AddBookForSummary />
+        <AddBookForSummary
+          summaryContents={summaryContents}
+          setsummaryContents={setsummaryContents}
+        />
       </div>
       <div className="space-y-2 flex flex-col">
         <Label htmlFor={`${formId}-summary`}>Summary *</Label>
         <BlogEditor
           blogContents={summaryContents}
           setblogContents={setsummaryContents}
+          isSummary
         />
+      </div>
+      <div className="flex items-center justify-end space-x-2">
+        <Switch
+          id={`${formId}-published`}
+          checked={summaryContents.published}
+          onCheckedChange={onChangePublishStatus}
+        />
+        <Label htmlFor={`${formId}-published`}>Publish Summary</Label>
       </div>
       <div className="flex justify-end">
         <ButtonExtended type="submit" icon={<FilePlus2 />}>
-          Create Short Content
+          Create Summary
         </ButtonExtended>
       </div>
       <Overlay animationData={animationData} isOpen={isLoading} />

@@ -8,9 +8,14 @@ import { IBlog, ISummary } from 'validation/types'
 interface Props {
   blogContents: IBlog | ISummary
   setblogContents: Dispatch<SetStateAction<IBlog | ISummary>>
+  isSummary?: boolean
 }
 
-export default function BlogEditor({ blogContents, setblogContents }: Props) {
+export default function BlogEditor({
+  blogContents,
+  setblogContents,
+  isSummary,
+}: Props) {
   const [editorState, setEditorState] = useState(null)
 
   useEffect(() => {
@@ -20,7 +25,11 @@ export default function BlogEditor({ blogContents, setblogContents }: Props) {
   const onEditorStateChange = state => {
     setEditorState(state)
     const raw = draftToMarkdown(convertToRaw(editorState.getCurrentContent()))
-    setblogContents({ ...blogContents, blogContent: raw })
+    if (isSummary) {
+      setblogContents({ ...blogContents, content: raw })
+    } else {
+      setblogContents({ ...blogContents, blogContent: raw })
+    }
   }
 
   return (

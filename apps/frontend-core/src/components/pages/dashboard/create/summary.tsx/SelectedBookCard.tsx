@@ -1,18 +1,15 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 import bookImage from '@/assets/images/book.png'
 import Img, { LocalImg } from '@/components/ui/img'
 import { IBook, IGenre } from 'validation/types'
 
 interface Props {
   book: IBook
-  onClick?: () => void
 }
 
-export default function SearchBookCard({ book, onClick }: Props) {
+export default function SelectedBookCard({ book }: Props) {
   return (
-    <div className="flex gap-5 cursor-pointer shadow-md" onClick={onClick}>
-      <div className="w-14 h-20 flex items-center justify-center">
+    <div className="flex gap-5 cursor-pointer border rounded-md">
+      <div className="w-20 h-36 flex items-center justify-center">
         {book?.image?.url ? (
           <Img src={book?.image} alt={book?.title} />
         ) : (
@@ -25,7 +22,7 @@ export default function SearchBookCard({ book, onClick }: Props) {
           <p>Authors:</p>
           <div className="flex gap-2">
             {book?.authors?.map(author => (
-              <p key={author?._id}>{author?.fullName}</p>
+              <p>{author?.fullName}</p>
             ))}
           </div>
         </div>
