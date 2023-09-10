@@ -1,4 +1,5 @@
 import {
+  Book,
   FileText,
   FolderKanban,
   Image,
@@ -42,6 +43,11 @@ export const dashboardNavLinks = [
         label: 'Short Content',
         href: '/dashboard/create/short-content',
         icon: <Image />,
+      },
+      {
+        label: 'Book',
+        href: '/dashboard/create/book',
+        icon: <Book />,
       },
     ],
   },

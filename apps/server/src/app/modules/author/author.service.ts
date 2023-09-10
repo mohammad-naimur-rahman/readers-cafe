@@ -1,4 +1,6 @@
 import { IAuthor } from 'validation/types'
+import { authorSearchableFields } from './author.constants'
+import { IAuthorFilters } from './author.interface'
 import { Author } from './author.model'
 
 const createAuthor = async (payload: IAuthor): Promise<IAuthor> => {
@@ -6,9 +8,34 @@ const createAuthor = async (payload: IAuthor): Promise<IAuthor> => {
   return createdAuthor
 }
 
-const getAllAuthors = async (): Promise<IAuthor[]> => {
-  const authors = await Author.find()
-  return authors
+const getAllAuthors = async (filters: IAuthorFilters): Promise<IAuthor[]> => {
+  const { search, ...filtersData } = filters
+
+  const andConditions = []
+
+  if (search) {
+    andConditions.push({
+      $or: authorSearchableFields.map(field => ({
+        [field]: {
+          $regex: search,
+          $options: 'i',
+        },
+      })),
+    })
+  }
+
+  if (Object.keys(filtersData).length) {
+    andConditions.push({
+      $and: Object.entries(filtersData).map(([field, value]) => ({
+        [field]: value,
+      })),
+    })
+  }
+  const whereConditions =
+    andConditions.length > 0 ? { $and: andConditions } : {}
+
+  const allAuthors = await Author.find(whereConditions)
+  return allAuthors
 }
 
 const getAuthor = async (id: string): Promise<IAuthor | null> => {

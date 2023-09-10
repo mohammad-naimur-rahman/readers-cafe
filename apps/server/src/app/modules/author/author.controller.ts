@@ -1,7 +1,9 @@
 import httpStatus from 'http-status'
 import { IAuthor } from 'validation/types'
 import catchAsync from '../../../shared/catchAsync'
+import pick from '../../../shared/pick'
 import sendResponse from '../../../shared/sendResponse'
+import { authorFilterableFields } from './author.constants'
 import { AuthorService } from './author.service'
 
 const createAuthor = catchAsync(async (req, res) => {
@@ -14,7 +16,9 @@ const createAuthor = catchAsync(async (req, res) => {
 })
 
 const getALllAuthors = catchAsync(async (req, res) => {
-  const allAuthors = await AuthorService.getAllAuthors()
+  const filters = pick(req.query, authorFilterableFields)
+
+  const allAuthors = await AuthorService.getAllAuthors(filters)
   sendResponse<IAuthor[]>(res, {
     statusCode: httpStatus.OK,
     data: allAuthors,

@@ -100,8 +100,6 @@ const getAllBooks = async (
     .populate('authors')
     .populate('genre')
 
-  // const total = await Book.countDocuments()
-
   return {
     meta: {
       page,
