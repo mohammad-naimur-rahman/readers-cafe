@@ -72,9 +72,13 @@ module.exports = {
       },
     },
   },
+  corePlugins: {
+    aspectRatio: false,
+  },
   plugins: [
     require('tailwindcss-animate'),
     require('tailwind-merge'),
     require('tailwindcss-brand-colors'),
+    require('@tailwindcss/aspect-ratio'),
   ],
 }

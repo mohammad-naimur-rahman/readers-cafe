@@ -4,22 +4,26 @@ import { API_URL } from '@/configs'
 import axios from 'axios'
 import clsx from 'clsx'
 import { useEffect, useState } from 'react'
-
-// const { useDebounce } = dynamic(() => require('use-debounce'), {
-//   ssr: false,
-// })
 import { useDebounce } from 'use-debounce'
+import { IBook } from 'validation/types'
+import SearchBookCard from './SearchBookCard'
 
 export default function AddBookForSummary() {
   const [searchValue, setsearchValue] = useState('')
-  const [debouncedValue] = useDebounce(searchValue, 500)
+  const [debouncedValue] = useDebounce(searchValue, 1000)
+
+  const [searchedBooks, setsearchedBooks] = useState<IBook[]>([])
 
   useEffect(() => {
     ;(async () => {
-      const result = await axios.get(
-        `${API_URL}/books?search=${debouncedValue}`,
-      )
-      console.log(result?.data?.data)
+      if (debouncedValue) {
+        const result = await axios.get(
+          `${API_URL}/books?search=${debouncedValue}`,
+        )
+        setsearchedBooks(result?.data?.data)
+      } else {
+        setsearchedBooks([])
+      }
     })()
   }, [debouncedValue])
   return (
@@ -27,6 +31,7 @@ export default function AddBookForSummary() {
       <Input
         type="text"
         value={searchValue}
+        placeholder="Search by book title..."
         onChange={e => setsearchValue(e.target.value)}
       />
       <ScrollArea
@@ -37,7 +42,11 @@ export default function AddBookForSummary() {
           },
         )}
       >
-        <div className="p-4">v</div>
+        <div className="flex flex-col gap-2">
+          {searchedBooks?.map(book => (
+            <SearchBookCard book={book} />
+          ))}
+        </div>
       </ScrollArea>
     </>
   )
