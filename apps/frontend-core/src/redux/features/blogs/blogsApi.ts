@@ -40,6 +40,7 @@ const blogsApi = api.injectEndpoints({
           Authorization: `Bearer ${token}`,
         },
       }),
+      invalidatesTags: ['blogs'],
     }),
   }),
 })

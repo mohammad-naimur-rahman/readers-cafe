@@ -20,7 +20,13 @@ export default function NavLinks() {
           {link.hasChildren ? (
             <Accordion type="single" collapsible className="w-full">
               <AccordionItem value={link.label}>
-                <AccordionTrigger className="font-normal self-start items-center">
+                <AccordionTrigger
+                  className={clsx('font-normal self-start items-center', {
+                    'text-primary': link.children.find(childLink =>
+                      pathname.includes(childLink.href),
+                    ),
+                  })}
+                >
                   <div className="flex items-center gap-4">
                     <span className="w-5 h-5">{link.icon}</span>
                     <span className="font-semibold">{link.label}</span>
@@ -31,7 +37,12 @@ export default function NavLinks() {
                     {link.children.map(child => (
                       <Link href={child.href} key={child.href}>
                         <Button
-                          className="my-1 text-secondary-foreground text-[15px] opacity-75"
+                          className={clsx(
+                            'my-1 text-secondary-foreground text-[15px] opacity-75',
+                            {
+                              'text-primary': pathname === child.href,
+                            },
+                          )}
                           variant="link"
                         >
                           <div className="flex items-center gap-4">
