@@ -1,8 +1,11 @@
 import httpStatus from 'http-status'
 import { IBook } from 'validation/types'
+import paginationFields from '../../../constants/pagination'
 import { RequestWithUser } from '../../../interfaces/RequestResponseTypes'
 import catchAsync from '../../../shared/catchAsync'
+import pick from '../../../shared/pick'
 import sendResponse from '../../../shared/sendResponse'
+import { bookFilterableFields } from './book.constants'
 import { BookService } from './book.service'
 
 const createBook = catchAsync(async (req, res) => {
@@ -18,10 +21,14 @@ const createBook = catchAsync(async (req, res) => {
 })
 
 const getALllBooks = catchAsync(async (req, res) => {
-  const allBooks = await BookService.getAllBooks()
+  const filters = pick(req.query, bookFilterableFields)
+  const paginationOptions = pick(req.query, paginationFields)
+
+  const allBooks = await BookService.getAllBooks(filters, paginationOptions)
   sendResponse<IBook[]>(res, {
     statusCode: httpStatus.OK,
-    data: allBooks,
+    data: allBooks.data,
+    meta: allBooks.meta,
     message: 'All Books retrieved successfully!',
   })
 })
