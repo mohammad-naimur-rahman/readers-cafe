@@ -12,11 +12,13 @@ import { withAuth } from '@/utils/auth/withAuth'
 import { getIdAndToken } from '@/utils/getIdAndToken'
 import { imageUploader } from '@/utils/imageUploader'
 import { FilePlus2 } from 'lucide-react'
+import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useId, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { IShortContent } from 'validation/types'
 
 export default function CreateShortContent() {
+  const { push } = useRouter()
   const { token } = getIdAndToken()
   const formId = useId()
   const [createShortContent, { isLoading, isError, error, isSuccess }] =
@@ -61,8 +63,12 @@ export default function CreateShortContent() {
 
   useEffect(() => {
     if (isError) toast.error((error as IError)?.data?.message)
-    if (isSuccess) toast.success('Discussion created successfully!')
-    if (isLoading) toast.success('Discussion creating!')
+
+    if (isSuccess) {
+      push('/dashboard/contents/discussion')
+      toast.success('Short Content created successfully!')
+    }
+    if (isLoading) toast.success('Short Content creating!')
   }, [isSuccess, isError, isLoading, error])
 
   return (

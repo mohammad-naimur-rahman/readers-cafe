@@ -6,6 +6,15 @@ const discussionApi = api.injectEndpoints({
       query: query => `/discussions?${query}`,
       providesTags: ['discussions'],
     }),
+    getMyDiscussions: build.query({
+      query: ({ token }) => ({
+        url: '/discussions/my-contents',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      providesTags: ['discussions'],
+    }),
     getDiscussion: build.query({
       query: id => `/discussions/${id}`,
       providesTags: ['discussion'],
@@ -48,6 +57,7 @@ const discussionApi = api.injectEndpoints({
 export const {
   useCreateDiscussionMutation,
   useGetDiscussionQuery,
+  useGetMyDiscussionsQuery,
   useGetDiscussionsQuery,
   useUpdateDiscussionMutation,
   useDeleteDiscussionMutation,

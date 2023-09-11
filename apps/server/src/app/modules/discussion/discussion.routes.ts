@@ -16,6 +16,12 @@ router
     DiscussionController.createDiscussion,
   )
 
+router.get(
+  '/my-contents',
+  authGuard(ENUM_USER_ROLE.USER),
+  DiscussionController.getALllUserDiscussions,
+)
+
 router
   .route('/:id')
   .get(DiscussionController.getDiscussion)

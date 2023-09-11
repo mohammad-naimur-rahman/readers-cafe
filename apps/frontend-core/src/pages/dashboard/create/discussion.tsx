@@ -18,6 +18,7 @@ import { withAuth } from '@/utils/auth/withAuth'
 import { getIdAndToken } from '@/utils/getIdAndToken'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FilePlus2 } from 'lucide-react'
+import { useRouter } from 'next/router'
 import { ReactElement, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-hot-toast'
@@ -25,6 +26,7 @@ import { DiscussionValidation } from 'validation/zod/ZDiscussion'
 import { z } from 'zod'
 
 export default function CreateiscussionPage() {
+  const { push } = useRouter()
   const { token } = getIdAndToken()
 
   const [createDiscussion, { isLoading, isError, error, isSuccess }] =
@@ -42,6 +44,10 @@ export default function CreateiscussionPage() {
   useEffect(() => {
     if (isError) toast.error((error as IError)?.data?.message)
     if (isSuccess) toast.success('Discussion created successfully!')
+    if (isSuccess) {
+      push('/dashboard/contents/discussion')
+      toast.success('Discussion created successfully!')
+    }
     if (isLoading) toast.success('Discussion creating!')
   }, [isSuccess, isError, isLoading, error])
 

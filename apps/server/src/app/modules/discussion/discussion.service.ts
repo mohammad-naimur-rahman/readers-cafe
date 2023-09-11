@@ -47,6 +47,21 @@ const getAllDiscussions = async (): Promise<IDiscussion[]> => {
   return alldiscussions
 }
 
+// TODO: add pagination and filters
+const getAllUserDiscussions = async (
+  user: JwtPayload,
+): Promise<IDiscussion[]> => {
+  const AllSummaries = await Discussion.find({ user: user.userId })
+    .populate({
+      path: 'comments',
+      populate: {
+        path: 'user',
+      },
+    })
+    .select('-user')
+  return AllSummaries
+}
+
 const getDiscussion = async (id: string): Promise<IDiscussion | null> => {
   const singleDiscussion = await Discussion.findById(id)
   return singleDiscussion
@@ -121,6 +136,7 @@ const deleteDiscussion = async (
 export const DiscussionService = {
   createDiscussion,
   getAllDiscussions,
+  getAllUserDiscussions,
   updateDiscussion,
   getDiscussion,
   deleteDiscussion,

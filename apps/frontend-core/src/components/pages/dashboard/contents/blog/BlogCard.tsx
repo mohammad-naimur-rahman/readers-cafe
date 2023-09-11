@@ -24,6 +24,10 @@ export default function BlogCard({ blog }: Props) {
       <CardContent className="p-0">
         <Img src={blog?.coverImage} alt={blog.title} className="aspect-blog" />
       </CardContent>
+      <p className="px-2 pt-3">
+        <span className="font-semibold">Total comment: </span>
+        {blog.comments.length}
+      </p>
       <CardFooter className="flex justify-between flex-wrap gap-2 pb-2 pt-5 px-2">
         <ViewBlog blog={blog.blogContent} />
         <ButtonExtended icon={<Trash2 />} variant="destructive" size="sm">

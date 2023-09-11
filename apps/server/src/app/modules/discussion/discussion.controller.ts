@@ -26,6 +26,17 @@ const getALllDiscussions = catchAsync(async (_req, res) => {
   })
 })
 
+const getALllUserDiscussions = catchAsync(async (req, res) => {
+  const allDiscussions = await DiscussionService.getAllUserDiscussions(
+    (req as RequestWithUser).user,
+  )
+  sendResponse<IDiscussion[]>(res, {
+    statusCode: httpStatus.OK,
+    data: allDiscussions,
+    message: 'All Discussions retrieved successfully!',
+  })
+})
+
 const getDiscussion = catchAsync(async (req, res) => {
   const discussion = await DiscussionService.getDiscussion(req.params.id)
   sendResponse<IDiscussion>(res, {
@@ -69,6 +80,7 @@ const deleteDiscussion = catchAsync(async (req, res) => {
 export const DiscussionController = {
   createDiscussion,
   getALllDiscussions,
+  getALllUserDiscussions,
   getDiscussion,
   updateDiscussion,
   deleteDiscussion,
