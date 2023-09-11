@@ -1,5 +1,6 @@
 /* eslint-disable no-unsafe-optional-chaining */
 import bookImage from '@/assets/images/book.png'
+import ButtonExtended from '@/components/ui/ButtonExtended'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -10,11 +11,15 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import Img, { LocalImg } from '@/components/ui/img'
-import { IBook, IGenre, IReview } from 'validation/types'
+import { Trash2 } from 'lucide-react'
+import { IBook, IGenre, IReview, ISummary } from 'validation/types'
+import ViewSummary from './ViewSummary'
 
 interface ISummaryFull {
   book: IBook
   reviews: IReview[]
+  content: string
+  rest: ISummary
 }
 
 interface Props {
@@ -54,20 +59,31 @@ export default function SummaryCard({ summary }: Props) {
           )}
         </div>
 
-        {book?.description ? (
-          <p className="py-3 px-2">{book?.description}</p>
-        ) : null}
+        <div className="px-2">
+          <div className="flex items-center justify-between">
+            <p>
+              <span className="font-semibold">Total Reviews: </span>
+              {summary.reviews.length}
+            </p>
+            {summary.reviews.length > 0 ? (
+              <Button size="sm">View all reviews</Button>
+            ) : null}
+
+            {/* TODO: Add star rating on the top, position absolute */}
+            {summary.reviews.length > 0 ? (
+              <p>
+                <span className="font-semibold">Average Star Rating: </span>
+                {summary.rest.averageStarRating}
+              </p>
+            ) : null}
+          </div>
+        </div>
       </CardContent>
-      <CardFooter className="flex justify-between flex-wrap gap-2 py-5 px-2">
-        <Button variant="default" size="sm">
-          View Summary
-        </Button>
-        <Button variant="outline" size="sm">
-          Update
-        </Button>
-        <Button variant="destructive" size="sm">
-          Delete
-        </Button>
+      <CardFooter className="flex justify-between flex-wrap gap-2 pb-2 pt-5 px-2">
+        <ViewSummary summary={summary.content} />
+        <ButtonExtended icon={<Trash2 />} variant="destructive" size="sm">
+          Delete Summary
+        </ButtonExtended>
       </CardFooter>
     </Card>
   )

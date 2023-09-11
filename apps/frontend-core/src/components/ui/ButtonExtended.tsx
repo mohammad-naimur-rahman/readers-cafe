@@ -8,12 +8,22 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode
   icon?: ReactNode
   isLoading?: boolean
+  variant?:
+    | 'default'
+    | 'outline'
+    | 'destructive'
+    | 'secondary'
+    | 'ghost'
+    | 'link'
+  size?: 'default' | 'sm' | 'lg' | 'icon'
 }
 
 export default function ButtonExtended({
   children,
   icon,
   isLoading = false,
+  variant = 'default',
+  size = 'default',
   ...rest
 }: Props) {
   return (
@@ -21,6 +31,8 @@ export default function ButtonExtended({
       {...rest}
       disabled={isLoading}
       className={twMerge(clsx('min-w-[150px]'))}
+      variant={variant}
+      size={size}
     >
       <div className="flex items-center gap-2">
         {isLoading ? (

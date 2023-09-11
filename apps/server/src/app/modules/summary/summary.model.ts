@@ -27,6 +27,11 @@ const summarySchema = new Schema<ISummary, SummaryModel>(
         ref: 'Review',
       },
     ],
+    averageStarRating: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
   },
   {
     timestamps: true,

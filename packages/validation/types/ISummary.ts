@@ -8,4 +8,5 @@ export interface ISummary {
   user?: Types.ObjectId | IUser
   published: boolean
   reviews: Types.ObjectId[]
+  averageStarRating?: number
 }

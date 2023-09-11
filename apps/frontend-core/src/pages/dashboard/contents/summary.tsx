@@ -26,7 +26,7 @@ export default function AllSummariesPage() {
       {isLoading ? (
         <div className="grid grid-cols-4 gap-5 pt-5">
           {[0, 1, 2, 3, 4, 5, 6, 7].map(el => (
-            <Skeleton className="h-[600px]" key={el} />
+            <Skeleton className="h-[580px]" key={el} />
           ))}
         </div>
       ) : (

@@ -8,6 +8,7 @@ const CreateSummaryZodSchema = z.object({
   user: z.string().optional(),
   published: z.boolean().default(true),
   reviews: z.array(z.string()).optional(),
+  averageStarRating: z.number().default(0).optional(),
 })
 
 const UpdateSummaryZodSchema = z.object({
@@ -19,6 +20,7 @@ const UpdateSummaryZodSchema = z.object({
   user: z.string().optional(),
   published: z.boolean().default(true).optional(),
   reviews: z.array(z.string()).optional(),
+  averageStarRating: z.number().default(0).optional(),
 })
 
 export const SummaryValidation = {
