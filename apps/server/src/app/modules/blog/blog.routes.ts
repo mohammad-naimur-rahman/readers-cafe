@@ -16,6 +16,12 @@ router
     BlogController.createBlog,
   )
 
+router.get(
+  '/my-contents',
+  authGuard(ENUM_USER_ROLE.USER),
+  BlogController.getALllUserBlogs,
+)
+
 router
   .route('/:id')
   .get(BlogController.getBlog)

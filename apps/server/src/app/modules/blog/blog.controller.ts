@@ -26,6 +26,17 @@ const getALllBlogs = catchAsync(async (_req, res) => {
   })
 })
 
+const getALllUserBlogs = catchAsync(async (req, res) => {
+  const allBlogs = await BlogService.getAllUserBlogs(
+    (req as RequestWithUser).user,
+  )
+  sendResponse<IBlog[]>(res, {
+    statusCode: httpStatus.OK,
+    data: allBlogs,
+    message: 'All Blogs retrieved successfully!',
+  })
+})
+
 const getBlog = catchAsync(async (req, res) => {
   const blog = await BlogService.getBlog(req.params.id)
   sendResponse<IBlog>(res, {
@@ -69,6 +80,7 @@ const deleteBlog = catchAsync(async (req, res) => {
 export const BlogController = {
   createBlog,
   getALllBlogs,
+  getALllUserBlogs,
   getBlog,
   updateBlog,
   deleteBlog,

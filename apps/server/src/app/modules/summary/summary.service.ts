@@ -50,6 +50,7 @@ const getAllSummaries = async (): Promise<ISummary[]> => {
   return AllSummaries
 }
 
+// TODO: add pagination and filters
 const getAllUserSummeries = async (user: JwtPayload): Promise<ISummary[]> => {
   const AllSummaries = await Summary.find({ user: user.userId })
     .populate({

@@ -6,6 +6,16 @@ const blogsApi = api.injectEndpoints({
       query: query => `/blogs?${query}`,
       providesTags: ['blogs'],
     }),
+    getMyBlogs: build.query({
+      query: ({ token }) => ({
+        url: '/blogs/my-contents',
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      providesTags: ['blogs'],
+    }),
     getBlog: build.query({
       query: id => `/blogs/${id}`,
       providesTags: ['blog'],
@@ -48,6 +58,7 @@ const blogsApi = api.injectEndpoints({
 export const {
   useCreateBlogMutation,
   useGetBlogQuery,
+  useGetMyBlogsQuery,
   useGetBlogsQuery,
   useDeleteBlogMutation,
   useUpdateBlogMutation,

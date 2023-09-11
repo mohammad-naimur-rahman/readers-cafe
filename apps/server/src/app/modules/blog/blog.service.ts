@@ -44,6 +44,19 @@ const getAllBlogs = async (): Promise<IBlog[]> => {
   return allBlogs
 }
 
+// TODO: add pagination and filters
+const getAllUserBlogs = async (user: JwtPayload): Promise<IBlog[]> => {
+  const AllSummaries = await Blog.find({ user: user.userId })
+    .populate({
+      path: 'comments',
+      populate: {
+        path: 'user',
+      },
+    })
+    .select('-user')
+  return AllSummaries
+}
+
 const getBlog = async (id: string): Promise<IBlog | null> => {
   const singleBlog = await Blog.findById(id)
   if (singleBlog?.published) {
@@ -114,6 +127,7 @@ const deleteBlog = async (id: string, user: JwtPayload): Promise<null> => {
 export const BlogService = {
   createBlog,
   getAllBlogs,
+  getAllUserBlogs,
   updateBlog,
   getBlog,
   deleteBlog,

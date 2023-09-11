@@ -14,6 +14,7 @@ import { getIdAndToken } from '@/utils/getIdAndToken'
 import { imageUploader } from '@/utils/imageUploader'
 import { FilePlus2 } from 'lucide-react'
 import dynamic from 'next/dynamic'
+import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useId, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { IBlog } from 'validation/types'
@@ -26,6 +27,7 @@ const BlogEditor = dynamic(
 )
 
 export default function CreateBlogPage() {
+  const { push } = useRouter()
   const { token } = getIdAndToken()
   const formId = useId()
 
@@ -81,7 +83,10 @@ export default function CreateBlogPage() {
 
   useEffect(() => {
     if (isError) toast.error((error as IError)?.data?.message)
-    if (isSuccess) toast.success('Blog created successfully!')
+    if (isSuccess) {
+      push('/dashboard/contents/blog')
+      toast.success('Blog created successfully!')
+    }
     if (isLoading) toast.success('Blog creating!')
   }, [isSuccess, isError, isLoading, error])
 
