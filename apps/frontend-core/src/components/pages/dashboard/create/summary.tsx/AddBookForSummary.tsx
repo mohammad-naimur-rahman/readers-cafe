@@ -15,17 +15,25 @@ import SelectedBookCard from './SelectedBookCard'
 interface Props {
   summaryContents: ISummary
   setsummaryContents: Dispatch<SetStateAction<ISummary>>
+  book: IBook
 }
 
 export default function AddBookForSummary({
   summaryContents,
   setsummaryContents,
+  book: gottenBook,
 }: Props) {
   const [searchValue, setsearchValue] = useState('')
   const [debouncedValue] = useDebounce(searchValue, 500)
   const [searchedBooks, setsearchedBooks] = useState<IBook[]>([])
   const [searching, setsearching] = useState(false)
   const [selectedBook, setselectedBook] = useState<IBook>(null)
+
+  useEffect(() => {
+    if (gottenBook) {
+      setselectedBook(gottenBook)
+    }
+  }, [gottenBook])
 
   useEffect(() => {
     ;(async () => {

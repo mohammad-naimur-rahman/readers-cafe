@@ -22,7 +22,7 @@ export default function SelectedBookCard({ book }: Props) {
           <p>Authors:</p>
           <div className="flex gap-2">
             {book?.authors?.map(author => (
-              <p>{author?.fullName}</p>
+              <p key={author?._id}>{author?.fullName}</p>
             ))}
           </div>
         </div>

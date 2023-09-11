@@ -9,13 +9,9 @@ const CreateBookZodSchema = z.object({
   authors: z
     .array(z.string())
     .nonempty({ message: 'At least one author is required!' }),
-  pageCount: z.number().positive().optional(),
+  pageCount: z.number().optional(),
   publicationYear: z.string().optional(),
-  image: z
-    .object({
-      ZImage,
-    })
-    .optional(),
+  image: ZImage.optional(),
   genre: z.string(),
   summaries: z.array(z.string()).optional(),
 })
@@ -27,13 +23,9 @@ const UpdateBookZodSchema = z.object({
     .optional(),
   description: z.string().optional(),
   authors: z.array(z.string()).optional(),
-  pageCount: z.number().positive().optional(),
+  pageCount: z.number().optional(),
   publicationYear: z.date().optional(),
-  image: z
-    .object({
-      ZImage,
-    })
-    .optional(),
+  image: ZImage.optional(),
   genre: z.string().optional(),
   summaries: z.array(z.string()).optional(),
 })

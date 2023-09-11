@@ -9,6 +9,7 @@ const genreSchema = new Schema<IGenre, GenreModel>(
       type: String,
       enum: genreEmunArray,
       required: true,
+      unique: true,
     },
     books: [
       {

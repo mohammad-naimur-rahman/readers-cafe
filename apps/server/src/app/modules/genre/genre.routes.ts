@@ -12,7 +12,7 @@ router
   .get(GenreController.getALllGenres)
   .post(
     validateRequest(GenreValidation.CreateGenreZodSchema),
-    authGuard(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.ADMIN),
+    authGuard(ENUM_USER_ROLE.ADMIN),
     GenreController.createGenre,
   )
 

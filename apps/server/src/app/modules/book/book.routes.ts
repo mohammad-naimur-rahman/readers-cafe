@@ -12,7 +12,7 @@ router
   .get(BookController.getALllBooks)
   .post(
     validateRequest(BookValidation.CreateBookZodSchema),
-    authGuard(ENUM_USER_ROLE.USER),
+    authGuard(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.ADMIN),
     BookController.createBook,
   )
 

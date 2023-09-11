@@ -5,12 +5,14 @@ import ButtonExtended from '@/components/ui/ButtonExtended'
 import { Label } from '@/components/ui/label'
 import Overlay from '@/components/ui/overlay'
 import { Switch } from '@/components/ui/switch'
+import { useGetBookQuery } from '@/redux/features/book/bookApi'
 import { useCreateSummaryMutation } from '@/redux/features/summary/summaryApi'
 import { IError } from '@/types/IError'
 import { withAuth } from '@/utils/auth/withAuth'
 import { getIdAndToken } from '@/utils/getIdAndToken'
 import { FilePlus2 } from 'lucide-react'
 import dynamic from 'next/dynamic'
+import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useId, useState } from 'react'
 import toast from 'react-hot-toast'
 import { ISummary } from 'validation/types'
@@ -23,6 +25,7 @@ const BlogEditor = dynamic(
 )
 
 export default function CreateSummaryPage() {
+  const { query } = useRouter()
   const { token } = getIdAndToken()
   const formId = useId()
 
@@ -35,6 +38,14 @@ export default function CreateSummaryPage() {
     published: true,
     reviews: [],
   })
+
+  const { data, isSuccess: isSuccessBookData } = useGetBookQuery(query?.bookId)
+
+  useEffect(() => {
+    if (isSuccessBookData) {
+      setsummaryContents({ ...summaryContents, book: data?.data?._id })
+    }
+  }, [isSuccessBookData, data?.data, summaryContents])
 
   const onChangePublishStatus = e => {
     setsummaryContents({ ...summaryContents, published: e })
@@ -67,6 +78,7 @@ export default function CreateSummaryPage() {
         <AddBookForSummary
           summaryContents={summaryContents}
           setsummaryContents={setsummaryContents}
+          book={data?.data}
         />
       </div>
       <div className="space-y-2 flex flex-col">

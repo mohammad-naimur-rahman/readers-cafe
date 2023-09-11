@@ -32,9 +32,11 @@ export default function SearchBookCard({ book, onClick }: Props) {
         <p className="text-sm text-secondary-foreground">
           Genre: {(book?.genre as unknown as IGenre).genre}
         </p>
-        <p className="text-sm text-secondary-foreground">
-          Publication Year: {book?.publicationYear}
-        </p>
+        {book?.publicationYear ? (
+          <p className="text-sm text-secondary-foreground">
+            Publication Year: {book?.publicationYear}
+          </p>
+        ) : null}
       </div>
     </div>
   )
