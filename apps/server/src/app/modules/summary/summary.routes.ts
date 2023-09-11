@@ -16,6 +16,12 @@ router
     SummaryController.createSummary,
   )
 
+router.get(
+  '/my-contents',
+  authGuard(ENUM_USER_ROLE.USER),
+  SummaryController.getALllUserSummaries,
+)
+
 router
   .route('/:id')
   .get(SummaryController.getSummary)

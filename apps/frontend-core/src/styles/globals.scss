@@ -61,4 +61,9 @@
   .min-h-screen-nav {
     @apply min-h-[calc(100dvh_-_80px)];
   }
+
+  .aspect-book {
+    aspect-ratio: 9 / 16;
+    object-fit: cover;
+  }
 }

@@ -25,7 +25,7 @@ const BlogEditor = dynamic(
 )
 
 export default function CreateSummaryPage() {
-  const { query } = useRouter()
+  const { query, push } = useRouter()
   const { token } = getIdAndToken()
   const formId = useId()
 
@@ -63,7 +63,10 @@ export default function CreateSummaryPage() {
 
   useEffect(() => {
     if (isError) toast.error((error as IError)?.data?.message)
-    if (isSuccess) toast.success('Summary created successfully!')
+    if (isSuccess) {
+      toast.success('Summary created successfully!')
+      push('/dashboard/contents/summary')
+    }
     if (isLoading) toast.success('Summary creating!')
   }, [isSuccess, isError, isLoading, error])
 

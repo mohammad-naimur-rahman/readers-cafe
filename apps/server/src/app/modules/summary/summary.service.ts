@@ -50,6 +50,29 @@ const getAllSummaries = async (): Promise<ISummary[]> => {
   return AllSummaries
 }
 
+const getAllUserSummeries = async (user: JwtPayload): Promise<ISummary[]> => {
+  const AllSummaries = await Summary.find({ user: user.userId })
+    .populate({
+      path: 'book',
+      populate: [
+        {
+          path: 'authors',
+        },
+        {
+          path: 'genre',
+        },
+      ],
+    })
+    .populate({
+      path: 'reviews',
+      populate: {
+        path: 'user',
+      },
+    })
+    .select('-user')
+  return AllSummaries
+}
+
 const getSummary = async (id: string): Promise<ISummary | null> => {
   const singleSummary = await Summary.findById(id)
   return singleSummary
@@ -118,6 +141,7 @@ const deleteSummary = async (
 export const SummaryService = {
   createSummary,
   getAllSummaries,
+  getAllUserSummeries,
   updateSummary,
   getSummary,
   deleteSummary,

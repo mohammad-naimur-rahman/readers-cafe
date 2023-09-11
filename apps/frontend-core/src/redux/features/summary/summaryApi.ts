@@ -6,6 +6,16 @@ const summaryApi = api.injectEndpoints({
       query: query => `/summaries?${query}`,
       providesTags: ['summaries'],
     }),
+    getMySummaries: build.query({
+      query: ({ token }) => ({
+        url: '/summaries/my-contents',
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      providesTags: ['summaries'],
+    }),
     getSummary: build.query({
       query: id => `/summaries/${id}`,
       providesTags: ['summary'],
@@ -48,6 +58,7 @@ const summaryApi = api.injectEndpoints({
 export const {
   useGetSummariesQuery,
   useGetSummaryQuery,
+  useGetMySummariesQuery,
   useCreateSummaryMutation,
   useUpdateSummaryMutation,
   useDeleteSummaryMutation,

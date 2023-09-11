@@ -22,10 +22,10 @@ import { IAuthor, IBook } from 'validation/types'
 
 interface Props {
   selectedAuthors: IAuthor[]
-  setselectedAuthors: Dispatch<SetStateAction<IAuthor[]>>
   searchValue: string
-  setsearchValue: Dispatch<SetStateAction<string>>
   book: IBook
+  setselectedAuthors: Dispatch<SetStateAction<IAuthor[]>>
+  setsearchValue: Dispatch<SetStateAction<string>>
   setbook: Dispatch<SetStateAction<IBook>>
 }
 export default function AddNewAuthor({
