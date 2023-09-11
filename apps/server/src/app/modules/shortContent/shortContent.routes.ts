@@ -16,6 +16,12 @@ router
     ShortContentController.createShortContent,
   )
 
+router.get(
+  '/my-contents',
+  authGuard(ENUM_USER_ROLE.USER),
+  ShortContentController.getALllUserShortContents,
+)
+
 router
   .route('/:id')
   .get(ShortContentController.getShortContent)

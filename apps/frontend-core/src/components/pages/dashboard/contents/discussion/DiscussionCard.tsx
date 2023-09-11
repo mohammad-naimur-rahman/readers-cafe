@@ -10,9 +10,13 @@ interface Props {
 export default function DiscussionCard({ discussion }: Props) {
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>{discussion.topic}</CardTitle>
+      <CardHeader className="p-3">
+        <CardTitle className="text-lg">{discussion.topic}</CardTitle>
       </CardHeader>
+      <p className="px-2 pt-3">
+        <span className="font-semibold">Total comment: </span>
+        {discussion.comments.length}
+      </p>
       <CardFooter className="flex justify-between flex-wrap gap-2 pb-2 pt-5 px-2">
         <ButtonExtended icon={<FileEdit />} type="submit">
           Edit Discussion

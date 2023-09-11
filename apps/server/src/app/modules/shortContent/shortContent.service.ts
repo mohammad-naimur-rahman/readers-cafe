@@ -50,6 +50,21 @@ const getAllShortContents = async (): Promise<IShortContent[]> => {
   return AllShortContents
 }
 
+// TODO: add pagination and filters
+const getAllUserShortContents = async (
+  user: JwtPayload,
+): Promise<IShortContent[]> => {
+  const AllSummaries = await ShortContent.find({ user: user.userId })
+    .populate({
+      path: 'comments',
+      populate: {
+        path: 'user',
+      },
+    })
+    .select('-user')
+  return AllSummaries
+}
+
 const getShortContent = async (id: string): Promise<IShortContent | null> => {
   const singleShortContent = await ShortContent.findById(id)
   return singleShortContent
@@ -128,6 +143,7 @@ const deleteShortContent = async (
 export const ShortContentService = {
   createShortContent,
   getAllShortContents,
+  getAllUserShortContents,
   updateShortContent,
   getShortContent,
   deleteShortContent,

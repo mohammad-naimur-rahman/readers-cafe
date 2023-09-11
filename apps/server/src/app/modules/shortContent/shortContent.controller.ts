@@ -26,6 +26,17 @@ const getALllShortContents = catchAsync(async (req, res) => {
   })
 })
 
+const getALllUserShortContents = catchAsync(async (req, res) => {
+  const allShortContents = await ShortContentService.getAllUserShortContents(
+    (req as RequestWithUser).user,
+  )
+  sendResponse<IShortContent[]>(res, {
+    statusCode: httpStatus.OK,
+    data: allShortContents,
+    message: 'All ShortContents retrieved successfully!',
+  })
+})
+
 const getShortContent = catchAsync(async (req, res) => {
   const shortContent = await ShortContentService.getShortContent(req.params.id)
   sendResponse<IShortContent>(res, {
@@ -69,6 +80,7 @@ const deleteShortContent = catchAsync(async (req, res) => {
 export const ShortContentController = {
   createShortContent,
   getALllShortContents,
+  getALllUserShortContents,
   getShortContent,
   updateShortContent,
   deleteShortContent,

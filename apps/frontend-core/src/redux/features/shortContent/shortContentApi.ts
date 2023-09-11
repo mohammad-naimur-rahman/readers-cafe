@@ -6,6 +6,15 @@ const shortContentApi = api.injectEndpoints({
       query: query => `/short-contents?${query}`,
       providesTags: ['shortContents'],
     }),
+    getMyShortContents: build.query({
+      query: ({ token }) => ({
+        url: '/short-contents/my-contents',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      providesTags: ['shortContents'],
+    }),
     getShortContent: build.query({
       query: id => `/short-contents/${id}`,
       providesTags: ['shortContent'],
@@ -48,6 +57,7 @@ const shortContentApi = api.injectEndpoints({
 export const {
   useCreateShortContentMutation,
   useGetShortContentQuery,
+  useGetMyShortContentsQuery,
   useGetShortContentsQuery,
   useUpdateShortContentMutation,
   useDeleteShortContentMutation,
