@@ -119,18 +119,18 @@ export default function SummaryCard({ summary }: Props) {
           </CardDescription>
         </CardHeader>
         <CardContent className="p-0">
-          <div className="max-w-[200px] mx-auto">
+          <div className="h-[350px]">
             {assertedBook?.image ? (
               <Img
                 src={assertedBook?.image}
                 alt={assertedBook.title}
-                className="aspect-book"
+                className="h-full w-auto mx-auto"
               />
             ) : (
               <LocalImg
                 src={bookImage}
                 alt={assertedBook.title}
-                className="aspect-book"
+                className="h-full w-auto mx-auto"
               />
             )}
           </div>

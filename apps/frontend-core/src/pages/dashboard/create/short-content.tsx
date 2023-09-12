@@ -65,7 +65,7 @@ export default function CreateShortContent() {
     if (isError) toast.error((error as IError)?.data?.message)
 
     if (isSuccess) {
-      push('/dashboard/contents/discussion')
+      push('/dashboard/contents/short-content')
       toast.success('Short Content created successfully!')
     }
     if (isLoading) toast.success('Short Content creating!')
