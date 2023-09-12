@@ -22,7 +22,7 @@ export default function BlogPage() {
 
   return (
     <section>
-      <h2 className="text-3xl pt-3">All Summaries</h2>
+      <h2 className="text-3xl pt-3">All Blogs</h2>
       {isLoading ? (
         <div className="grid grid-cols-4 gap-5 pt-5">
           {[0, 1, 2, 3, 4, 5, 6, 7].map(el => (

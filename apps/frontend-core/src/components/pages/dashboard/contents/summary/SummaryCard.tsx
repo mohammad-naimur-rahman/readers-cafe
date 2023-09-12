@@ -35,6 +35,7 @@ interface Props {
 export default function SummaryCard({ summary }: Props) {
   const { token } = getIdAndToken()
   const { book } = summary
+  const assertedBook = book as IBook
 
   const [publishStatus, setpublishStatus] = useState(summary?.published)
   const [showPublishPrompt, setshowPublishPrompt] = useState(false)
@@ -100,35 +101,35 @@ export default function SummaryCard({ summary }: Props) {
     <>
       <Card>
         <CardHeader>
-          <CardTitle>{(book as IBook).title}</CardTitle>
+          <CardTitle>{assertedBook.title}</CardTitle>
           <CardDescription>
             <div className="flex py-1.5">
-              {(book as IBook)?.authors?.map((author, i) => (
+              {assertedBook?.authors?.map((author, i) => (
                 <p key={author._id}>
                   {author?.fullName}
-                  {(book as IBook)?.authors?.length - 1 !== i && (
+                  {assertedBook?.authors?.length - 1 !== i && (
                     <span>,&nbsp;</span>
                   )}
                 </p>
               ))}
             </div>
             <p className="font-semibold text-primary">
-              {((book as IBook)?.genre as unknown as IGenre)?.genre}
+              {(assertedBook?.genre as unknown as IGenre)?.genre}
             </p>
           </CardDescription>
         </CardHeader>
         <CardContent className="p-0">
           <div className="max-w-[200px] mx-auto">
-            {(book as IBook)?.image ? (
+            {assertedBook?.image ? (
               <Img
-                src={(book as IBook)?.image}
-                alt={(book as IBook).title}
+                src={assertedBook?.image}
+                alt={assertedBook.title}
                 className="aspect-book"
               />
             ) : (
               <LocalImg
                 src={bookImage}
-                alt={(book as IBook).title}
+                alt={assertedBook.title}
                 className="aspect-book"
               />
             )}
