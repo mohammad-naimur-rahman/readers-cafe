@@ -88,7 +88,7 @@ export default function CreateBlogPage() {
       toast.success('Blog created successfully!')
     }
     if (isLoading) toast.success('Blog creating!')
-  }, [isSuccess, isError, isLoading, error])
+  }, [isSuccess, isError, isLoading, error, push])
 
   return (
     <form className="max-w-4xl mx-auto space-y-5" onSubmit={handleCreateBlog}>

@@ -95,8 +95,9 @@ export default function DiscussionCard({ discussion }: Props) {
         <CardHeader className="p-3">
           <CardTitle className="text-lg">{discussion.topic}</CardTitle>
         </CardHeader>
-        <CardContent>
-          <p className="px-2 pt-3">
+        <CardContent className="p-3">
+          {discussion?.description ? <p>{discussion.description}</p> : null}
+          <p className="pt-3">
             <span className="font-semibold">Total comment: </span>
             {discussion.comments.length}
           </p>

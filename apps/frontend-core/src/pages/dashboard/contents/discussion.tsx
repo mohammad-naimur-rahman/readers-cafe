@@ -39,7 +39,12 @@ export default function DiscussionPage() {
           ))}
         </div>
       )}
-      <NoContent isLoading={isLoading} data={data} content="Discussion" />
+      <NoContent
+        isLoading={isLoading}
+        data={data}
+        content="Discussion"
+        createNewLink="/dashboard/create/discussion"
+      />
     </section>
   )
 }

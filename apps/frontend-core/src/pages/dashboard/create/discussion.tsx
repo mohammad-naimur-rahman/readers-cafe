@@ -49,7 +49,7 @@ export default function CreateiscussionPage() {
       toast.success('Discussion created successfully!')
     }
     if (isLoading) toast.success('Discussion creating!')
-  }, [isSuccess, isError, isLoading, error])
+  }, [isSuccess, isError, isLoading, error, push])
 
   return (
     <Form {...form}>
@@ -86,7 +86,7 @@ export default function CreateiscussionPage() {
                   placeholder="Write your topic description"
                   {...field}
                   disabled={isLoading}
-                  className="h-[300px]"
+                  className="h-[200px]"
                 />
               </FormControl>
               <FormMessage />

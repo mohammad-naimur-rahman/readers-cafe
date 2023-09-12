@@ -38,7 +38,12 @@ export default function AllSummariesPage() {
         </div>
       )}
 
-      <NoContent isLoading={isLoading} data={data} content="Summary" />
+      <NoContent
+        isLoading={isLoading}
+        data={data}
+        content="Summary"
+        createNewLink="/dashboard/create/summary"
+      />
     </section>
   )
 }

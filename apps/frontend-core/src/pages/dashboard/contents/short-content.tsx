@@ -43,7 +43,12 @@ export default function ShortContentPage() {
         </div>
       )}
 
-      <NoContent isLoading={isLoading} data={data} content="Short Content" />
+      <NoContent
+        isLoading={isLoading}
+        data={data}
+        content="Short Content"
+        createNewLink="/dashboard/create/short-content"
+      />
     </section>
   )
 }

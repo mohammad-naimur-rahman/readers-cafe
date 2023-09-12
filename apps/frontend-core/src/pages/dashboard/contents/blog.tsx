@@ -37,7 +37,12 @@ export default function BlogPage() {
           ))}
         </div>
       )}
-      <NoContent isLoading={isLoading} data={data} content="Blog" />
+      <NoContent
+        isLoading={isLoading}
+        data={data}
+        content="Blog"
+        createNewLink="/dashboard/create/blog"
+      />
     </section>
   )
 }

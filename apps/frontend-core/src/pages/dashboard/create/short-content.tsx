@@ -69,7 +69,7 @@ export default function CreateShortContent() {
       toast.success('Short Content created successfully!')
     }
     if (isLoading) toast.success('Short Content creating!')
-  }, [isSuccess, isError, isLoading, error])
+  }, [isSuccess, isError, isLoading, error, push])
 
   return (
     <form
