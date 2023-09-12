@@ -28,7 +28,7 @@ const shortContentApi = api.injectEndpoints({
           Authorization: `Bearer ${token}`,
         },
       }),
-      invalidatesTags: ['shortContents'],
+      invalidatesTags: ['shortContents', 'user'],
     }),
     updateShortContent: build.mutation({
       query: ({ id, payload, token }) => ({
@@ -39,7 +39,7 @@ const shortContentApi = api.injectEndpoints({
           Authorization: `Bearer ${token}`,
         },
       }),
-      invalidatesTags: ['shortContent'],
+      invalidatesTags: ['shortContent', 'shortContents'],
     }),
     deleteShortContent: build.mutation({
       query: ({ id, token }) => ({
@@ -49,7 +49,7 @@ const shortContentApi = api.injectEndpoints({
           Authorization: `Bearer ${token}`,
         },
       }),
-      invalidatesTags: ['shortContents'],
+      invalidatesTags: ['shortContents', 'user'],
     }),
   }),
 })

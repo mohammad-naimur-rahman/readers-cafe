@@ -1,6 +1,7 @@
 import DashboardLayout from '@/components/layouts/DashboardLayout'
 import SummaryCard from '@/components/pages/dashboard/contents/summary/SummaryCard'
 import DashbaordErrorComponent from '@/components/ui/dashboard/common/DashbaordErrorComponent'
+import NoContent from '@/components/ui/dashboard/common/NoContent'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useGetMySummariesQuery } from '@/redux/features/summary/summaryApi'
 import { IError } from '@/types/IError'
@@ -36,6 +37,8 @@ export default function AllSummariesPage() {
           ))}
         </div>
       )}
+
+      <NoContent isLoading={isLoading} data={data} content="Summary" />
     </section>
   )
 }

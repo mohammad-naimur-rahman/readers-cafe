@@ -1,6 +1,7 @@
 import DashboardLayout from '@/components/layouts/DashboardLayout'
 import DiscussionCard from '@/components/pages/dashboard/contents/discussion/DiscussionCard'
 import DashbaordErrorComponent from '@/components/ui/dashboard/common/DashbaordErrorComponent'
+import NoContent from '@/components/ui/dashboard/common/NoContent'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useGetMyDiscussionsQuery } from '@/redux/features/discussion/discussionApi'
 import { IError } from '@/types/IError'
@@ -38,6 +39,7 @@ export default function DiscussionPage() {
           ))}
         </div>
       )}
+      <NoContent isLoading={isLoading} data={data} content="Discussion" />
     </section>
   )
 }

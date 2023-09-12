@@ -29,7 +29,7 @@ const blogsApi = api.injectEndpoints({
           Authorization: `Bearer ${token}`,
         },
       }),
-      invalidatesTags: ['blogs'],
+      invalidatesTags: ['blogs', 'user'],
     }),
     updateBlog: build.mutation({
       query: ({ id, payload, token }) => ({
@@ -40,7 +40,7 @@ const blogsApi = api.injectEndpoints({
           Authorization: `Bearer ${token}`,
         },
       }),
-      invalidatesTags: ['blog'],
+      invalidatesTags: ['blog', 'blogs'],
     }),
     deleteBlog: build.mutation({
       query: ({ id, token }) => ({
@@ -50,7 +50,7 @@ const blogsApi = api.injectEndpoints({
           Authorization: `Bearer ${token}`,
         },
       }),
-      invalidatesTags: ['blogs'],
+      invalidatesTags: ['blogs', 'user'],
     }),
   }),
 })

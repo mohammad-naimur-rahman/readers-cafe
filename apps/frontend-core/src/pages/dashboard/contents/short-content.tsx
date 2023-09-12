@@ -1,6 +1,7 @@
 import DashboardLayout from '@/components/layouts/DashboardLayout'
 import ShortContentCard from '@/components/pages/dashboard/contents/shortContent/ShortContentCard'
 import DashbaordErrorComponent from '@/components/ui/dashboard/common/DashbaordErrorComponent'
+import NoContent from '@/components/ui/dashboard/common/NoContent'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useGetMyShortContentsQuery } from '@/redux/features/shortContent/shortContentApi'
 import { IError } from '@/types/IError'
@@ -41,6 +42,8 @@ export default function ShortContentPage() {
           ))}
         </div>
       )}
+
+      <NoContent isLoading={isLoading} data={data} content="Short Content" />
     </section>
   )
 }

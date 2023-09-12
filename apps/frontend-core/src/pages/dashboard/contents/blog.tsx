@@ -1,6 +1,7 @@
 import DashboardLayout from '@/components/layouts/DashboardLayout'
 import BlogCard from '@/components/pages/dashboard/contents/blog/BlogCard'
 import DashbaordErrorComponent from '@/components/ui/dashboard/common/DashbaordErrorComponent'
+import NoContent from '@/components/ui/dashboard/common/NoContent'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useGetMyBlogsQuery } from '@/redux/features/blog/blogApi'
 import { IError } from '@/types/IError'
@@ -36,6 +37,7 @@ export default function BlogPage() {
           ))}
         </div>
       )}
+      <NoContent isLoading={isLoading} data={data} content="Blog" />
     </section>
   )
 }

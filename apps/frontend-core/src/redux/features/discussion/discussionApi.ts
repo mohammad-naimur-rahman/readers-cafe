@@ -28,7 +28,7 @@ const discussionApi = api.injectEndpoints({
           Authorization: `Bearer ${token}`,
         },
       }),
-      invalidatesTags: ['discussions'],
+      invalidatesTags: ['discussions', 'user'],
     }),
     updateDiscussion: build.mutation({
       query: ({ id, payload, token }) => ({
@@ -39,7 +39,7 @@ const discussionApi = api.injectEndpoints({
           Authorization: `Bearer ${token}`,
         },
       }),
-      invalidatesTags: ['discussion'],
+      invalidatesTags: ['discussion', 'discussions'],
     }),
     deleteDiscussion: build.mutation({
       query: ({ id, token }) => ({
@@ -49,7 +49,7 @@ const discussionApi = api.injectEndpoints({
           Authorization: `Bearer ${token}`,
         },
       }),
-      invalidatesTags: ['discussions'],
+      invalidatesTags: ['discussions', 'user'],
     }),
   }),
 })
