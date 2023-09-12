@@ -29,7 +29,7 @@ const summaryApi = api.injectEndpoints({
           Authorization: `Bearer ${token}`,
         },
       }),
-      invalidatesTags: ['summaries'],
+      invalidatesTags: ['summaries', 'user'],
     }),
     updateSummary: build.mutation({
       query: ({ id, payload, token }) => ({
@@ -40,7 +40,7 @@ const summaryApi = api.injectEndpoints({
           Authorization: `Bearer ${token}`,
         },
       }),
-      invalidatesTags: ['summary'],
+      invalidatesTags: ['summary', 'summaries'],
     }),
     deleteSummary: build.mutation({
       query: ({ id, token }) => ({
@@ -50,7 +50,7 @@ const summaryApi = api.injectEndpoints({
           Authorization: `Bearer ${token}`,
         },
       }),
-      invalidatesTags: ['summaries'],
+      invalidatesTags: ['summaries', 'user'],
     }),
   }),
 })

@@ -112,7 +112,10 @@ const deleteSummary = async (
     session.startTransaction()
 
     // check if the document exists and the same user is trying to dot the operation
-    const summary = await Summary.findOne({ _id: id, user: user.userId })
+    const summary = await Summary.findOneAndDelete({
+      _id: id,
+      user: user.userId,
+    })
 
     if (!summary) {
       throw new ApiError(httpStatus.NOT_FOUND, 'Summary not found!')

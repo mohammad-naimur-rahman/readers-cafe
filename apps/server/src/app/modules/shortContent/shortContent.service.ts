@@ -107,7 +107,7 @@ const deleteShortContent = async (
   try {
     session.startTransaction()
     // check if the document exists and the same user is trying to dot the operation
-    const shortContent = await ShortContent.findOne({
+    const shortContent = await ShortContent.findOneAndDelete({
       _id: id,
       user: user.userId,
     })
