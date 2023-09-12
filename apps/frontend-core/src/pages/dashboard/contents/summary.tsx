@@ -7,12 +7,13 @@ import { useGetMySummariesQuery } from '@/redux/features/summary/summaryApi'
 import { IError } from '@/types/IError'
 import { withAuth } from '@/utils/auth/withAuth'
 import { getIdAndToken } from '@/utils/getIdAndToken'
+import { useRouter } from 'next/router'
 import { ReactElement } from 'react'
 
 export default function AllSummariesPage() {
+  const { query } = useRouter()
   const { token } = getIdAndToken()
   const { isLoading, isError, error, data } = useGetMySummariesQuery({ token })
-
   if (isError) {
     return (
       <DashbaordErrorComponent
@@ -23,6 +24,14 @@ export default function AllSummariesPage() {
 
   return (
     <section>
+      {query?.selectFirst ? (
+        <div className="flex justify-center py-3">
+          <div className="p-5 text-center text-white inline-block rounded-lg bg-destructive">
+            <p className="text-xl">Select a summary first!</p>
+            <p className="italic">Select a summary first for updating it</p>
+          </div>
+        </div>
+      ) : null}
       <h2 className="text-3xl pt-3">All Summaries</h2>
       {isLoading ? (
         <div className="grid grid-cols-4 gap-5 pt-5">

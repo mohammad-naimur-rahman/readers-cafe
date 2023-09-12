@@ -1,5 +1,6 @@
 import {
   Book,
+  FileEdit,
   FileText,
   FolderKanban,
   Image,
@@ -74,6 +75,33 @@ export const dashboardNavLinks = [
       {
         label: 'Short Content',
         href: '/dashboard/contents/short-content',
+        icon: <Image />,
+      },
+    ],
+  },
+  {
+    hasChildren: true,
+    label: 'Update Content',
+    icon: <FileEdit />,
+    children: [
+      {
+        label: 'Summary',
+        href: '/dashboard/update/summary',
+        icon: <LayoutList />,
+      },
+      {
+        label: 'Blog',
+        href: '/dashboard/update/blog',
+        icon: <FileText />,
+      },
+      {
+        label: 'Discussion',
+        href: '/dashboard/update/discussion',
+        icon: <ScrollText />,
+      },
+      {
+        label: 'Short Content',
+        href: '/dashboard/update/short-content',
         icon: <Image />,
       },
     ],

@@ -14,7 +14,7 @@ import { Separator } from '../../separator'
 export default function NavLinks() {
   const { pathname } = useRouter()
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 overflow-y-auto px-5">
       {dashboardNavLinks.map(link => (
         <div key={link.label}>
           {link.hasChildren ? (

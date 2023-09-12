@@ -61,13 +61,13 @@ export default function ShortContentCard({ shortContent }: Props) {
               <Img
                 src={shortContent?.image}
                 alt={shortContent?.caption}
-                className="h-full w-auto mx-auto"
+                className="h-full w-auto mx-auto object-contain"
               />
             ) : (
               <LocalImg
                 src={noImage}
                 alt={shortContent?.caption}
-                className="h-full w-auto mx-auto"
+                className="h-full w-auto mx-auto object-contain"
               />
             )}
           </div>

@@ -124,13 +124,13 @@ export default function SummaryCard({ summary }: Props) {
               <Img
                 src={assertedBook?.image}
                 alt={assertedBook.title}
-                className="h-full w-auto mx-auto"
+                className="h-full w-auto mx-auto object-contain"
               />
             ) : (
               <LocalImg
                 src={bookImage}
                 alt={assertedBook.title}
-                className="h-full w-auto mx-auto"
+                className="h-full w-auto mx-auto object-contain"
               />
             )}
           </div>
@@ -163,7 +163,7 @@ export default function SummaryCard({ summary }: Props) {
           </div>
         </CardContent>
         <CardFooter className="flex justify-between flex-wrap gap-2 pb-2 pt-5 px-2">
-          <ViewSummary summary={summary.content} />
+          <ViewSummary summary={summary.content} id={summary._id} />
           <ButtonExtended
             icon={<Trash2 />}
             variant="destructive"

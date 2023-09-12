@@ -1,9 +1,14 @@
 import httpStatus from 'http-status'
 import { JwtPayload } from 'jsonwebtoken'
-import { startSession } from 'mongoose'
+import { SortOrder, startSession } from 'mongoose'
 import { ISummary } from 'validation/types'
 import ApiError from '../../../errors/ApiError'
+import calculatePagination from '../../../helpers/paginationHelper'
+import { IGenericResponse } from '../../../interfaces/common'
+import { IPaginationOptions } from '../../../interfaces/pagination'
 import { User } from '../user/user.model'
+import { summarySearchableFields } from './summary.constants'
+import { ISummaryFilters } from './summary.interface'
 import { Summary } from './summary.model'
 
 const createSummary = async (
@@ -51,8 +56,51 @@ const getAllSummaries = async (): Promise<ISummary[]> => {
 }
 
 // TODO: add pagination and filters
-const getAllUserSummeries = async (user: JwtPayload): Promise<ISummary[]> => {
-  const AllSummaries = await Summary.find({ user: user.userId })
+const getAllUserSummeries = async (
+  user: JwtPayload,
+  filters: ISummaryFilters,
+  paginationOptions: IPaginationOptions,
+): Promise<IGenericResponse<ISummary[]>> => {
+  const { limit, page, skip, sortBy, sortOrder } =
+    calculatePagination(paginationOptions)
+
+  const { search, ...filtersData } = filters
+
+  const andConditions = []
+
+  if (search) {
+    andConditions.push({
+      $or: summarySearchableFields.map(field => ({
+        [field]: {
+          $regex: search,
+          $options: 'i',
+        },
+      })),
+    })
+  }
+
+  if (Object.keys(filtersData).length) {
+    andConditions.push({
+      $and: Object.entries(filtersData).map(([field, value]) => ({
+        [field]: value,
+      })),
+    })
+  }
+
+  const sortConditions: { [key: string]: SortOrder } = {}
+
+  if (sortBy && sortOrder) {
+    sortConditions[sortBy] = sortOrder
+  }
+  const whereConditions =
+    andConditions.length > 0
+      ? { $and: [...andConditions, { user: user.userId }] }
+      : { user: user.userId }
+
+  const allSummaries = await Summary.find(whereConditions)
+    .sort(sortConditions)
+    .skip(skip)
+    .limit(limit)
     .populate({
       path: 'book',
       populate: [
@@ -71,7 +119,14 @@ const getAllUserSummeries = async (user: JwtPayload): Promise<ISummary[]> => {
       },
     })
     .select('-user')
-  return AllSummaries
+  return {
+    meta: {
+      page,
+      limit,
+      total: allSummaries.length,
+    },
+    data: allSummaries,
+  }
 }
 
 const getSummary = async (id: string): Promise<ISummary | null> => {

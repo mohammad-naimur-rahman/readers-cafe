@@ -10,9 +10,15 @@ import {
 import styles from '@/styles/markdown.module.scss'
 import { DialogClose } from '@radix-ui/react-dialog'
 import { FileEdit, View } from 'lucide-react'
+import Link from 'next/link'
 import ReactMarkdown from 'react-markdown'
 
-export default function ViewSummary({ summary }) {
+interface Props {
+  summary: string
+  id: string
+}
+
+export default function ViewSummary({ summary, id }: Props) {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -27,9 +33,11 @@ export default function ViewSummary({ summary }) {
         <ReactMarkdown className={styles.markdown}>{summary}</ReactMarkdown>
         <DialogFooter>
           <DialogClose>
-            <ButtonExtended icon={<FileEdit />} type="submit">
-              Edit Summary
-            </ButtonExtended>
+            <Link href={`/dashboard/update/summary/${id}`}>
+              <ButtonExtended icon={<FileEdit />} type="submit">
+                Edit Summary
+              </ButtonExtended>
+            </Link>
           </DialogClose>
         </DialogFooter>
       </DialogContent>
