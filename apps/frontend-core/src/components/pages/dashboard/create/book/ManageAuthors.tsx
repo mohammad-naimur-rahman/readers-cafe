@@ -1,9 +1,9 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import { API_URL } from '@/configs'
 import axios from 'axios'
 import clsx from 'clsx'
+import { Search } from 'lucide-react'
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { useDebounce } from 'use-debounce'
 import { IAuthor, IBook } from 'validation/types'
@@ -21,6 +21,21 @@ export default function ManageAuthors({ book, setbook }: Props) {
   const [searchedAuthors, setsearchedAuthors] = useState<IAuthor[]>([])
   const [searching, setsearching] = useState(false)
   const [selectedAuthors, setselectedAuthors] = useState<IAuthor[]>([])
+  const [typing, settyping] = useState(false)
+  const [stateToChange, setStateToChange] = useState(null)
+
+  const handleInput = e => {
+    setsearchValue(e.target.value)
+    settyping(true)
+    if (stateToChange) {
+      clearTimeout(stateToChange)
+    }
+    setStateToChange(
+      setTimeout(() => {
+        settyping(false)
+      }, 500),
+    )
+  }
 
   useEffect(() => {
     ;(async () => {
@@ -43,23 +58,26 @@ export default function ManageAuthors({ book, setbook }: Props) {
       <Input
         type="text"
         value={searchValue}
-        placeholder="Search by author's name..."
-        onChange={e => setsearchValue(e.target.value)}
+        placeholder="🔍  Search by author's name..."
+        onChange={handleInput}
       />
 
       <SelectedAuthors authors={selectedAuthors} />
 
-      <ScrollArea
+      <div
         className={clsx(
-          'max-h-72 rounded-md border !absolute left-0 top-full w-full bg-background z-10',
+          'max-h-72 rounded-md border overflow-y-auto !absolute left-0 top-full w-full bg-background z-10',
           {
             hidden: !searchValue,
           },
         )}
       >
-        {searching ? (
+        {(searching && searchValue) || (typing && searchValue) ? (
           <div className="flex items-center justify-center p-5 w-full">
-            <p className="text-lg italic">Searching...</p>
+            <p className="text-lg italic flex grid-cols-1 gap-2">
+              <Search />
+              Searching...
+            </p>
           </div>
         ) : (
           <div>
@@ -99,7 +117,7 @@ export default function ManageAuthors({ book, setbook }: Props) {
             )}
           </div>
         )}
-      </ScrollArea>
+      </div>
     </>
   )
 }

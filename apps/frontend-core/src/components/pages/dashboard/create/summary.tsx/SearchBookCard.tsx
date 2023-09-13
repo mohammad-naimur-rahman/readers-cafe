@@ -11,7 +11,10 @@ interface Props {
 
 export default function SearchBookCard({ book, onClick }: Props) {
   return (
-    <div className="flex gap-5 cursor-pointer shadow-md" onClick={onClick}>
+    <div
+      className="flex gap-5 cursor-pointer border rounded-md"
+      onClick={onClick}
+    >
       <div className="w-14 h-20 flex items-center justify-center">
         {book?.image?.url ? (
           <Img src={book?.image} alt={book?.title} />

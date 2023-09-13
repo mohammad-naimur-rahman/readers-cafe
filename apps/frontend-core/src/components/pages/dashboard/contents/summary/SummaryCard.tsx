@@ -121,7 +121,7 @@ export default function SummaryCard({ summary }: Props) {
         </CardHeader>
         <CardContent className="p-0">
           <div className="h-[350px]">
-            {assertedBook?.image ? (
+            {assertedBook?.image?.url ? (
               <Img
                 src={assertedBook?.image}
                 alt={assertedBook.title}

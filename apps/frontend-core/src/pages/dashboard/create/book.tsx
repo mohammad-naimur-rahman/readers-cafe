@@ -35,7 +35,7 @@ export default function CreateBookPage() {
   const formId = useId()
 
   const [book, setbook] = useState<IBook>({
-    title: '',
+    title: (query?.bookTitle as string) || '',
     description: '',
     authors: [],
     image: { url: '', dominantColor: '' },

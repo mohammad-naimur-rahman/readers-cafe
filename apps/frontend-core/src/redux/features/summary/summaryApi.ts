@@ -7,8 +7,8 @@ const summaryApi = api.injectEndpoints({
       providesTags: ['summaries'],
     }),
     getMySummaries: build.query({
-      query: ({ token }) => ({
-        url: '/summaries/my-contents',
+      query: ({ token, query }) => ({
+        url: `/summaries/my-contents?${query}`,
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
