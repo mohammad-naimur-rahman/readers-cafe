@@ -58,7 +58,7 @@ export const useSearchResult = <T>(
         )
       }
     })()
-  }, [debouncedValue, searchData])
+  }, [debouncedValue, searchData, accessToken, needAuth])
 
   return {
     isSearching: (searching && searchValue) || (typing && searchValue),

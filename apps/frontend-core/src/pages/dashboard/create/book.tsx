@@ -87,7 +87,15 @@ export default function CreateBookPage() {
       }
     }
     if (isLoading) toast.success('Book creating!')
-  }, [isSuccess, isError, isLoading, error, push])
+  }, [
+    isSuccess,
+    isError,
+    isLoading,
+    error,
+    push,
+    bookData?.data?._id,
+    query.redirectedFrom,
+  ])
 
   return (
     <form className="max-w-4xl mx-auto space-y-5" onSubmit={handleCreateBook}>
