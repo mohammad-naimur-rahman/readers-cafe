@@ -1,13 +1,9 @@
 import httpStatus from 'http-status'
 import { JwtPayload } from 'jsonwebtoken'
-import { SortOrder, startSession } from 'mongoose'
+import { Types, startSession } from 'mongoose'
 import { ISummary } from 'validation/types'
 import ApiError from '../../../errors/ApiError'
-import calculatePagination from '../../../helpers/paginationHelper'
-import { IGenericResponse } from '../../../interfaces/common'
-import { IPaginationOptions } from '../../../interfaces/pagination'
 import { User } from '../user/user.model'
-import { summarySearchableFields } from './summary.constants'
 import { ISummaryFilters } from './summary.interface'
 import { Summary } from './summary.model'
 
@@ -59,74 +55,64 @@ const getAllSummaries = async (): Promise<ISummary[]> => {
 const getAllUserSummeries = async (
   user: JwtPayload,
   filters: ISummaryFilters,
-  paginationOptions: IPaginationOptions,
-): Promise<IGenericResponse<ISummary[]>> => {
-  const { limit, page, skip, sortBy, sortOrder } =
-    calculatePagination(paginationOptions)
+): Promise<ISummary[]> => {
+  const { search } = filters
 
-  const { search, ...filtersData } = filters
+  interface MatchQueries {
+    user: Types.ObjectId
+    'book.title'?: object
+  }
 
-  const andConditions = []
+  const matchQueries: MatchQueries = {
+    user: new Types.ObjectId(user.userId),
+  }
 
   if (search) {
-    andConditions.push({
-      $or: summarySearchableFields.map(field => ({
-        [field]: {
-          $regex: search,
-          $options: 'i',
-        },
-      })),
-    })
+    matchQueries['book.title'] = { $regex: search, $options: 'i' }
   }
 
-  if (Object.keys(filtersData).length) {
-    andConditions.push({
-      $and: Object.entries(filtersData).map(([field, value]) => ({
-        [field]: value,
-      })),
-    })
-  }
-
-  const sortConditions: { [key: string]: SortOrder } = {}
-
-  if (sortBy && sortOrder) {
-    sortConditions[sortBy] = sortOrder
-  }
-  const whereConditions =
-    andConditions.length > 0
-      ? { $and: [...andConditions, { user: user.userId }] }
-      : { user: user.userId }
-
-  const allSummaries = await Summary.find(whereConditions)
-    .sort(sortConditions)
-    .skip(skip)
-    .limit(limit)
-    .populate({
-      path: 'book',
-      populate: [
-        {
-          path: 'authors',
-        },
-        {
-          path: 'genre',
-        },
-      ],
-    })
-    .populate({
-      path: 'reviews',
-      populate: {
-        path: 'user',
+  const summaries = await Summary.aggregate([
+    {
+      $lookup: {
+        from: 'books',
+        localField: 'book',
+        foreignField: '_id',
+        as: 'book',
       },
-    })
-    .select('-user')
-  return {
-    meta: {
-      page,
-      limit,
-      total: allSummaries.length,
     },
-    data: allSummaries,
-  }
+    {
+      $unwind: '$book',
+    },
+    {
+      $lookup: {
+        from: 'authors',
+        localField: 'book.authors',
+        foreignField: '_id',
+        as: 'book.authors',
+      },
+    },
+    {
+      $lookup: {
+        from: 'genres',
+        localField: 'book.genre',
+        foreignField: '_id',
+        as: 'book.genre',
+      },
+    },
+    {
+      $lookup: {
+        from: 'reviews',
+        localField: 'reviews',
+        foreignField: '_id',
+        as: 'reviews',
+      },
+    },
+    {
+      $match: matchQueries,
+    },
+  ])
+
+  return summaries
 }
 
 const getSummary = async (id: string): Promise<ISummary | null> => {

@@ -2,15 +2,17 @@ import DashboardLayout from '@/components/layouts/DashboardLayout'
 import { Input } from '@/components/ui/input'
 import { API_URL } from '@/configs'
 import { withAuth } from '@/utils/auth/withAuth'
+import { getIdAndToken } from '@/utils/getIdAndToken'
 import axios from 'axios'
 import { ReactElement, useEffect, useState } from 'react'
 import { useDebounce } from 'use-debounce'
 import { ISummary } from 'validation/types'
 
 export default function UpdateSummaryPageIndex() {
+  const { token } = getIdAndToken()
   const [searchValue, setsearchValue] = useState('')
   const [debouncedValue] = useDebounce(searchValue, 500)
-  const [searchedSummary, setsearchedSummary] = useState<ISummary>()
+  const [searchedSummary, setsearchedSummary] = useState<ISummary[]>([])
   const [searching, setsearching] = useState(false)
 
   console.log(searchedSummary, searching)
@@ -21,6 +23,12 @@ export default function UpdateSummaryPageIndex() {
         setsearching(true)
         const result = await axios.get(
           `${API_URL}/summaries/my-contents?search=${debouncedValue}`,
+          {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
         )
         setsearching(false)
         setsearchedSummary(result?.data?.data)
@@ -28,7 +36,7 @@ export default function UpdateSummaryPageIndex() {
         setsearching(false)
       }
     })()
-  }, [debouncedValue])
+  }, [debouncedValue, token])
 
   return (
     <div className="flex flex-col items-center justify-center gap-5">

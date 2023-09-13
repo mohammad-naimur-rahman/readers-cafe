@@ -1,3 +1,3 @@
-export const summaryFilterableFields = ['search', 'title']
+export const summaryFilterableFields = ['search', 'book.title']
 
-export const summarySearchableFields = ['title']
+export const summarySearchableFields = ['book.title']

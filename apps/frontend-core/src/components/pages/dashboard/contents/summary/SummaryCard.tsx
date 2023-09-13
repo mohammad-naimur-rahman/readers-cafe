@@ -36,6 +36,7 @@ export default function SummaryCard({ summary }: Props) {
   const { token } = getIdAndToken()
   const { book } = summary
   const assertedBook = book as IBook
+  const assertedGenres = assertedBook?.genre as unknown as IGenre[]
 
   const [publishStatus, setpublishStatus] = useState(summary?.published)
   const [showPublishPrompt, setshowPublishPrompt] = useState(false)
@@ -114,7 +115,7 @@ export default function SummaryCard({ summary }: Props) {
               ))}
             </div>
             <p className="font-semibold text-primary">
-              {(assertedBook?.genre as unknown as IGenre)?.genre}
+              {assertedGenres[0].genre}
             </p>
           </CardDescription>
         </CardHeader>
