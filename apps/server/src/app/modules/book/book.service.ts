@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Request, Response } from 'express'
 import httpStatus from 'http-status'
 import { JwtPayload } from 'jsonwebtoken'
 import { SortOrder, Types } from 'mongoose'
@@ -107,6 +109,93 @@ const getAllBooks = async (
       total: allBooks.length,
     },
     data: allBooks,
+  }
+}
+
+export const getBooks = async (req: Request, res: Response) => {
+  try {
+    const {
+      search,
+      genre,
+      title,
+      publicationYear,
+      author,
+      page = 1,
+      limit = 5,
+      sortBy = 'title',
+      sortOrder = 'asc',
+    } = req.query
+
+    const andQuery: any = []
+    let orQuery: any = []
+
+    if (title) {
+      andQuery.push({ title: { $regex: title, $options: 'i' } })
+    }
+
+    if (publicationYear) {
+      andQuery.push({
+        publicationYear: { $regex: publicationYear, $options: 'i' },
+      })
+    }
+
+    if (genre) {
+      andQuery.push({ 'genre.genre': { $regex: genre, $options: 'i' } })
+    }
+
+    if (author) {
+      andQuery.push({ 'authors.fullName': { $regex: author, $options: 'i' } })
+    }
+
+    if (search) {
+      orQuery = [
+        { title: { $regex: search, $options: 'i' } },
+        { publicationYear: { $regex: search, $options: 'i' } },
+        {
+          'genre.genre': { $regex: search, $options: 'i' },
+        },
+        {
+          'authors.fullName': { $regex: search, $options: 'i' },
+        },
+      ]
+    }
+
+    const matchQuery: any = {}
+
+    if (andQuery.length > 0) {
+      matchQuery.$and = andQuery
+    }
+
+    if (orQuery.length > 0) {
+      matchQuery.$or = orQuery
+    }
+    const summaries = await Book.aggregate([
+      {
+        $lookup: {
+          from: 'genres',
+          localField: 'genre',
+          foreignField: '_id',
+          as: 'genre',
+        },
+      },
+      {
+        $lookup: {
+          from: 'authors',
+          localField: 'authors',
+          foreignField: '_id',
+          as: 'authors',
+        },
+      },
+      { $match: matchQuery },
+      { $unwind: '$authors' },
+      { $unwind: '$genre' },
+      { $skip: (+page - 1) * +limit },
+      { $limit: +limit },
+      { $sort: { [sortBy as string]: sortOrder === 'desc' ? -1 : 1 } },
+    ])
+    res.json({ total: summaries.length, summaries })
+  } catch (err) {
+    res.status(500).json({ message: 'Internal Server Error' })
   }
 }
 

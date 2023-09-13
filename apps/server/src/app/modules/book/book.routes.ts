@@ -4,12 +4,14 @@ import ENUM_USER_ROLE from '../../../enums/user'
 import { authGuard } from '../../middlewares/authGuard'
 import validateRequest from '../../middlewares/validateRequest'
 import { BookController } from './book.controller'
+import { getBooks } from './book.service'
 
 const router = Router()
 
 router
   .route('/')
-  .get(BookController.getALllBooks)
+  // .get(BookController.getALllBooks)
+  .get(getBooks)
   .post(
     validateRequest(BookValidation.CreateBookZodSchema),
     authGuard(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.ADMIN),
