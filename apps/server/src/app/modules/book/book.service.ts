@@ -1,17 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Request, Response } from 'express'
 import httpStatus from 'http-status'
 import { JwtPayload } from 'jsonwebtoken'
-import { SortOrder, Types } from 'mongoose'
+import { Types } from 'mongoose'
 import { IBook } from 'validation/types'
 import ApiError from '../../../errors/ApiError'
-import calculatePagination from '../../../helpers/paginationHelper'
+import {
+  generateLookupStages,
+  generateMatchQuery,
+  generatePaginationFields,
+} from '../../../helpers/aggregateHelpers'
 import { IGenericResponse } from '../../../interfaces/common'
-import { IPaginationOptions } from '../../../interfaces/pagination'
 import { Author } from '../author/author.model'
 import { Genre } from '../genre/genre.model'
-import { bookSearchableFields } from './book.constants'
-import { IBookFilters } from './book.interface'
+import {
+  bookFilterableFieldsWithPopulatedFields,
+  bookLookupFileds,
+  bookSearchableFields,
+} from './book.constants'
 import { Book } from './book.model'
 
 const createBook = async (payload: IBook, user: JwtPayload): Promise<IBook> => {
@@ -57,145 +62,32 @@ const createBook = async (payload: IBook, user: JwtPayload): Promise<IBook> => {
   return createdBook
 }
 
-const getAllBooks = async (
-  filters: IBookFilters,
-  paginationOptions: IPaginationOptions,
-): Promise<IGenericResponse<IBook[]>> => {
-  const { limit, page, skip, sortBy, sortOrder } =
-    calculatePagination(paginationOptions)
+const getAllBooks = async (query: any): Promise<IGenericResponse<IBook[]>> => {
+  const matchQuery = generateMatchQuery(
+    query,
+    bookFilterableFieldsWithPopulatedFields,
+    bookSearchableFields,
+  )
 
-  const { search, ...filtersData } = filters
+  const lookupStages = generateLookupStages(bookLookupFileds)
 
-  const andConditions = []
+  const { skip, limit, sort, page } = generatePaginationFields(query)
 
-  if (search) {
-    andConditions.push({
-      $or: bookSearchableFields.map(field => ({
-        [field]: {
-          $regex: search,
-          $options: 'i',
-        },
-      })),
-    })
-  }
-
-  if (Object.keys(filtersData).length) {
-    andConditions.push({
-      $and: Object.entries(filtersData).map(([field, value]) => ({
-        [field]: value,
-      })),
-    })
-  }
-
-  const sortConditions: { [key: string]: SortOrder } = {}
-
-  if (sortBy && sortOrder) {
-    sortConditions[sortBy] = sortOrder
-  }
-  const whereConditions =
-    andConditions.length > 0 ? { $and: andConditions } : {}
-
-  const allBooks = await Book.find(whereConditions)
-    .sort(sortConditions)
-    .skip(skip)
-    .limit(limit)
-    .populate('authors')
-    .populate('genre')
+  const summaries = await Book.aggregate([
+    ...lookupStages,
+    { $match: matchQuery },
+    { $skip: skip },
+    { $limit: limit },
+    { $sort: sort },
+  ])
 
   return {
     meta: {
+      total: summaries.length,
       page,
       limit,
-      total: allBooks.length,
     },
-    data: allBooks,
-  }
-}
-
-export const getBooks = async (req: Request, res: Response) => {
-  try {
-    const {
-      search,
-      genre,
-      title,
-      publicationYear,
-      author,
-      page = 1,
-      limit = 5,
-      sortBy = 'title',
-      sortOrder = 'asc',
-    } = req.query
-
-    const andQuery: any = []
-    let orQuery: any = []
-
-    if (title) {
-      andQuery.push({ title: { $regex: title, $options: 'i' } })
-    }
-
-    if (publicationYear) {
-      andQuery.push({
-        publicationYear: { $regex: publicationYear, $options: 'i' },
-      })
-    }
-
-    if (genre) {
-      andQuery.push({ 'genre.genre': { $regex: genre, $options: 'i' } })
-    }
-
-    if (author) {
-      andQuery.push({ 'authors.fullName': { $regex: author, $options: 'i' } })
-    }
-
-    if (search) {
-      orQuery = [
-        { title: { $regex: search, $options: 'i' } },
-        { publicationYear: { $regex: search, $options: 'i' } },
-        {
-          'genre.genre': { $regex: search, $options: 'i' },
-        },
-        {
-          'authors.fullName': { $regex: search, $options: 'i' },
-        },
-      ]
-    }
-
-    const matchQuery: any = {}
-
-    if (andQuery.length > 0) {
-      matchQuery.$and = andQuery
-    }
-
-    if (orQuery.length > 0) {
-      matchQuery.$or = orQuery
-    }
-    const summaries = await Book.aggregate([
-      {
-        $lookup: {
-          from: 'genres',
-          localField: 'genre',
-          foreignField: '_id',
-          as: 'genre',
-        },
-      },
-      {
-        $lookup: {
-          from: 'authors',
-          localField: 'authors',
-          foreignField: '_id',
-          as: 'authors',
-        },
-      },
-      { $match: matchQuery },
-      { $unwind: '$authors' },
-      { $unwind: '$genre' },
-      { $skip: (+page - 1) * +limit },
-      { $limit: +limit },
-      { $sort: { [sortBy as string]: sortOrder === 'desc' ? -1 : 1 } },
-    ])
-    res.json({ total: summaries.length, summaries })
-  } catch (err) {
-    res.status(500).json({ message: 'Internal Server Error' })
+    data: summaries,
   }
 }
 

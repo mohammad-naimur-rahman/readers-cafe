@@ -14,3 +14,17 @@ export type IGenericErrorResponse = {
   message: string
   errorMessages: IGenericErrorMessage[]
 }
+
+export type IFilterableFieldsWithPopulatedFields = {
+  field: string
+  populatedField: string
+}[]
+
+export type ILookupField = {
+  from: string
+  localField: string
+  foreignField: string
+  as: string
+}
+
+export type ILookupFields = ILookupField[]
