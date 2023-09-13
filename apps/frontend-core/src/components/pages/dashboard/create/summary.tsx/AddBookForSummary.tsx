@@ -1,12 +1,10 @@
 import ButtonExtended from '@/components/ui/ButtonExtended'
 import { Input } from '@/components/ui/input'
-import { API_URL } from '@/configs'
-import axios from 'axios'
+import { useSearchResult } from '@/hooks/useSearchResult'
 import clsx from 'clsx'
 import { PlusCircle, Search } from 'lucide-react'
 import Link from 'next/link'
 import { Dispatch, SetStateAction, useEffect, useState } from 'react'
-import { useDebounce } from 'use-debounce'
 import { IBook, ISummary } from 'validation/types'
 import SearchBookCard from './SearchBookCard'
 import SelectedBookCard from './SelectedBookCard'
@@ -22,26 +20,16 @@ export default function AddBookForSummary({
   setsummaryContents,
   book: gottenBook,
 }: Props) {
-  const [searchValue, setsearchValue] = useState('')
-  const [debouncedValue] = useDebounce(searchValue, 500)
-  const [searchedBooks, setsearchedBooks] = useState<IBook[]>([])
-  const [searching, setsearching] = useState(false)
   const [selectedBook, setselectedBook] = useState<IBook>(null)
-  const [typing, settyping] = useState(false)
-  const [stateToChange, setStateToChange] = useState(null)
 
-  const handleInput = e => {
-    setsearchValue(e.target.value)
-    settyping(true)
-    if (stateToChange) {
-      clearTimeout(stateToChange)
-    }
-    setStateToChange(
-      setTimeout(() => {
-        settyping(false)
-      }, 500),
-    )
-  }
+  const {
+    isSearching,
+    handleInput,
+    searchedData,
+    searchValue,
+    setsearchValue,
+    debouncedValue,
+  } = useSearchResult<IBook>('books')
 
   useEffect(() => {
     if (gottenBook) {
@@ -49,21 +37,6 @@ export default function AddBookForSummary({
     }
   }, [gottenBook])
 
-  useEffect(() => {
-    ;(async () => {
-      if (debouncedValue) {
-        setsearching(true)
-        const result = await axios.get(
-          `${API_URL}/books?search=${debouncedValue}`,
-        )
-        setsearching(false)
-        setsearchedBooks(result?.data?.data)
-      } else {
-        setsearching(false)
-        setsearchedBooks([])
-      }
-    })()
-  }, [debouncedValue])
   return (
     <>
       {selectedBook ? (
@@ -85,7 +58,7 @@ export default function AddBookForSummary({
           },
         )}
       >
-        {(searching && searchValue) || (typing && searchValue) ? (
+        {isSearching ? (
           <div className="flex items-center justify-center p-5 w-full">
             <p className="text-lg italic flex items-center gap-2">
               <Search />
@@ -98,9 +71,9 @@ export default function AddBookForSummary({
               hidden: selectedBook,
             })}
           >
-            {searchedBooks?.length ? (
+            {searchedData?.length ? (
               <div className="flex flex-col gap-2 p-2">
-                {searchedBooks?.map(book => (
+                {searchedData?.map(book => (
                   <SearchBookCard
                     key={book._id}
                     book={book}

@@ -1,11 +1,9 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { API_URL } from '@/configs'
-import axios from 'axios'
+import { useSearchResult } from '@/hooks/useSearchResult'
 import clsx from 'clsx'
 import { Search } from 'lucide-react'
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
-import { useDebounce } from 'use-debounce'
+import { Dispatch, SetStateAction, useState } from 'react'
 import { IAuthor, IBook } from 'validation/types'
 import AddNewAuthor from './AddNewAuthor'
 import SelectedAuthors from './SelectedAuthors'
@@ -16,42 +14,15 @@ interface Props {
 }
 
 export default function ManageAuthors({ book, setbook }: Props) {
-  const [searchValue, setsearchValue] = useState('')
-  const [debouncedValue] = useDebounce(searchValue, 500)
-  const [searchedAuthors, setsearchedAuthors] = useState<IAuthor[]>([])
-  const [searching, setsearching] = useState(false)
   const [selectedAuthors, setselectedAuthors] = useState<IAuthor[]>([])
-  const [typing, settyping] = useState(false)
-  const [stateToChange, setStateToChange] = useState(null)
 
-  const handleInput = e => {
-    setsearchValue(e.target.value)
-    settyping(true)
-    if (stateToChange) {
-      clearTimeout(stateToChange)
-    }
-    setStateToChange(
-      setTimeout(() => {
-        settyping(false)
-      }, 500),
-    )
-  }
-
-  useEffect(() => {
-    ;(async () => {
-      if (debouncedValue) {
-        setsearching(true)
-        const result = await axios.get(
-          `${API_URL}/authors?search=${debouncedValue}`,
-        )
-        setsearching(false)
-        setsearchedAuthors(result?.data?.data)
-      } else {
-        setsearching(false)
-        setsearchedAuthors([])
-      }
-    })()
-  }, [debouncedValue])
+  const {
+    isSearching,
+    handleInput,
+    searchedData,
+    searchValue,
+    setsearchValue,
+  } = useSearchResult<IAuthor>('authors')
 
   return (
     <>
@@ -72,7 +43,7 @@ export default function ManageAuthors({ book, setbook }: Props) {
           },
         )}
       >
-        {(searching && searchValue) || (typing && searchValue) ? (
+        {isSearching ? (
           <div className="flex items-center justify-center p-5 w-full">
             <p className="text-lg italic flex grid-cols-1 gap-2">
               <Search />
@@ -81,9 +52,9 @@ export default function ManageAuthors({ book, setbook }: Props) {
           </div>
         ) : (
           <div>
-            {searchedAuthors?.length > 0 ? (
+            {searchedData?.length > 0 ? (
               <div className="flex flex-col gap-2">
-                {searchedAuthors?.map(author => (
+                {searchedData?.map(author => (
                   <Button
                     type="button"
                     variant="ghost"
