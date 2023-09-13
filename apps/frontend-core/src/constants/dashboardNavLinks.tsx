@@ -109,6 +109,11 @@ export const dashboardNavLinks = [
         href: '/dashboard/update/short-content',
         icon: <Image />,
       },
+      {
+        label: 'Book',
+        href: '/dashboard/update/book',
+        icon: <Book />,
+      },
     ],
   },
   {

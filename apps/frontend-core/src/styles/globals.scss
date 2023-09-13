@@ -76,4 +76,8 @@
     aspect-ratio: 1 / 1;
     object-fit: cover;
   }
+
+  .card-container {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-card justify-evenly;
+  }
 }
