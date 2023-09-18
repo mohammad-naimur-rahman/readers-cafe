@@ -1,4 +1,4 @@
-import { env } from '@/configs/env'
+import { API_URL } from '@/configs'
 import { initUserData } from '@/constants/initUserData'
 import auth from '@/lib/firebaseConfig'
 import { ICookieUser } from '@/types/ICookieUser'
@@ -24,7 +24,7 @@ export default function LogoutButton({ setuserData }: Props) {
       setisLoading(true)
       await signOut(auth)
       await axios.patch(
-        `${env.NEXT_PUBLIC_apiUrl}/auth/logout`,
+        `${API_URL}/auth/logout`,
         {},
         {
           headers: {

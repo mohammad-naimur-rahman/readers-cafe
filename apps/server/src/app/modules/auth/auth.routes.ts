@@ -5,6 +5,8 @@ import { AuthController } from './auth.controller'
 
 const router = Router()
 
+router.get('/access-token', AuthController.newAccessToken)
+
 router.post('/login', AuthController.loginUser)
 router.post('/signup', AuthController.signupUser)
 router.patch(
@@ -12,7 +14,5 @@ router.patch(
   authGuard(ENUM_USER_ROLE.USER, ENUM_USER_ROLE.ADMIN),
   AuthController.logoutUser,
 )
-
-router.get('/access-token', AuthController.newAccessToken)
 
 export const authRoutes = router

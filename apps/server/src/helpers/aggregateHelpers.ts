@@ -58,7 +58,7 @@ interface PaginationFields {
   skip: number
   limit: number
   page: number
-  sort: SortStage['$sort'] // Use the SortStage type here
+  sort: SortStage['$sort']
 }
 
 export const generatePaginationFields = (query: any): PaginationFields => {

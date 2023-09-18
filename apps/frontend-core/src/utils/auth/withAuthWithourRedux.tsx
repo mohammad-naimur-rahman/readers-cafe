@@ -7,7 +7,7 @@ const login = ctx => {
 
 const checkUserAuthentication = ctx => {
   const { req, res } = ctx
-  const jwt = getCookie('accessToken', { req, res })
+  const jwt = getCookie('refreshToken', { req, res })
   return { auth: !!jwt }
 }
 

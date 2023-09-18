@@ -19,6 +19,10 @@ export const authGuard =
 
       const accessToken = token?.split(' ')[1]
 
+      if (accessToken === 'undefined') {
+        throw new ApiError(httpStatus.UNAUTHORIZED, 'Unauthorized!')
+      }
+
       const verifiedUser = jwtHelpers.verifyToken(
         accessToken,
         config.jwt.secret as Secret,
