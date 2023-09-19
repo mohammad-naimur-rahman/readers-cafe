@@ -20,8 +20,23 @@ const bookApi = api.injectEndpoints({
       }),
       invalidatesTags: ['books'],
     }),
+    updateBook: build.mutation({
+      query: ({ id, payload, token }) => ({
+        url: `/books/${id}`,
+        method: 'PATCH',
+        body: payload,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      invalidatesTags: ['books'],
+    }),
   }),
 })
 
-export const { useCreateBookMutation, useGetBookQuery, useGetBooksQuery } =
-  bookApi
+export const {
+  useCreateBookMutation,
+  useGetBookQuery,
+  useGetBooksQuery,
+  useUpdateBookMutation,
+} = bookApi

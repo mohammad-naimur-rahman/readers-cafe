@@ -1,4 +1,4 @@
-import { dashboardNavLinks } from '@/constants/dashboardNavLinks'
+import { dashboardNavLinks } from '@/constants/dashboard/dashboardNavLinks'
 import clsx from 'clsx'
 import Link from 'next/link'
 import { useRouter } from 'next/router'

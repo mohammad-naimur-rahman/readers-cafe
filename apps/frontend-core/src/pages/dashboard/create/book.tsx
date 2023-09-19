@@ -18,6 +18,8 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
+import { initBookValues } from '@/constants/dashboard/initValues'
+import { initImage } from '@/constants/initImage'
 import { useCreateBookMutation } from '@/redux/features/book/bookApi'
 import { useGetGenresQuery } from '@/redux/features/genre/genreApi'
 import { IError } from '@/types/IError'
@@ -35,18 +37,7 @@ export default function CreateBookPage() {
   const { query, push } = useRouter()
   const formId = useId()
 
-  const initImage = { url: '', dominantColor: '' }
-
-  const [book, setbook] = useState<IBook>({
-    title: (query?.bookTitle as string) || '',
-    description: '',
-    authors: [],
-    image: initImage,
-    genre: null,
-    pageCount: 0,
-    publicationYear: '',
-    summaries: [],
-  })
+  const [book, setbook] = useState<IBook>(initBookValues(query))
 
   const [isImageUploading, setisImageUploading] = useState(false)
 
@@ -156,6 +147,7 @@ export default function CreateBookPage() {
             accept="image/*"
             id={`${formId}-image`}
             onChange={handleImage}
+            className="max-w-xs"
           />
         )}
       </div>
