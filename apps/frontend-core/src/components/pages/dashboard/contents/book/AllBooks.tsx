@@ -1,18 +1,20 @@
-import { Button } from '@/components/ui/button'
+import ButtonExtended from '@/components/ui/ButtonExtended'
 import DashbaordErrorComponent from '@/components/ui/dashboard/common/DashbaordErrorComponent'
 import NoContent from '@/components/ui/dashboard/common/NoContent'
+import { Input } from '@/components/ui/input'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useGetBooksQuery } from '@/redux/features/book/bookApi'
 import { IError } from '@/types/IError'
 import { IBookQueries } from '@/types/queries/IBookQueries'
 import { qs } from '@/utils/formUtils/qs'
+import { Eraser, Filter, Search } from 'lucide-react'
 import { useState } from 'react'
 import BookCard from './BookCard'
 import BookFilterInputs from './BookFilterInputs'
+import PaginationFields from './PaginationFields'
 
 export default function AllBooks() {
   const initBookQueries = {
-    search: '',
     publicationYear: '',
     genre: '',
     author: '',
@@ -22,14 +24,39 @@ export default function AllBooks() {
     sortOrder: 'asc' as 'asc',
   }
 
-  const [query, setquery] = useState<IBookQueries>(initBookQueries)
+  const initPagination = {
+    limit: 5,
+    page: 1,
+  }
 
-  const { isLoading, isError, error, data } = useGetBooksQuery(undefined)
+  const paginationStr = qs(initPagination)
+
+  const [query, setquery] = useState<IBookQueries>(initBookQueries)
+  const [searchQuery, setsearchQuery] = useState('')
+  const [queryString, setqueryString] = useState(paginationStr)
+
+  const { isError, error, data, isFetching } = useGetBooksQuery(queryString)
 
   const searchBooks = e => {
     e.preventDefault()
+    setqueryString('')
+    const queryStr = qs({
+      search: searchQuery,
+    })
+    setqueryString(queryStr)
+  }
+
+  const filterBooks = e => {
+    e.preventDefault()
+    setqueryString('')
     const queryStr = qs(query)
-    console.log(queryStr)
+    setqueryString(queryStr)
+  }
+
+  const clearFields = () => {
+    setsearchQuery('')
+    setquery(initBookQueries)
+    setqueryString('')
   }
 
   if (isError) {
@@ -42,11 +69,40 @@ export default function AllBooks() {
 
   return (
     <div>
-      <form onSubmit={searchBooks}>
-        <BookFilterInputs query={query} setquery={setquery} />
-        <Button>Search</Button>
+      <form onSubmit={searchBooks} className="flex gap-3 my-3">
+        <Input
+          type="text"
+          placeholder="Search by title, author, publication year and genre"
+          name="search"
+          value={searchQuery}
+          onChange={e => setsearchQuery(e.target.value)}
+        />
+        <ButtonExtended icon={<Search />}>Search Books</ButtonExtended>
+        <ButtonExtended
+          type="button"
+          variant="destructive"
+          icon={<Eraser />}
+          onClick={clearFields}
+        >
+          Clear Search
+        </ButtonExtended>
       </form>
-      {isLoading ? (
+      <form
+        onSubmit={filterBooks}
+        className="flex w-full gap-2 mt-5 [&>*]:max-w-xs"
+      >
+        <BookFilterInputs query={query} setquery={setquery} />
+        <ButtonExtended icon={<Filter />}>Filter Books</ButtonExtended>
+        <ButtonExtended
+          type="button"
+          variant="destructive"
+          icon={<Eraser />}
+          onClick={clearFields}
+        >
+          Clear Filter
+        </ButtonExtended>
+      </form>
+      {isFetching ? (
         <div className="card-container">
           {[0, 1, 2, 3, 4, 5, 6, 7].map(el => (
             <div className="p-2" key={el}>
@@ -61,8 +117,11 @@ export default function AllBooks() {
           ))}
         </div>
       )}
+
+      <PaginationFields data={data?.meta} />
+
       <NoContent
-        isLoading={isLoading}
+        isLoading={isFetching}
         data={data}
         content="Book"
         createNewLink="/dashboard/create/book"

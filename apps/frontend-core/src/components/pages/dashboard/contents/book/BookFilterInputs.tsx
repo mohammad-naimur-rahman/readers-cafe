@@ -27,14 +27,7 @@ export default function BookFilterInputs({ query, setquery }: Props) {
   }
 
   return (
-    <section className="flex">
-      <Input
-        type="text"
-        placeholder="Search by title, author, publication year and genre"
-        name="search"
-        onChange={setQuery()}
-      />
-
+    <>
       <Select
         onValueChange={value =>
           setquery({
@@ -43,7 +36,7 @@ export default function BookFilterInputs({ query, setquery }: Props) {
           })
         }
       >
-        <SelectTrigger className="max-w-xs">
+        <SelectTrigger>
           <SelectValue placeholder="Select Genre" />
         </SelectTrigger>
         <SelectContent>
@@ -79,7 +72,7 @@ export default function BookFilterInputs({ query, setquery }: Props) {
           })
         }
       >
-        <SelectTrigger className="max-w-xs">
+        <SelectTrigger>
           <SelectValue placeholder="Sort By" />
         </SelectTrigger>
         <SelectContent>
@@ -101,7 +94,7 @@ export default function BookFilterInputs({ query, setquery }: Props) {
           })
         }
       >
-        <SelectTrigger className="max-w-xs">
+        <SelectTrigger>
           <SelectValue placeholder="Sort By" />
         </SelectTrigger>
         <SelectContent>
@@ -114,6 +107,6 @@ export default function BookFilterInputs({ query, setquery }: Props) {
           </SelectGroup>
         </SelectContent>
       </Select>
-    </section>
+    </>
   )
 }

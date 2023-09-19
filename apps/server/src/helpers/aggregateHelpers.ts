@@ -68,6 +68,6 @@ export const generatePaginationFields = (query: any): PaginationFields => {
     skip: (+page - 1) * +limit,
     limit: +limit,
     sort: { [sortBy as string]: sortOrder === 'desc' ? -1 : 1 },
-    page,
+    page: +page,
   }
 }

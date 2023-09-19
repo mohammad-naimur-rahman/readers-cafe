@@ -16,6 +16,8 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
     | 'ghost'
     | 'link'
   size?: 'default' | 'sm' | 'lg' | 'icon'
+  iconPosition?: 'left' | 'right'
+  disabled?: boolean
 }
 
 export default function ButtonExtended({
@@ -24,23 +26,44 @@ export default function ButtonExtended({
   isLoading = false,
   variant = 'default',
   size = 'default',
+  iconPosition = 'left',
+  disabled,
   ...rest
 }: Props) {
   return (
     <Button
       {...rest}
-      disabled={isLoading}
+      disabled={isLoading || disabled}
       className={twMerge(clsx('min-w-[150px]'))}
       variant={variant}
       size={size}
     >
       <div className="flex items-center gap-2">
-        {isLoading ? (
-          <SpinnerIcon />
-        ) : (
-          <span>{icon ? <span className="w-5 h-5">{icon}</span> : null}</span>
-        )}
+        {iconPosition === 'left' ? (
+          <span>
+            {isLoading ? (
+              <SpinnerIcon />
+            ) : (
+              <span>
+                {icon ? <span className="w-5 h-5">{icon}</span> : null}
+              </span>
+            )}
+          </span>
+        ) : null}
+
         {isLoading ? '' : <span>{children}</span>}
+
+        {iconPosition === 'right' ? (
+          <span>
+            {isLoading ? (
+              <SpinnerIcon />
+            ) : (
+              <span>
+                {icon ? <span className="w-5 h-5">{icon}</span> : null}
+              </span>
+            )}
+          </span>
+        ) : null}
       </div>
     </Button>
   )
