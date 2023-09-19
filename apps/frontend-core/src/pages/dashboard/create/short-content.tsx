@@ -68,8 +68,7 @@ export default function CreateShortContent() {
       push('/dashboard/contents/short-content')
       toast.success('Short Content created successfully!')
     }
-    if (isLoading) toast.success('Short Content creating!')
-  }, [isSuccess, isError, isLoading, error, push])
+  }, [isSuccess, isError, error, push])
 
   return (
     <form
@@ -89,7 +88,11 @@ export default function CreateShortContent() {
       <div className="space-y-2">
         <Label htmlFor={`${formId}-image`}>Image</Label>
         {shortContent.image.url ? (
-          <Img src={shortContent.image} alt="Cover Image" />
+          <Img
+            src={shortContent.image}
+            alt="Cover Image"
+            className="max-w-sm"
+          />
         ) : (
           <Input
             type="file"

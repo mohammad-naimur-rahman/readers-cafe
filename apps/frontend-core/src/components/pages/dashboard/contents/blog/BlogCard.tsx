@@ -16,11 +16,14 @@ import {
   useDeleteBlogMutation,
   useUpdateBlogMutation,
 } from '@/redux/features/blog/blogApi'
+import styles from '@/styles/markdown.module.scss'
 import { IError } from '@/types/IError'
 import { getIdAndToken } from '@/utils/getIdAndToken'
+import { splitMarkdown } from '@/utils/splitMarkdown'
 import { Trash2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
+import ReactMarkdown from 'react-markdown'
 import { IBlog } from 'validation/types'
 import ViewBlog from './ViewBlog'
 
@@ -105,6 +108,11 @@ export default function BlogCard({ blog }: Props) {
             <span className="font-semibold">Total comment: </span>
             {blog.comments.length}
           </p>
+          <div className="p-2">
+            <ReactMarkdown className={styles.markdown}>
+              {splitMarkdown(blog.blogContent, 200)}
+            </ReactMarkdown>
+          </div>
 
           <div className="flex items-center justify-end gap-3 mr-3">
             <Label>Publish</Label>

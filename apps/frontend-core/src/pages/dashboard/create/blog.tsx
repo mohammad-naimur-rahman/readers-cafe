@@ -87,8 +87,7 @@ export default function CreateBlogPage() {
       push('/dashboard/contents/blog')
       toast.success('Blog created successfully!')
     }
-    if (isLoading) toast.success('Blog creating!')
-  }, [isSuccess, isError, isLoading, error, push])
+  }, [isSuccess, isError, error, push])
 
   return (
     <form className="max-w-4xl mx-auto space-y-5" onSubmit={handleCreateBlog}>
@@ -106,7 +105,11 @@ export default function CreateBlogPage() {
       <div className="space-y-2">
         <Label htmlFor={`${formId}-coverImage`}>Cover Image *</Label>
         {blogContents.coverImage.url ? (
-          <Img src={blogContents.coverImage} alt="Cover Image" />
+          <Img
+            src={blogContents.coverImage}
+            alt="Cover Image"
+            className="max-w-sm"
+          />
         ) : (
           <Input
             name="coverImage"

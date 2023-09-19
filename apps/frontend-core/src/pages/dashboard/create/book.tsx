@@ -146,7 +146,6 @@ export default function CreateBookPage() {
             accept="image/*"
             id={`${formId}-image`}
             onChange={handleImage}
-            className="max-w-xs"
           />
         )}
       </div>
@@ -158,7 +157,7 @@ export default function CreateBookPage() {
             setbook({ ...book, genre: value as unknown as IBook['genre'] })
           }
         >
-          <SelectTrigger className="max-w-xs">
+          <SelectTrigger>
             <SelectValue placeholder="Select Genre" />
           </SelectTrigger>
           <SelectContent id={`${formId}-genre`}>
@@ -174,7 +173,7 @@ export default function CreateBookPage() {
         </Select>
       </div>
 
-      <div className="space-y-2 flex flex-col max-w-xs">
+      <div className="space-y-2 flex flex-col">
         <Label htmlFor={`${formId}-pageCount`}>Total Page</Label>
         <Input
           id={`${formId}-pageCount`}
@@ -187,7 +186,7 @@ export default function CreateBookPage() {
         />
       </div>
 
-      <div className="space-y-2 flex flex-col max-w-xs">
+      <div className="space-y-2 flex flex-col">
         <Label htmlFor={`${formId}-publicationYear`}>Publication Year</Label>
         <Input
           id={`${formId}-publicationYear`}

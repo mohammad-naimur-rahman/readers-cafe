@@ -20,11 +20,14 @@ import {
   useDeleteSummaryMutation,
   useUpdateSummaryMutation,
 } from '@/redux/features/summary/summaryApi'
+import styles from '@/styles/markdown.module.scss'
 import { IError } from '@/types/IError'
 import { getIdAndToken } from '@/utils/getIdAndToken'
+import { splitMarkdown } from '@/utils/splitMarkdown'
 import { Trash2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
+import ReactMarkdown from 'react-markdown'
 import { IBook, IGenre, ISummary } from 'validation/types'
 import ViewSummary from './ViewSummary'
 
@@ -152,6 +155,11 @@ export default function SummaryCard({ summary }: Props) {
                 </p>
               ) : null}
             </div>
+          </div>
+          <div className="p-2">
+            <ReactMarkdown className={styles.markdown}>
+              {splitMarkdown(summary.content, 200)}
+            </ReactMarkdown>
           </div>
           <div className="flex items-center justify-end gap-3 mr-3">
             <Label>Publish</Label>

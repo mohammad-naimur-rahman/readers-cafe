@@ -48,8 +48,7 @@ export default function CreateiscussionPage() {
       push('/dashboard/contents/discussion')
       toast.success('Discussion created successfully!')
     }
-    if (isLoading) toast.success('Discussion creating!')
-  }, [isSuccess, isError, isLoading, error, push])
+  }, [isSuccess, isError, error, push])
 
   return (
     <Form {...form}>
