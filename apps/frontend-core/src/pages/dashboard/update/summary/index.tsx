@@ -14,6 +14,7 @@ export default function UpdateSummaryPageIndex() {
   return (
     <div className="flex flex-col items-center justify-center gap-5">
       <h2 className="text-3xl pt-3">Update Summary</h2>
+      <p>Select a summary first</p>
       <Input
         placeholder="🔍  Search with Book Title..."
         className="max-w-md"

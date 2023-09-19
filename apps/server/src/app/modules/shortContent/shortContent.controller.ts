@@ -1,8 +1,11 @@
 import httpStatus from 'http-status'
 import { IShortContent } from 'validation/types'
+import paginationFields from '../../../constants/pagination'
 import { RequestWithUser } from '../../../interfaces/RequestResponseTypes'
 import catchAsync from '../../../shared/catchAsync'
+import pick from '../../../shared/pick'
 import sendResponse from '../../../shared/sendResponse'
+import { shortContentFilterableFields } from './shortContent.constants'
 import { ShortContentService } from './shortContent.service'
 
 const createShortContent = catchAsync(async (req, res) => {
@@ -18,10 +21,16 @@ const createShortContent = catchAsync(async (req, res) => {
 })
 
 const getALllShortContents = catchAsync(async (req, res) => {
-  const allShortContents = await ShortContentService.getAllShortContents()
+  const filters = pick(req.query, shortContentFilterableFields)
+  const paginationOptions = pick(req.query, paginationFields)
+  const allShortContents = await ShortContentService.getAllShortContents(
+    filters,
+    paginationOptions,
+  )
   sendResponse<IShortContent[]>(res, {
     statusCode: httpStatus.OK,
-    data: allShortContents,
+    meta: allShortContents.meta,
+    data: allShortContents.data,
     message: 'All ShortContents retrieved successfully!',
   })
 })

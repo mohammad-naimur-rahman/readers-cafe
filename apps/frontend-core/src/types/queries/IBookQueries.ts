@@ -6,3 +6,8 @@ export interface IBookQueries extends ICommonQueries {
   genre?: string
   author?: string
 }
+
+export interface ISummaryQueries extends ICommonQueries {
+  title?: string
+  published?: boolean
+}

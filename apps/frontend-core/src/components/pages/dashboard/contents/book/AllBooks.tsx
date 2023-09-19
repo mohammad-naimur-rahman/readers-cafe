@@ -98,6 +98,7 @@ export default function AllBooks() {
           Clear Search
         </ButtonExtended>
       </form>
+
       <form
         onSubmit={filterBooks}
         className="flex w-full gap-2 mt-5 [&>*]:max-w-xs"
@@ -113,6 +114,7 @@ export default function AllBooks() {
           Clear Filter
         </ButtonExtended>
       </form>
+
       {isFetching ? (
         <div className="card-container">
           {[0, 1, 2, 3, 4, 5, 6, 7].map(el => (

@@ -30,7 +30,11 @@ export const generateMatchQuery = (
   let orQuery: any = []
 
   filterableFieldsWithPopulatedFields.forEach(({ field, populatedField }) => {
-    if (query[field]) {
+    if (query[field] === 'true') {
+      andQuery.push({ [populatedField]: true })
+    } else if (query[field] === 'false') {
+      andQuery.push({ [populatedField]: false })
+    } else if (query[field]) {
       const filterQuery = {
         [populatedField]: { $regex: query[field], $options: 'i' },
       }
@@ -73,7 +77,13 @@ interface PaginationFields {
 }
 
 export const generatePaginationFields = (query: any): PaginationFields => {
-  const { page = 1, limit = 10, sortBy = 'title', sortOrder = 'asc' } = query
+  console.log(query)
+  const {
+    page = 1,
+    limit = 10,
+    sortBy = 'createdAt',
+    sortOrder = 'asc',
+  } = query
 
   return {
     skip: (+page - 1) * +limit,
