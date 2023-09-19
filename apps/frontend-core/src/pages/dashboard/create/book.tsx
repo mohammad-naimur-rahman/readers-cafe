@@ -3,6 +3,7 @@ import animationData from '@/assets/lottie/savingFile.json'
 import DashboardLayout from '@/components/layouts/DashboardLayout'
 import ManageAuthors from '@/components/pages/dashboard/create/book/ManageAuthors'
 import ButtonExtended from '@/components/ui/ButtonExtended'
+import { Button } from '@/components/ui/button'
 import Img from '@/components/ui/img'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -23,7 +24,7 @@ import { IError } from '@/types/IError'
 import { withAuth } from '@/utils/auth/withAuth'
 import { getIdAndToken } from '@/utils/getIdAndToken'
 import { imageUploader } from '@/utils/imageUploader'
-import { FilePlus2 } from 'lucide-react'
+import { FilePlus2, X } from 'lucide-react'
 import { useRouter } from 'next/router'
 import { ReactElement, useEffect, useId, useState } from 'react'
 import toast from 'react-hot-toast'
@@ -34,11 +35,13 @@ export default function CreateBookPage() {
   const { query, push } = useRouter()
   const formId = useId()
 
+  const initImage = { url: '', dominantColor: '' }
+
   const [book, setbook] = useState<IBook>({
     title: (query?.bookTitle as string) || '',
     description: '',
     authors: [],
-    image: { url: '', dominantColor: '' },
+    image: initImage,
     genre: null,
     pageCount: 0,
     publicationYear: '',
@@ -133,9 +136,20 @@ export default function CreateBookPage() {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor={`${formId}-image`}>Image</Label>
+        <Label htmlFor={`${formId}-image`} className="block">
+          Image
+        </Label>
         {book.image.url ? (
-          <Img src={book.image} alt="Cover Image" />
+          <div className="inline-flex items-center justify-center gap-5 p-5">
+            <Img src={book.image} alt="Cover Image" className="max-w-sm" />
+            <Button
+              variant="ghost"
+              type="button"
+              onClick={() => setbook({ ...book, image: initImage })}
+            >
+              <X />
+            </Button>
+          </div>
         ) : (
           <Input
             type="file"

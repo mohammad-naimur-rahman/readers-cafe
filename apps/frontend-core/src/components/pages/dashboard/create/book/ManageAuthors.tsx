@@ -33,7 +33,12 @@ export default function ManageAuthors({ book, setbook }: Props) {
         onChange={handleInput}
       />
 
-      <SelectedAuthors authors={selectedAuthors} />
+      <SelectedAuthors
+        book={book}
+        setbook={setbook}
+        authors={selectedAuthors}
+        setauthors={setselectedAuthors}
+      />
 
       <div
         className={clsx(

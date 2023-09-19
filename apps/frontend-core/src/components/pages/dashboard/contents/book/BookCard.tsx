@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/card'
 import Img, { LocalImg } from '@/components/ui/img'
 import { FileEdit } from 'lucide-react'
+import Link from 'next/link'
 import { IBook } from 'validation/types'
 
 interface Props {
@@ -70,9 +71,9 @@ export default function BookCard({ book }: Props) {
         </CardContent>
       </div>
       <CardFooter className="flex justify-end flex-wrap gap-2 pb-2 pt-5 px-2">
-        <ButtonExtended icon={<FileEdit />} type="submit">
-          Edit Book
-        </ButtonExtended>
+        <Link href={`/dashboard/update/book/${book._id}`}>
+          <ButtonExtended icon={<FileEdit />}>Edit Book</ButtonExtended>
+        </Link>
       </CardFooter>
     </Card>
   )
