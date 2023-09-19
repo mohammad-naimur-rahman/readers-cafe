@@ -38,7 +38,6 @@ export default function CreateBookPage() {
   const formId = useId()
 
   const [book, setbook] = useState<IBook>(initBookValues(query))
-
   const [isImageUploading, setisImageUploading] = useState(false)
 
   const handleImage = async e => {

@@ -1,31 +1,18 @@
 import { Button } from '@/components/ui/button'
 import { X } from 'lucide-react'
 import { Dispatch, SetStateAction } from 'react'
-import { IAuthor, IBook } from 'validation/types'
+import { IAuthor } from 'validation/types'
 
 interface Props {
   authors: IAuthor[]
   setauthors: Dispatch<SetStateAction<IAuthor[]>>
-  book: IBook
-  setbook: Dispatch<SetStateAction<IBook>>
 }
 
-export default function SelectedAuthors({
-  authors,
-  setauthors,
-  book,
-  setbook,
-}: Props) {
+export default function SelectedAuthors({ authors, setauthors }: Props) {
   const removeAuthor = (id: string) => {
-    const newAuthorsIds: any[] = book.authors.filter(
-      author => (author as any) !== id,
-    )
-    setbook({ ...book, authors: newAuthorsIds })
-
     const newAuthors = authors.filter(author => author._id !== id)
     setauthors(newAuthors)
   }
-
   return (
     <div className="flex flex-wrap gap-3">
       {authors?.map(author => (

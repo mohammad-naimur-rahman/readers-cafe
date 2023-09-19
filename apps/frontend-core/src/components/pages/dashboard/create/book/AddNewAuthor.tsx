@@ -58,18 +58,7 @@ export default function AddNewAuthor({
         authors: [...book.authors, data?.data?._id],
       })
     }
-  }, [
-    isError,
-    error,
-    isSuccess,
-    isLoading,
-    book,
-    data?.data,
-    selectedAuthors,
-    setbook,
-    setsearchValue,
-    setselectedAuthors,
-  ])
+  }, [isError, error, isSuccess, isLoading])
 
   return (
     <>

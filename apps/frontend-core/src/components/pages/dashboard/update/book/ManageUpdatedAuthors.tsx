@@ -3,18 +3,33 @@ import { Input } from '@/components/ui/input'
 import { useSearchResult } from '@/hooks/useSearchResult'
 import clsx from 'clsx'
 import { Search } from 'lucide-react'
-import { Dispatch, SetStateAction, useState } from 'react'
+import { Dispatch, SetStateAction } from 'react'
 import { IAuthor, IBook } from 'validation/types'
-import AddNewAuthor from './AddNewAuthor'
-import SelectedAuthors from './SelectedAuthors'
+import AddNewAuthor from '../../create/book/AddNewAuthor'
+import SelectedAuthors from './SelectedUpdatedAuthors'
 
 interface Props {
   book: IBook
   setbook: Dispatch<SetStateAction<IBook>>
+  selectedAuthors: IAuthor[]
+  setselectedAuthors: Dispatch<SetStateAction<IAuthor[]>>
 }
 
-export default function ManageAuthors({ book, setbook }: Props) {
-  const [selectedAuthors, setselectedAuthors] = useState<IAuthor[]>([])
+export default function ManageUpdatedAuthors({
+  book,
+  setbook,
+  selectedAuthors,
+  setselectedAuthors,
+}: Props) {
+  // const [selectedAuthors, setselectedAuthors] = useState<IAuthor[]>(
+  //   book.authors as IAuthor[],
+  // )
+
+  // useEffect(() => {
+  //   if (book?.authors?.length > 0) {
+  //     setselectedAuthors(book?.authors as IAuthor[])
+  //   }
+  // }, [book?.authors])
 
   const {
     isSearching,
@@ -23,15 +38,6 @@ export default function ManageAuthors({ book, setbook }: Props) {
     searchValue,
     setsearchValue,
   } = useSearchResult<IAuthor>('authors')
-
-  const handleAddNewAuthor = author => {
-    setselectedAuthors([...selectedAuthors, author])
-    setsearchValue('')
-    setbook({
-      ...book,
-      authors: [...book.authors, author._id as any],
-    })
-  }
 
   return (
     <>
@@ -43,8 +49,6 @@ export default function ManageAuthors({ book, setbook }: Props) {
       />
 
       <SelectedAuthors
-        book={book}
-        setbook={setbook}
         authors={selectedAuthors}
         setauthors={setselectedAuthors}
       />
@@ -73,7 +77,14 @@ export default function ManageAuthors({ book, setbook }: Props) {
                     type="button"
                     variant="ghost"
                     key={author._id}
-                    onClick={() => handleAddNewAuthor(author)}
+                    onClick={() => {
+                      setselectedAuthors([...selectedAuthors, author])
+                      setsearchValue('')
+                      // setbook({
+                      //   ...book,
+                      //   authors: [...book.authors, author._id as any],
+                      // })
+                    }}
                   >
                     {author.fullName}
                   </Button>
