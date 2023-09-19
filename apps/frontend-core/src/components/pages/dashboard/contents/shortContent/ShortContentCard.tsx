@@ -15,6 +15,7 @@ import { useDeleteShortContentMutation } from '@/redux/features/shortContent/sho
 import { IError } from '@/types/IError'
 import { getIdAndToken } from '@/utils/getIdAndToken'
 import { FileEdit, Trash2 } from 'lucide-react'
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { IShortContent } from 'validation/types'
@@ -77,9 +78,11 @@ export default function ShortContentCard({ shortContent }: Props) {
           </p>
         </CardContent>
         <CardFooter className="flex justify-between flex-wrap gap-2 pb-2 pt-5 px-2">
-          <ButtonExtended icon={<FileEdit />} type="submit">
-            Edit Content
-          </ButtonExtended>
+          <Link href={`/dashboard/update/short-content/${shortContent._id}`}>
+            <ButtonExtended icon={<FileEdit />} type="submit">
+              Edit Content
+            </ButtonExtended>
+          </Link>
           <ButtonExtended
             icon={<Trash2 />}
             variant="destructive"

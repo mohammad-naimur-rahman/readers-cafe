@@ -10,3 +10,9 @@ export const initBookValues = (query?: { bookTitle?: string }) => ({
   publicationYear: '',
   summaries: [],
 })
+
+export const initShortContent = (query?: { caption?: string }) => ({
+  caption: query?.caption || '',
+  image: initImage,
+  comments: [],
+})
