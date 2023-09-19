@@ -136,13 +136,12 @@ const logoutUser = async (user: JwtPayload) => {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Token Version not found!')
   }
 
-  const result = await TokenVersion.findOneAndUpdate(
-    { user: user.userID },
-    { tokenVersion: +currentTokenVersion.tokenVersion + 1 },
-    { new: true, runValidators: true },
+  await TokenVersion.findOneAndUpdate(
+    { user: user.userId },
+    { tokenVersion: Number(+currentTokenVersion.tokenVersion + 1) },
+    { runValidators: true },
   )
 
-  console.log(result)
   return null
 }
 

@@ -64,7 +64,6 @@ const loginUser = catchAsync(async (req, res) => {
 })
 
 const logoutUser = catchAsync(async (req, res) => {
-  // FIXME: logout error in service
   await AuthService.logoutUser((req as RequestWithUser).user!)
   sendResponse<null>(res, {
     success: true,
