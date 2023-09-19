@@ -21,16 +21,6 @@ export default function ManageUpdatedAuthors({
   selectedAuthors,
   setselectedAuthors,
 }: Props) {
-  // const [selectedAuthors, setselectedAuthors] = useState<IAuthor[]>(
-  //   book.authors as IAuthor[],
-  // )
-
-  // useEffect(() => {
-  //   if (book?.authors?.length > 0) {
-  //     setselectedAuthors(book?.authors as IAuthor[])
-  //   }
-  // }, [book?.authors])
-
   const {
     isSearching,
     handleInput,
@@ -80,10 +70,6 @@ export default function ManageUpdatedAuthors({
                     onClick={() => {
                       setselectedAuthors([...selectedAuthors, author])
                       setsearchValue('')
-                      // setbook({
-                      //   ...book,
-                      //   authors: [...book.authors, author._id as any],
-                      // })
                     }}
                   >
                     {author.fullName}

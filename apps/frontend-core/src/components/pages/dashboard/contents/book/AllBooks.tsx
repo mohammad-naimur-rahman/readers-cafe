@@ -77,7 +77,10 @@ export default function AllBooks() {
 
   return (
     <div>
-      <form onSubmit={searchBooks} className="flex gap-2 my-3">
+      <form
+        onSubmit={searchBooks}
+        className="flex gap-2 my-3 max-w-4xl mx-auto"
+      >
         <Input
           type="text"
           placeholder="Search by title, author, publication year and genre"
