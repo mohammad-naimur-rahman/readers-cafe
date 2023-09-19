@@ -4,6 +4,7 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
@@ -17,8 +18,18 @@ interface Props {
 }
 
 export default function BookFilterInputs({ query, setquery }: Props) {
-  const sortByValues = ['title', 'publicationYear', 'author', 'genre']
-  const sortOrderValues = ['asc', 'desc']
+  const sortByValues = [
+    { value: 'title', label: 'Title' },
+    { value: 'publicationYear', label: 'Publication Year' },
+    { value: 'author', label: 'Author' },
+    { value: 'genre', label: 'Genre' },
+  ]
+
+  const sortOrderValues = [
+    { value: 'asc', label: 'Ascending' },
+    { value: 'desc', label: 'Descending' },
+  ]
+
   const { data } = useGetGenresQuery(undefined)
   const allGenres = data?.data
 
@@ -29,6 +40,7 @@ export default function BookFilterInputs({ query, setquery }: Props) {
   return (
     <>
       <Select
+        value={query.genre}
         onValueChange={value =>
           setquery({
             ...query,
@@ -41,8 +53,9 @@ export default function BookFilterInputs({ query, setquery }: Props) {
         </SelectTrigger>
         <SelectContent>
           <SelectGroup className="overflow-auto max-h-[50dvh]">
+            <SelectLabel>Select Genre</SelectLabel>
             {allGenres?.map(genre => (
-              <SelectItem key={genre._id} value={genre._id}>
+              <SelectItem key={genre._id} value={genre.genre}>
                 {genre.genre}
               </SelectItem>
             ))}
@@ -54,6 +67,7 @@ export default function BookFilterInputs({ query, setquery }: Props) {
         type="number"
         placeholder="Publication Year"
         name="publicationYear"
+        value={query.publicationYear}
         onChange={setQuery()}
       />
 
@@ -61,10 +75,12 @@ export default function BookFilterInputs({ query, setquery }: Props) {
         type="text"
         placeholder="Author Name"
         name="author"
+        value={query.author}
         onChange={setQuery()}
       />
 
       <Select
+        value={query.sortBy}
         onValueChange={value =>
           setquery({
             ...query,
@@ -77,9 +93,9 @@ export default function BookFilterInputs({ query, setquery }: Props) {
         </SelectTrigger>
         <SelectContent>
           <SelectGroup className="overflow-auto max-h-[50dvh]">
-            {sortByValues?.map(sortBy => (
-              <SelectItem key={sortBy} value={sortBy}>
-                {sortBy}
+            {sortByValues?.map(({ label, value }) => (
+              <SelectItem key={value} value={value}>
+                {label}
               </SelectItem>
             ))}
           </SelectGroup>
@@ -87,6 +103,7 @@ export default function BookFilterInputs({ query, setquery }: Props) {
       </Select>
 
       <Select
+        value={query.sortOrder}
         onValueChange={value =>
           setquery({
             ...query,
@@ -99,9 +116,9 @@ export default function BookFilterInputs({ query, setquery }: Props) {
         </SelectTrigger>
         <SelectContent>
           <SelectGroup className="overflow-auto max-h-[50dvh]">
-            {sortOrderValues?.map(sortOrder => (
-              <SelectItem key={sortOrder} value={sortOrder}>
-                {sortOrder}
+            {sortOrderValues?.map(({ label, value }) => (
+              <SelectItem key={value} value={value}>
+                {label}
               </SelectItem>
             ))}
           </SelectGroup>

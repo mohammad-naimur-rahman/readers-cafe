@@ -1,5 +1,6 @@
 /* eslint-disable no-unsafe-optional-chaining */
 import ButtonExtended from '@/components/ui/ButtonExtended'
+import clsx from 'clsx'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface Props {
@@ -8,20 +9,33 @@ interface Props {
     page: number
     limit: number
   }
+  next: () => void
+  previous: () => void
+  show: boolean
 }
 
-export default function PaginationFields({ data }: Props) {
+export default function PaginationFields({
+  data,
+  next,
+  previous,
+  show,
+}: Props) {
   const isNextButtonDisabled = (): boolean => {
     const totalPages = Math.ceil(data?.total / data?.limit)
     return data?.page >= totalPages
   }
   return (
-    <div className="flex items-center justify-center gap-1 py-10">
+    <div
+      className={clsx('flex items-center justify-center gap-1 py-10', {
+        hidden: !show,
+      })}
+    >
       <ButtonExtended
         className="min-w-[200px]"
         variant="outline"
         icon={<ChevronLeft />}
         disabled={data?.page <= 1}
+        onClick={previous}
       >
         Previous
       </ButtonExtended>
@@ -31,6 +45,7 @@ export default function PaginationFields({ data }: Props) {
         icon={<ChevronRight />}
         iconPosition="right"
         disabled={isNextButtonDisabled()}
+        onClick={next}
       >
         Next
       </ButtonExtended>

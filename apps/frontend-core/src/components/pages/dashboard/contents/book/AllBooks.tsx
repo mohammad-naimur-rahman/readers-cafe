@@ -14,26 +14,20 @@ import BookFilterInputs from './BookFilterInputs'
 import PaginationFields from './PaginationFields'
 
 export default function AllBooks() {
-  const initBookQueries = {
+  const initBookQueries: IBookQueries = {
+    search: '',
+    title: '',
     publicationYear: '',
-    genre: '',
+    genre: 'Fiction',
     author: '',
-    limit: 5,
-    page: 1,
     sortBy: 'title',
     sortOrder: 'asc' as 'asc',
-  }
-
-  const initPagination = {
-    limit: 5,
     page: 1,
+    limit: 10,
   }
-
-  const paginationStr = qs(initPagination)
 
   const [query, setquery] = useState<IBookQueries>(initBookQueries)
-  const [searchQuery, setsearchQuery] = useState('')
-  const [queryString, setqueryString] = useState(paginationStr)
+  const [queryString, setqueryString] = useState('')
 
   const { isError, error, data, isFetching } = useGetBooksQuery(queryString)
 
@@ -41,7 +35,9 @@ export default function AllBooks() {
     e.preventDefault()
     setqueryString('')
     const queryStr = qs({
-      search: searchQuery,
+      search: query.search,
+      page: query.page,
+      limit: query.limit,
     })
     setqueryString(queryStr)
   }
@@ -49,12 +45,24 @@ export default function AllBooks() {
   const filterBooks = e => {
     e.preventDefault()
     setqueryString('')
-    const queryStr = qs(query)
+    const { search, ...queryWithoutSearch } = query
+    const queryStr = qs(queryWithoutSearch)
+    setqueryString(queryStr)
+  }
+
+  const next = () => {
+    setquery({ ...query, page: query.page + 1 })
+    const queryStr = qs({ ...query, page: query.page + 1 })
+    setqueryString(queryStr)
+  }
+
+  const previous = () => {
+    setquery({ ...query, page: query.page - 1 })
+    const queryStr = qs({ ...query, page: query.page - 1 })
     setqueryString(queryStr)
   }
 
   const clearFields = () => {
-    setsearchQuery('')
     setquery(initBookQueries)
     setqueryString('')
   }
@@ -69,13 +77,13 @@ export default function AllBooks() {
 
   return (
     <div>
-      <form onSubmit={searchBooks} className="flex gap-3 my-3">
+      <form onSubmit={searchBooks} className="flex gap-2 my-3">
         <Input
           type="text"
           placeholder="Search by title, author, publication year and genre"
           name="search"
-          value={searchQuery}
-          onChange={e => setsearchQuery(e.target.value)}
+          value={query.search}
+          onChange={e => setquery({ ...query, search: e.target.value })}
         />
         <ButtonExtended icon={<Search />}>Search Books</ButtonExtended>
         <ButtonExtended
@@ -118,7 +126,12 @@ export default function AllBooks() {
         </div>
       )}
 
-      <PaginationFields data={data?.meta} />
+      <PaginationFields
+        data={data?.meta}
+        next={next}
+        previous={previous}
+        show={data?.data?.length}
+      />
 
       <NoContent
         isLoading={isFetching}
