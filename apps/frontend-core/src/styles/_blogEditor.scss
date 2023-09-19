@@ -41,8 +41,8 @@
   }
 
   .rdw-dropdown-wrapper {
-    background: hsl(var(--background)) !important;
-    @apply rounded-md;
+    background: hsl(var(--muted)) !important;
+    @apply rounded-md border-0;
 
     &:hover {
       box-shadow: none !important;

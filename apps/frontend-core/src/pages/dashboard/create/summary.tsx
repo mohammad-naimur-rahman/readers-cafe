@@ -67,8 +67,7 @@ export default function CreateSummaryPage() {
       toast.success('Summary created successfully!')
       push('/dashboard/contents/summary')
     }
-    if (isLoading) toast.success('Summary creating!')
-  }, [isSuccess, isError, isLoading, error, push])
+  }, [isSuccess, isError, error, push])
 
   return (
     <form

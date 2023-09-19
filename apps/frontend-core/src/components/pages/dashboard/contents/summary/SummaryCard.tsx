@@ -42,7 +42,7 @@ export default function SummaryCard({ summary }: Props) {
   const [showPublishPrompt, setshowPublishPrompt] = useState(false)
   const [showDeletePrompt, setshowDeletePrompt] = useState(false)
 
-  const [updateSummary, { isLoading, isError, isSuccess, error }] =
+  const [updateSummary, { isError, isSuccess, error }] =
     useUpdateSummaryMutation()
 
   const [
@@ -77,10 +77,9 @@ export default function SummaryCard({ summary }: Props) {
   }
 
   useEffect(() => {
-    if (isLoading) toast.success('Unpublishing Summary!')
     if (isError) toast.error((error as IError)?.data?.message)
     if (isSuccess) {
-      toast.success('Unpublished Summary Successfully!')
+      toast.success('Publish Status Updated!')
       setpublishStatus(prev => !prev)
     }
 
@@ -91,7 +90,6 @@ export default function SummaryCard({ summary }: Props) {
     isError,
     error,
     isSuccess,
-    isLoading,
     deleteError,
     isDeleteError,
     isDeleteSuccess,

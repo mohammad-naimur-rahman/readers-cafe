@@ -27,7 +27,7 @@ const navigationMenu = [
 
 export default function Navbar() {
   return (
-    <nav className="flex items-center justify-between px-5 py-3 border h-16 fixed top-0 left-0 w-full gap-5">
+    <nav className="flex items-center justify-between px-5 py-3 border h-16 fixed top-0 left-0 w-full gap-5 backdrop-blur-lg bvdACS">
       <Link href="/">
         <LocalImg
           src={logo}
