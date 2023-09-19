@@ -54,17 +54,17 @@ const getAllShortContents = async (
   filters: IShortContentFilters,
   paginationOptions: IPaginationOptions,
 ): Promise<IGenericResponse<IShortContent[]>> => {
-  const { searchTerm, ...filtersData } = filters
+  const { search, ...filtersData } = filters
   const { page, limit, skip, sortBy, sortOrder } =
     calculatePagination(paginationOptions)
 
   const andConditions = []
   // Search needs $or for searching in specified fields
-  if (searchTerm) {
+  if (search) {
     andConditions.push({
       $or: shortContentSearchableFields.map(field => ({
         [field]: {
-          $regex: searchTerm,
+          $regex: search,
           $options: 'i',
         },
       })),
@@ -91,6 +91,77 @@ const getAllShortContents = async (
     .sort(sortConditions)
     .skip(skip)
     .limit(limit)
+    .populate({
+      path: 'comments',
+      populate: {
+        path: 'user',
+      },
+    })
+    .select('-user')
+
+  const total = await ShortContent.find(whereConditions).count()
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: result,
+  }
+}
+
+const getAllUserShortContents = async (
+  user: JwtPayload,
+  filters: IShortContentFilters,
+  paginationOptions: IPaginationOptions,
+): Promise<IGenericResponse<IShortContent[]>> => {
+  const { search, ...filtersData } = filters
+  const { page, limit, skip, sortBy, sortOrder } =
+    calculatePagination(paginationOptions)
+
+  const andConditions = []
+
+  andConditions.push({ user: user.userId })
+  // Search needs $or for searching in specified fields
+  if (search) {
+    andConditions.push({
+      $or: shortContentSearchableFields.map(field => ({
+        [field]: {
+          $regex: search,
+          $options: 'i',
+        },
+      })),
+    })
+  }
+
+  if (Object.keys(filtersData).length) {
+    andConditions.push({
+      $and: Object.entries(filtersData).map(([field, value]) => ({
+        [field]: value,
+      })),
+    })
+  }
+
+  // Dynamic  Sort needs  field to  do sorting
+  const sortConditions: { [key: string]: SortOrder } = {}
+  if (sortBy && sortOrder) {
+    sortConditions[sortBy] = sortOrder
+  }
+  const whereConditions =
+    andConditions.length > 0 ? { $and: andConditions } : {}
+
+  const result = await ShortContent.find(whereConditions)
+    .sort(sortConditions)
+    .skip(skip)
+    .limit(limit)
+    .populate({
+      path: 'comments',
+      populate: {
+        path: 'user',
+      },
+    })
+    .select('-user')
 
   const total = await ShortContent.find(whereConditions).count()
 
@@ -103,23 +174,15 @@ const getAllShortContents = async (
     data: result,
   }
 
-  // const AllShortContents = await ShortContent.find()
-  // return AllShortContents
-}
-
-// TODO: add pagination and filters
-const getAllUserShortContents = async (
-  user: JwtPayload,
-): Promise<IShortContent[]> => {
-  const AllSummaries = await ShortContent.find({ user: user.userId })
-    .populate({
-      path: 'comments',
-      populate: {
-        path: 'user',
-      },
-    })
-    .select('-user')
-  return AllSummaries
+  // const AllSummaries = await ShortContent.find({ user: user.userId })
+  //   .populate({
+  //     path: 'comments',
+  //     populate: {
+  //       path: 'user',
+  //     },
+  //   })
+  //   .select('-user')
+  // return AllSummaries
 }
 
 const getShortContent = async (id: string): Promise<IShortContent | null> => {

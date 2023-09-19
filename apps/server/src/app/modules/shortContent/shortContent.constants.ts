@@ -1,3 +1,3 @@
 export const shortContentSearchableFields = ['caption']
 
-export const shortContentFilterableFields = ['searchTerm', 'caption']
+export const shortContentFilterableFields = ['search', 'caption']

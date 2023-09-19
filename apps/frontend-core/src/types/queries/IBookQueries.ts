@@ -11,3 +11,7 @@ export interface ISummaryQueries extends ICommonQueries {
   title?: string
   published?: boolean
 }
+
+export interface IShortContentQueries extends ICommonQueries {
+  caption?: string
+}

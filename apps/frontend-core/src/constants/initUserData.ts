@@ -5,8 +5,7 @@ export const initUserData: ICookieUser = {
   name: '',
   email: '',
   image: {
-    blurImage: '',
-    thumbnail: '',
-    poster: '',
+    url: '',
+    dominantColor: '',
   },
 }

@@ -7,8 +7,8 @@ const shortContentApi = api.injectEndpoints({
       providesTags: ['shortContents'],
     }),
     getMyShortContents: build.query({
-      query: ({ token }) => ({
-        url: '/short-contents/my-contents',
+      query: ({ token, query }) => ({
+        url: `/short-contents/my-contents?${query}`,
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -36,12 +36,17 @@ const getALllShortContents = catchAsync(async (req, res) => {
 })
 
 const getALllUserShortContents = catchAsync(async (req, res) => {
+  const filters = pick(req.query, shortContentFilterableFields)
+  const paginationOptions = pick(req.query, paginationFields)
   const allShortContents = await ShortContentService.getAllUserShortContents(
     (req as RequestWithUser).user,
+    filters,
+    paginationOptions,
   )
   sendResponse<IShortContent[]>(res, {
     statusCode: httpStatus.OK,
-    data: allShortContents,
+    meta: allShortContents.meta,
+    data: allShortContents.data,
     message: 'All ShortContents retrieved successfully!',
   })
 })

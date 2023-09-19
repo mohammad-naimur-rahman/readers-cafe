@@ -104,6 +104,7 @@ export default function AllBooks() {
         className="flex w-full gap-2 mt-5 [&>*]:max-w-xs"
       >
         <BookFilterInputs query={query} setquery={setquery} />
+
         <ButtonExtended icon={<Filter />}>Filter Books</ButtonExtended>
         <ButtonExtended
           type="button"

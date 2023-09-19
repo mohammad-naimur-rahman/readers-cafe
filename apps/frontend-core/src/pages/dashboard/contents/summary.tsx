@@ -27,6 +27,7 @@ export default function AllSummariesPage() {
     page: 1,
     limit: 10,
   }
+
   const [query, setquery] = useState<ISummaryQueries>(initSummaryQueries)
   const [queryString, setqueryString] = useState('')
   const { isFetching, isError, error, data } = useGetMySummariesQuery({
