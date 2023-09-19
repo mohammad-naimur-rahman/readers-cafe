@@ -1,6 +1,6 @@
 import {
   IFilterableFieldsWithPopulatedFields,
-  ILookupFields,
+  ILookupAndUnwindFields,
 } from '../../../interfaces/common'
 
 export const bookFilterableFieldsWithPopulatedFields: IFilterableFieldsWithPopulatedFields =
@@ -23,7 +23,7 @@ export const bookFilterableFieldsWithPopulatedFields: IFilterableFieldsWithPopul
     },
   ]
 
-export const bookLookupFileds: ILookupFields = [
+export const bookLookupFileds: ILookupAndUnwindFields = [
   {
     from: 'genres',
     localField: 'genre',

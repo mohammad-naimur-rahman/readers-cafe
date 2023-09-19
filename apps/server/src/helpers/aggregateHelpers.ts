@@ -1,23 +1,30 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  IFilterableFieldsWithPopulatedFields,
-  ILookupFields,
-} from '../interfaces/common'
+import { Types } from 'mongoose'
+import { IFilterableFieldsWithPopulatedFields } from '../interfaces/common'
 
-export const generateLookupStages = (lookupFields: ILookupFields) =>
-  lookupFields.map(({ from, localField, foreignField, as }) => ({
-    $lookup: {
-      from,
-      localField,
-      foreignField,
-      as,
-    },
-  }))
+export const generateLookupStages = (lookupFields: any) =>
+  lookupFields.map(({ from, localField, foreignField, as, unwind }: any) => {
+    if (unwind) {
+      return {
+        $unwind: unwind,
+      }
+    }
+
+    return {
+      $lookup: {
+        from,
+        localField,
+        foreignField,
+        as,
+      },
+    }
+  })
 
 export const generateMatchQuery = (
   query: any,
   filterableFieldsWithPopulatedFields: IFilterableFieldsWithPopulatedFields,
   searchableFields: string[],
+  userId?: string,
 ) => {
   const andQuery: any = []
   let orQuery: any = []
@@ -30,6 +37,10 @@ export const generateMatchQuery = (
       andQuery.push(filterQuery)
     }
   })
+
+  if (userId) {
+    andQuery.push({ user: new Types.ObjectId(userId) })
+  }
 
   if (query.search) {
     orQuery = searchableFields.map(field => ({

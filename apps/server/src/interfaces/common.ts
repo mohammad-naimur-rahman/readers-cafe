@@ -20,6 +20,10 @@ export type IFilterableFieldsWithPopulatedFields = {
   populatedField: string
 }[]
 
+export type IUnwindField = {
+  unwind: string
+}
+
 export type ILookupField = {
   from: string
   localField: string
@@ -27,4 +31,14 @@ export type ILookupField = {
   as: string
 }
 
-export type ILookupFields = ILookupField[]
+// export type ILookupAndUnwindField = ILookupField | IUnwindField
+
+export type ILookupAndUnwindField = {
+  from?: string
+  localField?: string
+  foreignField?: string
+  as?: string
+  unwind?: string
+}
+
+export type ILookupAndUnwindFields = ILookupAndUnwindField[]

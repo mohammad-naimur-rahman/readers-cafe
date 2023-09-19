@@ -74,7 +74,7 @@ const getAllBooks = async (query: any): Promise<IGenericResponse<IBook[]>> => {
   const totalQuery = [
     ...lookupStages,
     { $match: matchQuery },
-    { $count: 'total' }, // Use $count to calculate the total count
+    { $count: 'total' },
   ]
 
   const totalResult = await Book.aggregate(totalQuery)
@@ -82,7 +82,7 @@ const getAllBooks = async (query: any): Promise<IGenericResponse<IBook[]>> => {
 
   const { skip, limit, sort, page } = generatePaginationFields(query)
 
-  const summaries = await Book.aggregate([
+  const books = await Book.aggregate([
     ...lookupStages,
     { $match: matchQuery },
     { $skip: skip },
@@ -96,7 +96,7 @@ const getAllBooks = async (query: any): Promise<IGenericResponse<IBook[]>> => {
       page,
       limit,
     },
-    data: summaries,
+    data: books,
   }
 }
 

@@ -1,10 +1,20 @@
 import httpStatus from 'http-status'
 import { JwtPayload } from 'jsonwebtoken'
-import { Types, startSession } from 'mongoose'
+import { startSession } from 'mongoose'
 import { ISummary } from 'validation/types'
 import ApiError from '../../../errors/ApiError'
+import {
+  generateLookupStages,
+  generateMatchQuery,
+  generatePaginationFields,
+} from '../../../helpers/aggregateHelpers'
+import { IGenericResponse } from '../../../interfaces/common'
 import { User } from '../user/user.model'
-import { ISummaryFilters } from './summary.interface'
+import {
+  summaryFilterableFieldsWithPopulatedFields,
+  summaryLookupFileds,
+  summarySearchableFields,
+} from './summary.constants'
 import { Summary } from './summary.model'
 
 const createSummary = async (
@@ -46,73 +56,90 @@ const createSummary = async (
   }
 }
 
-const getAllSummaries = async (): Promise<ISummary[]> => {
-  const AllSummaries = await Summary.find({ published: true })
-  return AllSummaries
-}
+const getAllSummaries = async (
+  query: any,
+): Promise<IGenericResponse<ISummary[]>> => {
+  const matchQuery = generateMatchQuery(
+    query,
+    summaryFilterableFieldsWithPopulatedFields,
+    summarySearchableFields,
+  )
 
-// TODO: add pagination and filters
-const getAllUserSummeries = async (
-  user: JwtPayload,
-  filters: ISummaryFilters,
-): Promise<ISummary[]> => {
-  const { search } = filters
+  const lookupStages = generateLookupStages(summaryLookupFileds)
 
-  interface MatchQueries {
-    user: Types.ObjectId
-    'book.title'?: object
-  }
+  const totalQuery = [
+    ...lookupStages,
+    { $match: matchQuery },
+    { $count: 'total' },
+  ]
 
-  const matchQueries: MatchQueries = {
-    user: new Types.ObjectId(user.userId),
-  }
+  const totalResult = await Summary.aggregate(totalQuery)
+  const total = totalResult.length > 0 ? totalResult[0].total : 0
 
-  if (search) {
-    matchQueries['book.title'] = { $regex: search, $options: 'i' }
-  }
+  const { skip, limit, sort, page } = generatePaginationFields(query)
 
   const summaries = await Summary.aggregate([
+    ...lookupStages,
     {
-      $lookup: {
-        from: 'books',
-        localField: 'book',
-        foreignField: '_id',
-        as: 'book',
-      },
+      $match: matchQuery,
     },
-    {
-      $unwind: '$book',
-    },
-    {
-      $lookup: {
-        from: 'authors',
-        localField: 'book.authors',
-        foreignField: '_id',
-        as: 'book.authors',
-      },
-    },
-    {
-      $lookup: {
-        from: 'genres',
-        localField: 'book.genre',
-        foreignField: '_id',
-        as: 'book.genre',
-      },
-    },
-    {
-      $lookup: {
-        from: 'reviews',
-        localField: 'reviews',
-        foreignField: '_id',
-        as: 'reviews',
-      },
-    },
-    {
-      $match: matchQueries,
-    },
+    { $skip: skip },
+    { $limit: limit },
+    { $sort: sort },
   ])
 
-  return summaries
+  return {
+    meta: {
+      total,
+      page,
+      limit,
+    },
+    data: summaries,
+  }
+}
+
+const getAllUserSummeries = async (
+  user: JwtPayload,
+  query: any,
+): Promise<IGenericResponse<ISummary[]>> => {
+  const matchQuery = generateMatchQuery(
+    query,
+    summaryFilterableFieldsWithPopulatedFields,
+    summarySearchableFields,
+    user.userId,
+  )
+
+  const lookupStages = generateLookupStages(summaryLookupFileds)
+
+  const totalQuery = [
+    ...lookupStages,
+    { $match: matchQuery },
+    { $count: 'total' },
+  ]
+
+  const totalResult = await Summary.aggregate(totalQuery)
+  const total = totalResult.length > 0 ? totalResult[0].total : 0
+
+  const { skip, limit, sort, page } = generatePaginationFields(query)
+
+  const summaries = await Summary.aggregate([
+    ...lookupStages,
+    {
+      $match: matchQuery,
+    },
+    { $skip: skip },
+    { $limit: limit },
+    { $sort: sort },
+  ])
+
+  return {
+    meta: {
+      total,
+      page,
+      limit,
+    },
+    data: summaries,
+  }
 }
 
 const getSummary = async (id: string): Promise<ISummary | null> => {

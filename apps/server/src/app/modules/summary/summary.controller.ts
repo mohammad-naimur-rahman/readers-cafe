@@ -2,9 +2,7 @@ import httpStatus from 'http-status'
 import { ISummary } from 'validation/types'
 import { RequestWithUser } from '../../../interfaces/RequestResponseTypes'
 import catchAsync from '../../../shared/catchAsync'
-import pick from '../../../shared/pick'
 import sendResponse from '../../../shared/sendResponse'
-import { summaryFilterableFields } from './summary.constants'
 import { SummaryService } from './summary.service'
 
 const createSummary = catchAsync(async (req, res) => {
@@ -20,24 +18,24 @@ const createSummary = catchAsync(async (req, res) => {
 })
 
 const getALllSummaries = catchAsync(async (req, res) => {
-  const allSummaries = await SummaryService.getAllSummaries()
+  const allSummaries = await SummaryService.getAllSummaries(req.query)
   sendResponse<ISummary[]>(res, {
     statusCode: httpStatus.OK,
-    data: allSummaries,
+    data: allSummaries.data,
+    meta: allSummaries.meta,
     message: 'All Summaries retrieved successfully!',
   })
 })
 
 const getALllUserSummaries = catchAsync(async (req, res) => {
-  const filters = pick(req.query, summaryFilterableFields)
-
   const allSummaries = await SummaryService.getAllUserSummeries(
     (req as RequestWithUser).user,
-    filters,
+    req.query,
   )
   sendResponse<ISummary[]>(res, {
     statusCode: httpStatus.OK,
-    data: allSummaries,
+    data: allSummaries.data,
+    meta: allSummaries.meta,
     message: 'All Summaries retrieved successfully!',
   })
 })
