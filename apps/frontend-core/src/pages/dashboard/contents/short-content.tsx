@@ -5,7 +5,7 @@ import DashbaordErrorComponent from '@/components/ui/dashboard/common/DashbaordE
 import DashboardPaginationFields from '@/components/ui/dashboard/common/DashboardPaginationFields'
 import NoContent from '@/components/ui/dashboard/common/NoContent'
 import { Skeleton } from '@/components/ui/skeleton'
-import { initSummaryQueries } from '@/constants/dashboard/queryValues'
+import { initShortContentQueries } from '@/constants/dashboard/queryValues'
 import { useGetMyShortContentsQuery } from '@/redux/features/shortContent/shortContentApi'
 import { IError } from '@/types/IError'
 import { withAuth } from '@/utils/auth/withAuth'
@@ -15,8 +15,8 @@ import { ReactElement, useState } from 'react'
 
 export default function ShortContentPage() {
   const { token } = getIdAndToken()
-  const [query, setquery] = useState(initSummaryQueries)
-  const [queryString, setqueryString] = useState(qs(initSummaryQueries))
+  const [query, setquery] = useState(initShortContentQueries)
+  const [queryString, setqueryString] = useState(qs(initShortContentQueries))
   const { isFetching, isError, error, data } = useGetMyShortContentsQuery({
     token,
     query: queryString,

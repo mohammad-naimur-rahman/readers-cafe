@@ -7,8 +7,8 @@ const discussionApi = api.injectEndpoints({
       providesTags: ['discussions'],
     }),
     getMyDiscussions: build.query({
-      query: ({ token }) => ({
-        url: '/discussions/my-contents',
+      query: ({ token, query }) => ({
+        url: `/discussions/my-contents?${query}`,
         headers: {
           Authorization: `Bearer ${token}`,
         },

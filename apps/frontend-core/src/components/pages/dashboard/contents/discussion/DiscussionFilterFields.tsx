@@ -10,17 +10,20 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { initShortContentQueries } from '@/constants/dashboard/queryValues'
-import { IShortContentQueries } from '@/types/queries/IFilterQueries'
+import {
+  IDiscussionQueries,
+  IShortContentQueries,
+} from '@/types/queries/IFilterQueries'
 import { qs } from '@/utils/formUtils/qs'
 import { Eraser, Search } from 'lucide-react'
 
-export default function ShortContentFilterFields({
+export default function DiscussionFilterFields({
   query,
   setquery,
   setqueryString,
 }) {
   const sortByValues = [
-    { value: 'caption', label: 'Caption' },
+    { value: 'topic', label: 'Caption' },
     { value: 'createdAt', label: 'Date' },
   ]
 
@@ -46,7 +49,7 @@ export default function ShortContentFilterFields({
       className="flex gap-2 px-2 mt-5 justify-center"
     >
       <Input
-        placeholder="Search with Caption"
+        placeholder="Search with Topic"
         className="max-w-md"
         value={query.search}
         onChange={e => setquery({ ...query, search: e.target.value })}
@@ -57,7 +60,7 @@ export default function ShortContentFilterFields({
         onValueChange={value =>
           setquery({
             ...query,
-            sortBy: value as unknown as IShortContentQueries['sortBy'],
+            sortBy: value as unknown as IDiscussionQueries['sortBy'],
           })
         }
       >

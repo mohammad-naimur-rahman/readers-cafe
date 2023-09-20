@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { useGetGenresQuery } from '@/redux/features/genre/genreApi'
-import { IBookQueries } from '@/types/queries/IBookQueries'
+import { IBookQueries } from '@/types/queries/IFilterQueries'
 import { Dispatch, SetStateAction } from 'react'
 
 interface Props {

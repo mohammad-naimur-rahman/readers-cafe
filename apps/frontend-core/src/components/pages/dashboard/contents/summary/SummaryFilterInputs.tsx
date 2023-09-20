@@ -6,7 +6,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { ISummaryQueries } from '@/types/queries/IBookQueries'
+import { ISummaryQueries } from '@/types/queries/IFilterQueries'
 import { Dispatch, SetStateAction } from 'react'
 
 interface Props {

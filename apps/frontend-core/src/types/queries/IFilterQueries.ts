@@ -15,3 +15,7 @@ export interface ISummaryQueries extends ICommonQueries {
 export interface IShortContentQueries extends ICommonQueries {
   caption?: string
 }
+
+export interface IDiscussionQueries extends ICommonQueries {
+  topic?: string
+}
