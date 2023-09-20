@@ -13,6 +13,7 @@ const createShortContent = catchAsync(async (req, res) => {
     req.body,
     (req as RequestWithUser).user,
   )
+
   sendResponse<IShortContent>(res, {
     statusCode: httpStatus.CREATED,
     data: createdShortContent,
@@ -23,10 +24,12 @@ const createShortContent = catchAsync(async (req, res) => {
 const getALllShortContents = catchAsync(async (req, res) => {
   const filters = pick(req.query, shortContentFilterableFields)
   const paginationOptions = pick(req.query, paginationFields)
+
   const allShortContents = await ShortContentService.getAllShortContents(
     filters,
     paginationOptions,
   )
+
   sendResponse<IShortContent[]>(res, {
     statusCode: httpStatus.OK,
     meta: allShortContents.meta,
@@ -38,11 +41,13 @@ const getALllShortContents = catchAsync(async (req, res) => {
 const getALllUserShortContents = catchAsync(async (req, res) => {
   const filters = pick(req.query, shortContentFilterableFields)
   const paginationOptions = pick(req.query, paginationFields)
+
   const allShortContents = await ShortContentService.getAllUserShortContents(
     (req as RequestWithUser).user,
     filters,
     paginationOptions,
   )
+
   sendResponse<IShortContent[]>(res, {
     statusCode: httpStatus.OK,
     meta: allShortContents.meta,
@@ -53,6 +58,7 @@ const getALllUserShortContents = catchAsync(async (req, res) => {
 
 const getShortContent = catchAsync(async (req, res) => {
   const shortContent = await ShortContentService.getShortContent(req.params.id)
+
   sendResponse<IShortContent>(res, {
     statusCode: httpStatus.OK,
     data: shortContent,
@@ -72,6 +78,7 @@ const updateShortContent = catchAsync(async (req, res) => {
     body,
     (req as RequestWithUser).user,
   )
+
   sendResponse<IShortContent>(res, {
     statusCode: httpStatus.OK,
     data: updatedShortContent,
@@ -84,6 +91,7 @@ const deleteShortContent = catchAsync(async (req, res) => {
     req.params.id,
     (req as RequestWithUser).user,
   )
+
   sendResponse<IShortContent>(res, {
     statusCode: httpStatus.NO_CONTENT,
     data: deltedShortContent,

@@ -6,4 +6,5 @@ export type ShortContentModel = Model<IShortContent, Record<string, unknown>>
 export type IShortContentFilters = {
   search?: string
   caption?: string
+  createdAt?: string
 }

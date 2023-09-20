@@ -1,8 +1,11 @@
 import httpStatus from 'http-status'
 import { IDiscussion } from 'validation/types'
+import paginationFields from '../../../constants/pagination'
 import { RequestWithUser } from '../../../interfaces/RequestResponseTypes'
 import catchAsync from '../../../shared/catchAsync'
+import pick from '../../../shared/pick'
 import sendResponse from '../../../shared/sendResponse'
+import { discussionFilterableFields } from './discussion.constants'
 import { DiscussionService } from './discussion.service'
 
 const createDiscussion = catchAsync(async (req, res) => {
@@ -10,6 +13,7 @@ const createDiscussion = catchAsync(async (req, res) => {
     req.body,
     (req as RequestWithUser).user,
   )
+
   sendResponse<IDiscussion>(res, {
     statusCode: httpStatus.CREATED,
     data: createdDiscussion,
@@ -17,28 +21,43 @@ const createDiscussion = catchAsync(async (req, res) => {
   })
 })
 
-const getALllDiscussions = catchAsync(async (_req, res) => {
-  const allDiscussions = await DiscussionService.getAllDiscussions()
-  sendResponse<IDiscussion[]>(res, {
+const getALllDiscussions = catchAsync(async (req, res) => {
+  const filters = pick(req.query, discussionFilterableFields)
+  const paginationOptions = pick(req.query, paginationFields)
+
+  const allDiscussions = await DiscussionService.getAllDiscussions(
+    filters,
+    paginationOptions,
+  )
+  sendResponse(res, {
     statusCode: httpStatus.OK,
-    data: allDiscussions,
+    meta: allDiscussions.meta,
+    data: allDiscussions.data,
     message: 'All Discussions retrieved successfully!',
   })
 })
 
 const getALllUserDiscussions = catchAsync(async (req, res) => {
+  const filters = pick(req.query, discussionFilterableFields)
+  const paginationOptions = pick(req.query, paginationFields)
+
   const allDiscussions = await DiscussionService.getAllUserDiscussions(
     (req as RequestWithUser).user,
+    filters,
+    paginationOptions,
   )
+
   sendResponse<IDiscussion[]>(res, {
     statusCode: httpStatus.OK,
-    data: allDiscussions,
+    meta: allDiscussions.meta,
+    data: allDiscussions.data,
     message: 'All Discussions retrieved successfully!',
   })
 })
 
 const getDiscussion = catchAsync(async (req, res) => {
   const discussion = await DiscussionService.getDiscussion(req.params.id)
+
   sendResponse<IDiscussion>(res, {
     statusCode: httpStatus.OK,
     data: discussion,
@@ -58,6 +77,7 @@ const updateDiscussion = catchAsync(async (req, res) => {
     body,
     (req as RequestWithUser).user,
   )
+
   sendResponse<IDiscussion>(res, {
     statusCode: httpStatus.OK,
     data: updatedDiscussion,
@@ -70,6 +90,7 @@ const deleteDiscussion = catchAsync(async (req, res) => {
     req.params.id,
     (req as RequestWithUser).user,
   )
+
   sendResponse<IDiscussion>(res, {
     statusCode: httpStatus.NO_CONTENT,
     data: deltedDiscussion,
