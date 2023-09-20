@@ -79,9 +79,7 @@ export default function ShortContentCard({ shortContent }: Props) {
         </CardContent>
         <CardFooter className="flex justify-between flex-wrap gap-2 pb-2 pt-5 px-2">
           <Link href={`/dashboard/update/short-content/${shortContent._id}`}>
-            <ButtonExtended icon={<FileEdit />} type="submit">
-              Edit Content
-            </ButtonExtended>
+            <ButtonExtended icon={<FileEdit />}>Edit Content</ButtonExtended>
           </Link>
           <ButtonExtended
             icon={<Trash2 />}

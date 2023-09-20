@@ -18,6 +18,7 @@ import {
 import { IError } from '@/types/IError'
 import { getIdAndToken } from '@/utils/getIdAndToken'
 import { FileEdit, Trash2 } from 'lucide-react'
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { IDiscussion } from 'validation/types'
@@ -110,9 +111,11 @@ export default function DiscussionCard({ discussion }: Props) {
           </div>
         </CardContent>
         <CardFooter className="flex justify-between flex-wrap gap-2 pb-2 pt-5 px-2">
-          <ButtonExtended icon={<FileEdit />} type="submit">
-            Edit Discussion
-          </ButtonExtended>
+          <Link href={`/dashboard/update/discussion/${discussion._id}`}>
+            <ButtonExtended icon={<FileEdit />} type="submit">
+              Edit Discussion
+            </ButtonExtended>
+          </Link>
           <ButtonExtended
             icon={<Trash2 />}
             variant="destructive"

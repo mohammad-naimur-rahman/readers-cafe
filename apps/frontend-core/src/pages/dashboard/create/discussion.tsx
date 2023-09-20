@@ -25,7 +25,7 @@ import { toast } from 'react-hot-toast'
 import { DiscussionValidation } from 'validation/zod/ZDiscussion'
 import { z } from 'zod'
 
-export default function CreateiscussionPage() {
+export default function CreateDiscussionPage() {
   const { push } = useRouter()
   const { token } = getIdAndToken()
 
@@ -103,7 +103,7 @@ export default function CreateiscussionPage() {
   )
 }
 
-CreateiscussionPage.getLayout = function getLayout(page: ReactElement) {
+CreateDiscussionPage.getLayout = function getLayout(page: ReactElement) {
   return (
     <DashboardLayout title="Create Discussion | Reader's café">
       {page}
