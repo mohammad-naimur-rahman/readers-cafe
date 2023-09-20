@@ -8,11 +8,16 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import styles from '@/styles/markdown.module.scss'
-import { DialogClose } from '@radix-ui/react-dialog'
 import { FileEdit, View } from 'lucide-react'
+import Link from 'next/link'
 import ReactMarkdown from 'react-markdown'
+import { IBlog } from 'validation/types'
 
-export default function ViewBlog({ blog }) {
+interface Props {
+  blog: IBlog
+}
+
+export default function ViewBlog({ blog }: Props) {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -24,13 +29,15 @@ export default function ViewBlog({ blog }) {
         <DialogHeader>
           <DialogTitle>Blog</DialogTitle>
         </DialogHeader>
-        <ReactMarkdown className={styles.markdown}>{blog}</ReactMarkdown>
+        <ReactMarkdown className={styles.markdown}>
+          {blog.blogContent}
+        </ReactMarkdown>
         <DialogFooter>
-          <DialogClose>
+          <Link href={`/dashboard/update/blog/${blog._id}`}>
             <ButtonExtended icon={<FileEdit />} type="submit">
               Edit Blog
             </ButtonExtended>
-          </DialogClose>
+          </Link>
         </DialogFooter>
       </DialogContent>
     </Dialog>

@@ -9,7 +9,10 @@ import { Label } from '@/components/ui/label'
 import Overlay from '@/components/ui/overlay'
 import { Switch } from '@/components/ui/switch'
 import { initImage } from '@/constants/initImage'
-import { useCreateBlogMutation } from '@/redux/features/blog/blogApi'
+import {
+  useGetBlogQuery,
+  useUpdateBlogMutation,
+} from '@/redux/features/blog/blogApi'
 import { IError } from '@/types/IError'
 import { withAuth } from '@/utils/auth/withAuth'
 import { getIdAndToken } from '@/utils/getIdAndToken'
@@ -28,13 +31,14 @@ const BlogEditor = dynamic(
   },
 )
 
-export default function CreateBlogPage() {
-  const { push } = useRouter()
+export default function UpdateBlogPage() {
+  const { push, query } = useRouter()
   const { token } = getIdAndToken()
   const formId = useId()
 
-  const [createBlog, { isLoading, isError, error, isSuccess }] =
-    useCreateBlogMutation()
+  const { data } = useGetBlogQuery(query?.id)
+  const [updateBlog, { isLoading, isError, error, isSuccess }] =
+    useUpdateBlogMutation()
 
   const [isImageUploading, setisImageUploading] = useState(false)
 
@@ -49,7 +53,14 @@ export default function CreateBlogPage() {
     comments: [],
   })
 
-  const [blogContent, setblogContent] = useState('')
+  const [blogContent, setblogContent] = useState()
+
+  useEffect(() => {
+    if (data?.data) {
+      setblogContents(data?.data)
+      setblogContent(data?.data?.blogContent)
+    }
+  }, [data])
 
   const onChangeTitle = e => {
     setblogContents({ ...blogContents, title: e.target.value })
@@ -71,14 +82,22 @@ export default function CreateBlogPage() {
     setblogContents({ ...blogContents, published: e })
   }
 
-  const handleCreateBlog = e => {
+  const handleUpdateBlog = e => {
     e.preventDefault()
-    if (!blogContents.title || !blogContents?.coverImage?.url || !blogContent) {
+    if (
+      !blogContents.title ||
+      !blogContents?.coverImage?.url ||
+      !blogContents.blogContent
+    ) {
       toast.error('Please fill out the required fields!')
       return
     }
 
-    createBlog({ payload: { ...blogContents, blogContent }, token })
+    updateBlog({
+      payload: { ...blogContents, blogContent },
+      token,
+      id: query?.id,
+    })
   }
 
   useEffect(() => {
@@ -90,14 +109,15 @@ export default function CreateBlogPage() {
   }, [isSuccess, isError, error, push])
 
   return (
-    <form className="max-w-4xl mx-auto space-y-5" onSubmit={handleCreateBlog}>
-      <h2 className="text-3xl pt-3">Create Blog</h2>
+    <form className="max-w-4xl mx-auto space-y-5" onSubmit={handleUpdateBlog}>
+      <h2 className="text-3xl pt-3">Update Blog</h2>
       <div className="space-y-2">
         <Label htmlFor={`${formId}-title`}>Title *</Label>
         <Input
           name="title"
           id={`${formId}-title`}
           placeholder="Blog title"
+          value={blogContents.title}
           onChange={onChangeTitle}
           required
         />
@@ -147,7 +167,7 @@ export default function CreateBlogPage() {
       </div>
       <div className="flex items-center justify-end">
         <ButtonExtended icon={<FilePlus2 />} type="submit">
-          Create Blog
+          Update Blog
         </ButtonExtended>
       </div>
       <Overlay animationData={animationData} isOpen={isLoading} />
@@ -159,9 +179,9 @@ export default function CreateBlogPage() {
   )
 }
 
-CreateBlogPage.getLayout = function getLayout(page: ReactElement) {
+UpdateBlogPage.getLayout = function getLayout(page: ReactElement) {
   return (
-    <DashboardLayout title="Create Blog | Reader's café">
+    <DashboardLayout title="Update Blog | Reader's café">
       {page}
     </DashboardLayout>
   )

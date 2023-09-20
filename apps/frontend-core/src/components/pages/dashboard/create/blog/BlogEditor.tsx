@@ -1,35 +1,36 @@
 import styles from '@/styles/blogEditor.module.scss'
-import { EditorState, convertToRaw } from 'draft-js'
-import { draftToMarkdown } from 'markdown-draft-js'
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { EditorState, convertFromRaw, convertToRaw } from 'draft-js'
+import { draftToMarkdown, markdownToDraft } from 'markdown-draft-js'
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
 import { Editor } from 'react-draft-wysiwyg'
-import { IBlog, ISummary } from 'validation/types'
 
 interface Props {
-  blogContents: IBlog | ISummary
-  setblogContents: Dispatch<SetStateAction<IBlog | ISummary>>
-  isSummary?: boolean
+  blogContent: string
+  setblogContent: Dispatch<SetStateAction<string>>
 }
 
-export default function BlogEditor({
-  blogContents,
-  setblogContents,
-  isSummary,
-}: Props) {
+export default function BlogEditor({ blogContent, setblogContent }: Props) {
   const [editorState, setEditorState] = useState(null)
+  const hasInitialContentLoaded = useRef(false)
 
   useEffect(() => {
     setEditorState(EditorState.createEmpty())
   }, [])
 
+  useEffect(() => {
+    if (blogContent && !hasInitialContentLoaded.current) {
+      const raw = EditorState.createWithContent(
+        convertFromRaw(markdownToDraft(blogContent)),
+      )
+      setEditorState(raw)
+      hasInitialContentLoaded.current = true
+    }
+  }, [blogContent])
+
   const onEditorStateChange = state => {
     setEditorState(state)
     const raw = draftToMarkdown(convertToRaw(editorState.getCurrentContent()))
-    if (isSummary) {
-      setblogContents({ ...blogContents, content: raw })
-    } else {
-      setblogContents({ ...blogContents, blogContent: raw })
-    }
+    setblogContent(raw)
   }
 
   return (

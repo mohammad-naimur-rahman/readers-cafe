@@ -78,6 +78,10 @@
   @apply rounded-lg;
 }
 
+.blog-wrapper {
+  @apply border rounded-lg;
+}
+
 .public-DraftEditor-content {
   padding: 10px;
 }

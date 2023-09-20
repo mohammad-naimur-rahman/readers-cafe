@@ -122,7 +122,7 @@ export default function BlogCard({ blog }: Props) {
           </div>
         </CardContent>
         <CardFooter className="flex justify-between flex-wrap gap-2 pb-2 pt-5 px-2">
-          <ViewBlog blog={blog.blogContent} />
+          <ViewBlog blog={blog} />
           <ButtonExtended
             icon={<Trash2 />}
             variant="destructive"
