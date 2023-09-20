@@ -9,15 +9,27 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { initShortContentQueries } from '@/constants/dashboard/queryValues'
+import { initBlogQueries } from '@/constants/dashboard/queryValues'
 import {
+  IBLogQueries,
   IDiscussionQueries,
   IShortContentQueries,
 } from '@/types/queries/IFilterQueries'
 import { qs } from '@/utils/formUtils/qs'
 import { Eraser, Search } from 'lucide-react'
+import { Dispatch, SetStateAction } from 'react'
 
-export default function BlogFilterFields({ query, setquery, setqueryString }) {
+interface Props {
+  query: IBLogQueries
+  setquery: Dispatch<SetStateAction<IBLogQueries>>
+  setqueryString: Dispatch<SetStateAction<string>>
+}
+
+export default function BlogFilterFields({
+  query,
+  setquery,
+  setqueryString,
+}: Props) {
   const sortByValues = [
     { value: 'title', label: 'Title' },
     { value: 'createdAt', label: 'Date' },
@@ -28,8 +40,14 @@ export default function BlogFilterFields({ query, setquery, setqueryString }) {
     { value: 'desc', label: 'Descending' },
   ]
 
+  const publishedValues = [
+    { value: '', label: 'All' },
+    { value: 'true', label: 'Published' },
+    { value: 'false', label: 'Unpublished' },
+  ]
+
   const clearFields = () => {
-    setquery(initShortContentQueries)
+    setquery(initBlogQueries)
     setqueryString('')
   }
 
@@ -50,6 +68,30 @@ export default function BlogFilterFields({ query, setquery, setqueryString }) {
         value={query.search}
         onChange={e => setquery({ ...query, search: e.target.value })}
       />
+
+      <Select
+        value={query.published}
+        onValueChange={value =>
+          setquery({
+            ...query,
+            published: value,
+          })
+        }
+      >
+        <SelectTrigger className="max-w-xs">
+          <SelectValue placeholder="Published" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup className="overflow-auto max-h-[50dvh]">
+            <SelectLabel>Published</SelectLabel>
+            {publishedValues?.map(({ label, value }) => (
+              <SelectItem key={value} value={value}>
+                {label}
+              </SelectItem>
+            ))}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
 
       <Select
         value={query.sortBy}

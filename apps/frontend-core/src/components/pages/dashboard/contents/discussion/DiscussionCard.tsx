@@ -55,7 +55,7 @@ export default function DiscussionCard({ discussion }: Props) {
     updateDiscussion({
       id: discussion._id,
       payload: {
-        published: !discussion.status,
+        status: !discussion.status,
       },
       token,
     })

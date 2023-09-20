@@ -18,8 +18,10 @@ export interface IShortContentQueries extends ICommonQueries {
 
 export interface IDiscussionQueries extends ICommonQueries {
   topic?: string
+  status?: string
 }
 
 export interface IBLogQueries extends ICommonQueries {
   title?: string
+  published?: string
 }

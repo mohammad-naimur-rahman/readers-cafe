@@ -16,12 +16,19 @@ import {
 } from '@/types/queries/IFilterQueries'
 import { qs } from '@/utils/formUtils/qs'
 import { Eraser, Search } from 'lucide-react'
+import { Dispatch, SetStateAction } from 'react'
+
+interface Props {
+  query: IDiscussionQueries
+  setquery: Dispatch<SetStateAction<IDiscussionQueries>>
+  setqueryString: Dispatch<SetStateAction<string>>
+}
 
 export default function DiscussionFilterFields({
   query,
   setquery,
   setqueryString,
-}) {
+}: Props) {
   const sortByValues = [
     { value: 'topic', label: 'Topic' },
     { value: 'createdAt', label: 'Date' },
@@ -30,6 +37,12 @@ export default function DiscussionFilterFields({
   const sortOrderValues = [
     { value: 'asc', label: 'Ascending' },
     { value: 'desc', label: 'Descending' },
+  ]
+
+  const openValues = [
+    { value: '', label: 'All' },
+    { value: 'true', label: 'Opened' },
+    { value: 'false', label: 'Closed' },
   ]
 
   const clearFields = () => {
@@ -54,6 +67,30 @@ export default function DiscussionFilterFields({
         value={query.search}
         onChange={e => setquery({ ...query, search: e.target.value })}
       />
+
+      <Select
+        value={query.status}
+        onValueChange={value =>
+          setquery({
+            ...query,
+            status: value,
+          })
+        }
+      >
+        <SelectTrigger className="max-w-xs">
+          <SelectValue placeholder="Open" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup className="overflow-auto max-h-[50dvh]">
+            <SelectLabel>Open</SelectLabel>
+            {openValues?.map(({ label, value }) => (
+              <SelectItem key={value} value={value}>
+                {label}
+              </SelectItem>
+            ))}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
 
       <Select
         value={query.sortBy}
