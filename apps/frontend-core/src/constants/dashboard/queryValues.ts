@@ -7,7 +7,7 @@ export const initShortContentQueries: IShortContentQueries = {
   search: '',
   caption: '',
   sortBy: 'createdAt',
-  sortOrder: 'asc' as 'asc',
+  sortOrder: 'desc',
   page: 1,
   limit: 10,
 }
@@ -16,7 +16,16 @@ export const initDiscussionQueries: IDiscussionQueries = {
   search: '',
   topic: '',
   sortBy: 'createdAt',
-  sortOrder: 'asc' as 'asc',
+  sortOrder: 'desc',
+  page: 1,
+  limit: 10,
+}
+
+export const initBlogQueries = {
+  search: '',
+  title: '',
+  sortBy: 'createdAt',
+  sortOrder: 'desc',
   page: 1,
   limit: 10,
 }

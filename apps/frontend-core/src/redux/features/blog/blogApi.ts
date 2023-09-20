@@ -7,8 +7,8 @@ const blogsApi = api.injectEndpoints({
       providesTags: ['blogs'],
     }),
     getMyBlogs: build.query({
-      query: ({ token }) => ({
-        url: '/blogs/my-contents',
+      query: ({ token, query }) => ({
+        url: `/blogs/my-contents?${query}`,
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,

@@ -17,13 +17,9 @@ import {
 import { qs } from '@/utils/formUtils/qs'
 import { Eraser, Search } from 'lucide-react'
 
-export default function DiscussionFilterFields({
-  query,
-  setquery,
-  setqueryString,
-}) {
+export default function BlogFilterFields({ query, setquery, setqueryString }) {
   const sortByValues = [
-    { value: 'topic', label: 'Topic' },
+    { value: 'title', label: 'Title' },
     { value: 'createdAt', label: 'Date' },
   ]
 
@@ -49,7 +45,7 @@ export default function DiscussionFilterFields({
       className="flex gap-2 px-2 mt-5 justify-center"
     >
       <Input
-        placeholder="Search with Topic"
+        placeholder="Search with Title"
         className="max-w-md"
         value={query.search}
         onChange={e => setquery({ ...query, search: e.target.value })}
