@@ -39,6 +39,8 @@ export default function CreateSummaryPage() {
     reviews: [],
   })
 
+  const [content, setcontent] = useState('')
+
   const { data, isSuccess: isSuccessBookData } = useGetBookQuery(query?.bookId)
 
   useEffect(() => {
@@ -53,12 +55,12 @@ export default function CreateSummaryPage() {
 
   const handleCreateSummary = e => {
     e.preventDefault()
-    if (!summaryContents.book || !summaryContents.content) {
+    if (!summaryContents.book || !content) {
       toast.error('Please fill out the required fields!')
       return
     }
 
-    createSummary({ payload: summaryContents, token })
+    createSummary({ payload: { ...summaryContents, content }, token })
   }
 
   useEffect(() => {
@@ -85,11 +87,7 @@ export default function CreateSummaryPage() {
       </div>
       <div className="space-y-2 flex flex-col">
         <Label htmlFor={`${formId}-summary`}>Summary *</Label>
-        <BlogEditor
-          blogContents={summaryContents}
-          setblogContents={setsummaryContents}
-          isSummary
-        />
+        <BlogEditor blogContent={content} setblogContent={setcontent} />
       </div>
       <div className="flex items-center justify-end space-x-2">
         <Switch

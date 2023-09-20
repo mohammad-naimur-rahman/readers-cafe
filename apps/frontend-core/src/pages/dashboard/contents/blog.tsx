@@ -48,7 +48,7 @@ export default function BlogPage() {
           ))}
         </div>
       ) : (
-        <div className="grid grid-cols-4 gap-5 pt-5">
+        <div className="card-container pt-5">
           {data?.data?.map(blog => (
             <BlogCard key={blog._id} blog={blog} />
           ))}
