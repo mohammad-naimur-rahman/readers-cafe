@@ -5,7 +5,6 @@ import ButtonExtended from '@/components/ui/ButtonExtended'
 import DashbaordErrorComponent from '@/components/ui/dashboard/common/DashbaordErrorComponent'
 import DashboardPaginationFields from '@/components/ui/dashboard/common/DashboardPaginationFields'
 import NoContent from '@/components/ui/dashboard/common/NoContent'
-import { Input } from '@/components/ui/input'
 import { Skeleton } from '@/components/ui/skeleton'
 import { useGetMySummariesQuery } from '@/redux/features/summary/summaryApi'
 import { IError } from '@/types/IError'
@@ -13,7 +12,7 @@ import { ISummaryQueries } from '@/types/queries/IFilterQueries'
 import { withAuth } from '@/utils/auth/withAuth'
 import { qs } from '@/utils/formUtils/qs'
 import { getIdAndToken } from '@/utils/getIdAndToken'
-import { Eraser, Filter, Search } from 'lucide-react'
+import { Eraser, Search } from 'lucide-react'
 import { ReactElement, useState } from 'react'
 
 export default function AllSummariesPage() {
@@ -21,36 +20,24 @@ export default function AllSummariesPage() {
   const initSummaryQueries: ISummaryQueries = {
     search: '',
     title: '',
-    published: true,
-    sortBy: 'title',
-    sortOrder: 'asc' as 'asc',
+    sortBy: 'createdAt',
+    sortOrder: 'desc',
+    published: '' as unknown as boolean,
     page: 1,
     limit: 10,
   }
 
   const [query, setquery] = useState<ISummaryQueries>(initSummaryQueries)
-  const [queryString, setqueryString] = useState('')
+  const [queryString, setqueryString] = useState(qs(initSummaryQueries))
   const { isFetching, isError, error, data } = useGetMySummariesQuery({
     token,
     query: queryString,
   })
 
-  const searchBooks = e => {
-    e.preventDefault()
-    setqueryString('')
-    const queryStr = qs({
-      search: query.search,
-      page: query.page,
-      limit: query.limit,
-    })
-    setqueryString(queryStr)
-  }
-
   const filterBooks = e => {
     e.preventDefault()
     setqueryString('')
-    const { search, ...queryWithoutSearch } = query
-    const queryStr = qs(queryWithoutSearch)
+    const queryStr = qs(query)
     setqueryString(queryStr)
   }
 
@@ -69,36 +56,14 @@ export default function AllSummariesPage() {
 
   return (
     <section className="flex flex-col gap-2">
-      <h2 className="text-3xl pt-3">All Summaries</h2>
-
-      <form
-        onSubmit={searchBooks}
-        className="flex gap-2 my-3 max-w-4xl mx-auto w-full"
-      >
-        <Input
-          type="text"
-          placeholder="Search by title, author, publication year and genre"
-          name="search"
-          value={query.search}
-          onChange={e => setquery({ ...query, search: e.target.value })}
-        />
-        <ButtonExtended icon={<Search />}>Search Books</ButtonExtended>
-        <ButtonExtended
-          type="button"
-          variant="destructive"
-          icon={<Eraser />}
-          onClick={clearFields}
-        >
-          Clear Search
-        </ButtonExtended>
-      </form>
+      <h2 className="text-3xl pt-3 text-center">All Summaries</h2>
 
       <form
         onSubmit={filterBooks}
-        className="flex w-full gap-2 mt-5 [&>*]:max-w-xs"
+        className="flex w-full gap-2 mt-5 [&>*]:max-w-xs justify-center"
       >
         <SummaryFilterInputs query={query} setquery={setquery} />
-        <ButtonExtended icon={<Filter />}>Filter Books</ButtonExtended>
+        <ButtonExtended icon={<Search />}>Search Books</ButtonExtended>
         <ButtonExtended
           type="button"
           variant="destructive"

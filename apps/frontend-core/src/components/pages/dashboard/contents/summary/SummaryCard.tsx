@@ -36,7 +36,6 @@ interface Props {
 }
 
 export default function SummaryCard({ summary }: Props) {
-  console.log(summary)
   const { token } = getIdAndToken()
   const { book } = summary
   const assertedBook = book as IBook

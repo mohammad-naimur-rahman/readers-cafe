@@ -77,7 +77,6 @@ interface PaginationFields {
 }
 
 export const generatePaginationFields = (query: any): PaginationFields => {
-  console.log(query)
   const {
     page = 1,
     limit = 10,

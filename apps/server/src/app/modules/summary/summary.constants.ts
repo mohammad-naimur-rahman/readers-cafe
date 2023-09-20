@@ -13,6 +13,10 @@ export const summaryFilterableFieldsWithPopulatedFields: IFilterableFieldsWithPo
       field: 'published',
       populatedField: 'published',
     },
+    {
+      field: 'createdAt',
+      populatedField: 'createdAt',
+    },
   ]
 
 export const summaryLookupFileds: ILookupAndUnwindFields = [
