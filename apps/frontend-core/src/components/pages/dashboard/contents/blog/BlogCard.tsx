@@ -72,10 +72,9 @@ export default function BlogCard({ blog }: Props) {
   }
 
   useEffect(() => {
-    if (isLoading) toast.success('Unpublishing Blog!')
     if (isError) toast.error((error as IError)?.data?.message)
     if (isSuccess) {
-      toast.success('Unpublished Blog Successfully!')
+      toast.success('Updated Publish Status!')
       setpublishStatus(prev => !prev)
     }
 

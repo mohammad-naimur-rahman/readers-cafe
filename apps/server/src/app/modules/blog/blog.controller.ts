@@ -1,8 +1,11 @@
 import httpStatus from 'http-status'
 import { IBlog } from 'validation/types'
+import paginationFields from '../../../constants/pagination'
 import { RequestWithUser } from '../../../interfaces/RequestResponseTypes'
 import catchAsync from '../../../shared/catchAsync'
+import pick from '../../../shared/pick'
 import sendResponse from '../../../shared/sendResponse'
+import { blogFilterableFields } from './blog.constants'
 import { BlogService } from './blog.service'
 
 const createBlog = catchAsync(async (req, res) => {
@@ -10,6 +13,7 @@ const createBlog = catchAsync(async (req, res) => {
     req.body,
     (req as RequestWithUser).user,
   )
+
   sendResponse<IBlog>(res, {
     statusCode: httpStatus.CREATED,
     data: createdBlog,
@@ -17,22 +21,32 @@ const createBlog = catchAsync(async (req, res) => {
   })
 })
 
-const getALllBlogs = catchAsync(async (_req, res) => {
-  const allBlogs = await BlogService.getAllBlogs()
+const getALllBlogs = catchAsync(async (req, res) => {
+  const filters = pick(req.query, blogFilterableFields)
+  const paginationOptions = pick(req.query, paginationFields)
+  const allBlogs = await BlogService.getAllBlogs(filters, paginationOptions)
+
   sendResponse<IBlog[]>(res, {
     statusCode: httpStatus.OK,
-    data: allBlogs,
+    meta: allBlogs.meta,
+    data: allBlogs.data,
     message: 'All Blogs retrieved successfully!',
   })
 })
 
 const getALllUserBlogs = catchAsync(async (req, res) => {
+  const filters = pick(req.query, blogFilterableFields)
+  const paginationOptions = pick(req.query, paginationFields)
   const allBlogs = await BlogService.getAllUserBlogs(
     (req as RequestWithUser).user,
+    filters,
+    paginationOptions,
   )
-  sendResponse<IBlog[]>(res, {
+
+  sendResponse(res, {
     statusCode: httpStatus.OK,
-    data: allBlogs,
+    meta: allBlogs.meta,
+    data: allBlogs.data,
     message: 'All Blogs retrieved successfully!',
   })
 })

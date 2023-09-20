@@ -1,9 +1,14 @@
 import httpStatus from 'http-status'
 import { JwtPayload } from 'jsonwebtoken'
-import { startSession } from 'mongoose'
+import { SortOrder, startSession } from 'mongoose'
 import { IBlog } from 'validation/types'
 import ApiError from '../../../errors/ApiError'
+import calculatePagination from '../../../helpers/paginationHelper'
+import { IGenericResponse } from '../../../interfaces/common'
+import { IPaginationOptions } from '../../../interfaces/pagination'
 import { User } from '../user/user.model'
+import { blogSearchableFields } from './blog.constants'
+import { IBlogFilters } from './blog.interface'
 import { Blog } from './blog.model'
 
 const createBlog = async (payload: IBlog, user: JwtPayload): Promise<IBlog> => {
@@ -39,14 +44,49 @@ const createBlog = async (payload: IBlog, user: JwtPayload): Promise<IBlog> => {
   }
 }
 
-const getAllBlogs = async (): Promise<IBlog[]> => {
-  const allBlogs = await Blog.find({ published: true })
-  return allBlogs
-}
+const getAllBlogs = async (
+  filters: IBlogFilters,
+  paginationOptions: IPaginationOptions,
+): Promise<IGenericResponse<IBlog[]>> => {
+  const { search, ...filtersData } = filters
+  const { page, limit, skip, sortBy, sortOrder } =
+    calculatePagination(paginationOptions)
 
-// TODO: add pagination and filters
-const getAllUserBlogs = async (user: JwtPayload): Promise<IBlog[]> => {
-  const AllSummaries = await Blog.find({ user: user.userId })
+  const andConditions = []
+
+  andConditions.push({ published: true })
+  // Search needs $or for searching in specified fields
+  if (search) {
+    andConditions.push({
+      $or: blogSearchableFields.map(field => ({
+        [field]: {
+          $regex: search,
+          $options: 'i',
+        },
+      })),
+    })
+  }
+
+  if (Object.keys(filtersData).length) {
+    andConditions.push({
+      $and: Object.entries(filtersData).map(([field, value]) => ({
+        [field]: value,
+      })),
+    })
+  }
+
+  // Dynamic  Sort needs  field to  do sorting
+  const sortConditions: { [key: string]: SortOrder } = {}
+  if (sortBy && sortOrder) {
+    sortConditions[sortBy] = sortOrder
+  }
+  const whereConditions =
+    andConditions.length > 0 ? { $and: andConditions } : {}
+
+  const result = await Blog.find(whereConditions)
+    .sort(sortConditions)
+    .skip(skip)
+    .limit(limit)
     .populate({
       path: 'comments',
       populate: {
@@ -54,7 +94,81 @@ const getAllUserBlogs = async (user: JwtPayload): Promise<IBlog[]> => {
       },
     })
     .select('-user')
-  return AllSummaries
+
+  const total = await Blog.find(whereConditions).count()
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: result,
+  }
+}
+
+const getAllUserBlogs = async (
+  user: JwtPayload,
+  filters: IBlogFilters,
+  paginationOptions: IPaginationOptions,
+): Promise<IGenericResponse<IBlog[]>> => {
+  const { search, ...filtersData } = filters
+  const { page, limit, skip, sortBy, sortOrder } =
+    calculatePagination(paginationOptions)
+
+  const andConditions = []
+
+  andConditions.push({ user: user.userId })
+  // Search needs $or for searching in specified fields
+  if (search) {
+    andConditions.push({
+      $or: blogSearchableFields.map(field => ({
+        [field]: {
+          $regex: search,
+          $options: 'i',
+        },
+      })),
+    })
+  }
+
+  if (Object.keys(filtersData).length) {
+    andConditions.push({
+      $and: Object.entries(filtersData).map(([field, value]) => ({
+        [field]: value,
+      })),
+    })
+  }
+
+  // Dynamic  Sort needs  field to  do sorting
+  const sortConditions: { [key: string]: SortOrder } = {}
+  if (sortBy && sortOrder) {
+    sortConditions[sortBy] = sortOrder
+  }
+  const whereConditions =
+    andConditions.length > 0 ? { $and: andConditions } : {}
+
+  const result = await Blog.find(whereConditions)
+    .sort(sortConditions)
+    .skip(skip)
+    .limit(limit)
+    .populate({
+      path: 'comments',
+      populate: {
+        path: 'user',
+      },
+    })
+    .select('-user')
+
+  const total = await Blog.find(whereConditions).count()
+
+  return {
+    meta: {
+      page,
+      limit,
+      total,
+    },
+    data: result,
+  }
 }
 
 const getBlog = async (id: string): Promise<IBlog | null> => {
