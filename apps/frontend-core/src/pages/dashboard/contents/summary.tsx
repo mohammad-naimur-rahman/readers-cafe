@@ -1,9 +1,9 @@
 import DashboardLayout from '@/components/layouts/DashboardLayout'
-import PaginationFields from '@/components/pages/dashboard/contents/book/PaginationFields'
 import SummaryCard from '@/components/pages/dashboard/contents/summary/SummaryCard'
 import SummaryFilterInputs from '@/components/pages/dashboard/contents/summary/SummaryFilterInputs'
 import ButtonExtended from '@/components/ui/ButtonExtended'
 import DashbaordErrorComponent from '@/components/ui/dashboard/common/DashbaordErrorComponent'
+import DashboardPaginationFields from '@/components/ui/dashboard/common/DashboardPaginationFields'
 import NoContent from '@/components/ui/dashboard/common/NoContent'
 import { Input } from '@/components/ui/input'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -51,18 +51,6 @@ export default function AllSummariesPage() {
     setqueryString('')
     const { search, ...queryWithoutSearch } = query
     const queryStr = qs(queryWithoutSearch)
-    setqueryString(queryStr)
-  }
-
-  const next = () => {
-    setquery({ ...query, page: query.page + 1 })
-    const queryStr = qs({ ...query, page: query.page + 1 })
-    setqueryString(queryStr)
-  }
-
-  const previous = () => {
-    setquery({ ...query, page: query.page - 1 })
-    const queryStr = qs({ ...query, page: query.page - 1 })
     setqueryString(queryStr)
   }
 
@@ -135,11 +123,11 @@ export default function AllSummariesPage() {
         </div>
       )}
 
-      <PaginationFields
-        data={data?.meta}
-        next={next}
-        previous={previous}
-        show={data?.data?.length}
+      <DashboardPaginationFields
+        query={query}
+        setquery={setquery}
+        data={data}
+        setqueryString={setqueryString}
       />
 
       <NoContent

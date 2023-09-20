@@ -1,5 +1,6 @@
 import ButtonExtended from '@/components/ui/ButtonExtended'
 import DashbaordErrorComponent from '@/components/ui/dashboard/common/DashbaordErrorComponent'
+import DashboardPaginationFields from '@/components/ui/dashboard/common/DashboardPaginationFields'
 import NoContent from '@/components/ui/dashboard/common/NoContent'
 import { Input } from '@/components/ui/input'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -11,7 +12,6 @@ import { Eraser, Filter, Search } from 'lucide-react'
 import { useState } from 'react'
 import BookCard from './BookCard'
 import BookFilterInputs from './BookFilterInputs'
-import PaginationFields from './PaginationFields'
 
 export default function AllBooks() {
   const initBookQueries: IBookQueries = {
@@ -47,18 +47,6 @@ export default function AllBooks() {
     setqueryString('')
     const { search, ...queryWithoutSearch } = query
     const queryStr = qs(queryWithoutSearch)
-    setqueryString(queryStr)
-  }
-
-  const next = () => {
-    setquery({ ...query, page: query.page + 1 })
-    const queryStr = qs({ ...query, page: query.page + 1 })
-    setqueryString(queryStr)
-  }
-
-  const previous = () => {
-    setquery({ ...query, page: query.page - 1 })
-    const queryStr = qs({ ...query, page: query.page - 1 })
     setqueryString(queryStr)
   }
 
@@ -132,11 +120,11 @@ export default function AllBooks() {
         </div>
       )}
 
-      <PaginationFields
-        data={data?.meta}
-        next={next}
-        previous={previous}
-        show={data?.data?.length}
+      <DashboardPaginationFields
+        query={query}
+        setquery={setquery}
+        data={data}
+        setqueryString={setqueryString}
       />
 
       <NoContent
