@@ -24,3 +24,21 @@ export const initDiscussion = (query?: { topic?: string }): IDiscussion => ({
   status: true,
   description: '',
 })
+
+export const initBlog = (query?: { title?: string }) => ({
+  title: query?.title || '',
+  coverImage: {
+    url: '',
+    dominantColor: '',
+  },
+  blogContent: '',
+  published: true,
+  comments: [],
+})
+
+export const initSummary = () => ({
+  book: null,
+  content: '',
+  published: true,
+  reviews: [],
+})

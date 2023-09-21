@@ -29,8 +29,9 @@ export default function CreateShortContentPage() {
 
   const [isImageUploading, setisImageUploading] = useState(false)
 
-  const [shortContent, setshortContent] =
-    useState<IShortContent>(initShortContent)
+  const [shortContent, setshortContent] = useState<IShortContent>(
+    initShortContent(),
+  )
 
   const onChangeCaption = e => {
     setshortContent({ ...shortContent, caption: e.target.value })

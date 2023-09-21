@@ -33,8 +33,9 @@ export default function UpdateShortContentPage() {
 
   const [isImageUploading, setisImageUploading] = useState(false)
 
-  const [shortContent, setshortContent] =
-    useState<IShortContent>(initShortContent)
+  const [shortContent, setshortContent] = useState<IShortContent>(
+    initShortContent(),
+  )
 
   useEffect(() => {
     if (data?.data) {

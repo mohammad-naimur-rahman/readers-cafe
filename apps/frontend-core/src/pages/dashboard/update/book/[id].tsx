@@ -48,7 +48,7 @@ export default function UpdateBookPage() {
     useUpdateBookMutation()
 
   const [isImageUploading, setisImageUploading] = useState(false)
-  const [book, setbook] = useState<IBook>(initBookValues)
+  const [book, setbook] = useState<IBook>(initBookValues())
   const [selectedAuthors, setselectedAuthors] = useState<IAuthor[]>(
     book?.authors as IAuthor[],
   )

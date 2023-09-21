@@ -4,6 +4,7 @@ import DashboardPaginationFields from '@/components/ui/dashboard/common/Dashboar
 import NoContent from '@/components/ui/dashboard/common/NoContent'
 import { Input } from '@/components/ui/input'
 import { Skeleton } from '@/components/ui/skeleton'
+import { initBookQueries } from '@/constants/dashboard/queryValues'
 import { useGetBooksQuery } from '@/redux/features/book/bookApi'
 import { IError } from '@/types/IError'
 import { IBookQueries } from '@/types/queries/IFilterQueries'
@@ -14,18 +15,6 @@ import BookCard from './BookCard'
 import BookFilterInputs from './BookFilterInputs'
 
 export default function AllBooks() {
-  const initBookQueries: IBookQueries = {
-    search: '',
-    title: '',
-    publicationYear: '',
-    genre: 'Fiction',
-    author: '',
-    sortBy: 'title',
-    sortOrder: 'asc' as 'asc',
-    page: 1,
-    limit: 10,
-  }
-
   const [query, setquery] = useState<IBookQueries>(initBookQueries)
   const [queryString, setqueryString] = useState('')
 

@@ -24,7 +24,7 @@ export default function UpdateDiscussionPage() {
   const { push, query } = useRouter()
   const { token } = getIdAndToken()
 
-  const [discussion, setdiscussion] = useState<IDiscussion>(initDiscussion)
+  const [discussion, setdiscussion] = useState<IDiscussion>(initDiscussion())
 
   const { data } = useGetDiscussionQuery(query?.id)
 

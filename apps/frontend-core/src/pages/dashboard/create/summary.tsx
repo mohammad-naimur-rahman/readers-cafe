@@ -5,6 +5,7 @@ import ButtonExtended from '@/components/ui/ButtonExtended'
 import { Label } from '@/components/ui/label'
 import Overlay from '@/components/ui/overlay'
 import { Switch } from '@/components/ui/switch'
+import { initSummary } from '@/constants/dashboard/initValues'
 import { useGetBookQuery } from '@/redux/features/book/bookApi'
 import { useCreateSummaryMutation } from '@/redux/features/summary/summaryApi'
 import { IError } from '@/types/IError'
@@ -32,12 +33,9 @@ export default function CreateSummaryPage() {
   const [createSummary, { isLoading, isError, error, isSuccess }] =
     useCreateSummaryMutation()
 
-  const [summaryContents, setsummaryContents] = useState<ISummary>({
-    book: null,
-    content: '',
-    published: true,
-    reviews: [],
-  })
+  const [summaryContents, setsummaryContents] = useState<ISummary>(
+    initSummary(),
+  )
 
   const [content, setcontent] = useState('')
 

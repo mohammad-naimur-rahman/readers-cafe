@@ -6,6 +6,7 @@ import DashbaordErrorComponent from '@/components/ui/dashboard/common/DashbaordE
 import DashboardPaginationFields from '@/components/ui/dashboard/common/DashboardPaginationFields'
 import NoContent from '@/components/ui/dashboard/common/NoContent'
 import { Skeleton } from '@/components/ui/skeleton'
+import { initSummaryQueries } from '@/constants/dashboard/queryValues'
 import { useGetMySummariesQuery } from '@/redux/features/summary/summaryApi'
 import { IError } from '@/types/IError'
 import { ISummaryQueries } from '@/types/queries/IFilterQueries'
@@ -17,15 +18,6 @@ import { ReactElement, useState } from 'react'
 
 export default function AllSummariesPage() {
   const { token } = getIdAndToken()
-  const initSummaryQueries: ISummaryQueries = {
-    search: '',
-    title: '',
-    sortBy: 'createdAt',
-    sortOrder: 'desc',
-    published: '' as unknown as boolean,
-    page: 1,
-    limit: 10,
-  }
 
   const [query, setquery] = useState<ISummaryQueries>(initSummaryQueries)
   const [queryString, setqueryString] = useState(qs(initSummaryQueries))

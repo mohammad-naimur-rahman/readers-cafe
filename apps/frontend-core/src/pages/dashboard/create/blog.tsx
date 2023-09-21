@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import Overlay from '@/components/ui/overlay'
 import { Switch } from '@/components/ui/switch'
+import { initBlog } from '@/constants/dashboard/initValues'
 import { initImage } from '@/constants/initImage'
 import { useCreateBlogMutation } from '@/redux/features/blog/blogApi'
 import { IError } from '@/types/IError'
@@ -38,16 +39,7 @@ export default function CreateBlogPage() {
 
   const [isImageUploading, setisImageUploading] = useState(false)
 
-  const [blogContents, setblogContents] = useState<IBlog>({
-    title: '',
-    coverImage: {
-      url: '',
-      dominantColor: '',
-    },
-    blogContent: '',
-    published: true,
-    comments: [],
-  })
+  const [blogContents, setblogContents] = useState<IBlog>(initBlog())
 
   const [blogContent, setblogContent] = useState('')
 

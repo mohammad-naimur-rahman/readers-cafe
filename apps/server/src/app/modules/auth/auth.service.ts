@@ -60,7 +60,7 @@ const signUpUser = async (
   )
 
   const refreshToken = jwtHelpers.createToken(
-    { userId, role },
+    { userId, role, tokenVersion: createdTokenVersion.tokenVersion },
     config.jwt.refresh_secret as Secret,
     config.jwt.refresh_expires_in as string,
   )
@@ -113,7 +113,7 @@ const loginUser = async (
   )
 
   const refreshToken = jwtHelpers.createToken(
-    { userId, role },
+    { userId, role, tokenVersion: currentTokenVersion.tokenVersion },
     config.jwt.refresh_secret as Secret,
     config.jwt.refresh_expires_in as string,
   )

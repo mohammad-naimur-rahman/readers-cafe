@@ -21,7 +21,7 @@ export interface IDiscussionQueries extends ICommonQueries {
   status?: string
 }
 
-export interface IBLogQueries extends ICommonQueries {
+export interface IBlogQueries extends ICommonQueries {
   title?: string
   published?: string
 }
