@@ -25,15 +25,15 @@ export default function SummaryCard({ summary, fixedSize, showAll }: Props) {
 
   return (
     <Card
-      className={cn('w-96', {
-        'flex-shrink-0': fixedSize,
+      className={cn('w-96 bg-secondary', {
+        'flex-shrink-0 w-96': fixedSize,
       })}
     >
       {showAll ? (
         <div className="flex items-center justify-center h-full">
           <Link href="/summaries">
             <Button variant="link" className="text-lg">
-              Show all summary
+              Show all summaries
             </Button>
           </Link>
         </div>
