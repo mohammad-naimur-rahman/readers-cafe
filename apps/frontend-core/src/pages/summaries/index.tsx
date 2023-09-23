@@ -1,3 +1,4 @@
+/* eslint-disable no-unsafe-optional-chaining */
 import RootLayout from '@/components/layouts/RootLayout'
 import SummaryCard from '@/components/ui/core/cards/SummaryCard'
 import Loading from '@/components/ui/core/infiniteScroll/Loading'
@@ -23,7 +24,8 @@ export default function AllSumarriesPage({ summaries }: Props) {
       'summaries',
       `page=${currentPage + 1}&published=true`,
     )
-    setdata([...data, ...nextPage.data])
+
+    if (nextPage?.data) setdata([...data, ...nextPage.data])
     sethasMore(nextPage?.meta?.page < nextPage?.meta?.totalPages)
   }
 

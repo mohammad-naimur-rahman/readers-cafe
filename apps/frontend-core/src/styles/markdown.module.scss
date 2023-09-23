@@ -32,6 +32,14 @@
     @apply text-lg font-semibold;
   }
 
+  p,
+  span,
+  ul,
+  ol,
+  a {
+    @apply text-lg md:text-xl;
+  }
+
   ul {
     list-style: disc;
     list-style-position: inside;

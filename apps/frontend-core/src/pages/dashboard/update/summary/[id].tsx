@@ -1,4 +1,4 @@
-import animationData from '@/assets/lottie/savingFile.json'
+import animationData from '@/assets/lottie/updating3.json'
 import DashboardLayout from '@/components/layouts/DashboardLayout'
 import BookCard from '@/components/pages/dashboard/update/summary/BookCard'
 import ButtonExtended from '@/components/ui/ButtonExtended'
@@ -73,7 +73,7 @@ export default function UpdateSummaryPage() {
   useEffect(() => {
     if (isError) toast.error((error as IError)?.data?.message)
     if (isSuccess) {
-      toast.success('Summary created successfully!')
+      toast.success('Summary updated successfully!')
       push('/dashboard/contents/summary')
     }
   }, [isSuccess, isError, error, push])
@@ -99,7 +99,7 @@ export default function UpdateSummaryPage() {
       </div>
       <div className="flex justify-end">
         <ButtonExtended type="submit" icon={<FilePlus2 />}>
-          Create Summary
+          Update Summary
         </ButtonExtended>
       </div>
       <Overlay animationData={animationData} isOpen={isLoading} />
