@@ -171,7 +171,7 @@ const newAccessToken = async (
   // generate new token
   const newAccessToken = jwtHelpers.createToken(
     {
-      id: isUserExist.id,
+      userId,
       role: isUserExist.role,
       tokenVersion,
     },
