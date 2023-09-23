@@ -18,7 +18,7 @@ interface Props {
 export default function DiscussionCard({ discussion, fixedSize }: Props) {
   return (
     <Card
-      className={cn('w-96 bg-secondary', {
+      className={cn('bg-secondary', {
         'flex-shrink-0 w-96': fixedSize,
       })}
     >

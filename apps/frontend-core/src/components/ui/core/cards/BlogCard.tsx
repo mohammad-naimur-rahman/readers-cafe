@@ -22,7 +22,7 @@ interface Props {
 export default function BlogCard({ blog, fixedSize }: Props) {
   return (
     <Card
-      className={cn('w-96 bg-secondary', {
+      className={cn('bg-secondary', {
         'flex-shrink-0 w-96': fixedSize,
       })}
     >
