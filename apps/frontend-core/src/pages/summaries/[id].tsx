@@ -1,4 +1,5 @@
 import RootLayout from '@/components/layouts/RootLayout'
+import PostReviewForm from '@/components/pages/summaries/PostReviewForm'
 import { Button } from '@/components/ui/button'
 import Img from '@/components/ui/img'
 import Typography from '@/components/ui/typrgraphy'
@@ -35,8 +36,10 @@ export default function SummaryDetailsPage({ summary }: Props) {
           </Link>
         </Button>
       </div>
-      <div className="mx-auto max-w-sm">
-        {book?.image?.url ? <Img src={book?.image} alt={book?.title} /> : null}
+      <div className="max-w-sm">
+        {book?.image?.url ? (
+          <Img src={book?.image} alt={book?.title} sizes="350px" />
+        ) : null}
       </div>
       {book?.publicationYear ? (
         <div className="space-y-2">
@@ -61,6 +64,11 @@ export default function SummaryDetailsPage({ summary }: Props) {
         <ReactMarkdown className={styles.markdown}>
           {summary?.data?.content}
         </ReactMarkdown>
+      </div>
+
+      <div className="space-y-3">
+        <Typography variant="h3">Post review</Typography>
+        <PostReviewForm id={summary?.data?._id} />
       </div>
 
       <div className="space-y-2">
