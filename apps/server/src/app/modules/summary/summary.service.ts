@@ -88,6 +88,11 @@ const getAllSummaries = async (
     { $sort: sort },
   ])
 
+  await Summary.populate(summaries, {
+    path: 'user',
+    select: { _id: 1, fullName: 1 },
+  })
+
   return {
     meta: {
       total,

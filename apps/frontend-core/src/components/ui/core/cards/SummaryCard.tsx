@@ -1,15 +1,23 @@
 /* eslint-disable no-unsafe-optional-chaining */
 import bookImage from '@/assets/images/book.png'
 import ButtonExtended from '@/components/ui/ButtonExtended'
-import { Card, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 import Img, { LocalImg } from '@/components/ui/img'
 import { cn } from '@/lib/utils'
 import styles from '@/styles/markdown.module.scss'
+import { formatDate } from '@/utils/formateDate'
 import { splitMarkdown } from '@/utils/splitMarkdown'
 import { ViewIcon } from 'lucide-react'
 import Link from 'next/link'
 import ReactMarkdown from 'react-markdown'
-import { IBook, IGenre, ISummary } from 'validation/types'
+import { IBook, IGenre, ISummary, IUser } from 'validation/types'
+import { Button } from '../../button'
 
 interface Props {
   summary: ISummary
@@ -45,7 +53,7 @@ export default function SummaryCard({ summary, fixedSize }: Props) {
           </p>
         </div>
       </CardHeader>
-      <section className="p-0">
+      <CardContent className="p-0">
         <div className="h-[350px]">
           {assertedBook?.image?.url ? (
             <Img
@@ -75,7 +83,18 @@ export default function SummaryCard({ summary, fixedSize }: Props) {
             {splitMarkdown(summary.content, 200)}
           </ReactMarkdown>
         </div>
-      </section>
+        <div className="text-right px-3">
+          <div className="flex items-center gap-1 justify-end">
+            <p>By</p>
+            <Button variant="link" className="p-0 m-0">
+              <Link href={`users/${summary.user._id}`}>
+                {(summary?.user as IUser)?.fullName}
+              </Link>
+            </Button>
+          </div>
+          <p>{formatDate(summary.createdAt)}</p>
+        </div>
+      </CardContent>
       <CardFooter className="flex justify-end flex-wrap gap-2 pb-2 pt-5 px-2">
         <Link href={`/summaries/${summary._id}`}>
           <ButtonExtended icon={<ViewIcon />}>View Summary</ButtonExtended>

@@ -10,4 +10,5 @@ export interface ISummary {
   published: boolean
   reviews: Types.ObjectId[]
   averageStarRating?: number
+  createdAt?: Date
 }

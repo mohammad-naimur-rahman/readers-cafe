@@ -1,5 +1,6 @@
 import RootLayout from '@/components/layouts/RootLayout'
 import SummaryCard from '@/components/ui/core/cards/SummaryCard'
+import Loading from '@/components/ui/core/infiniteScroll/Loading'
 import Typography from '@/components/ui/typrgraphy'
 import { IResponse } from '@/types/IResponse'
 import { fetcher } from '@/utils/fetcher'
@@ -20,11 +21,12 @@ export default function AllSumarriesPage({ summaries }: Props) {
     setcurrentPage(currentPage + 1)
     const nextPage = await fetcher(
       'summaries',
-      `page=${currentPage + 1}&limit=2&published=true`,
+      `page=${currentPage + 1}&published=true`,
     )
     setdata([...data, ...nextPage.data])
     sethasMore(nextPage?.meta?.page < nextPage?.meta?.totalPages)
   }
+
   return (
     <section className="container">
       <Typography variant="h1" className="px-5 py-10">
@@ -34,11 +36,10 @@ export default function AllSumarriesPage({ summaries }: Props) {
         dataLength={summaries.data.length}
         next={goToNextPage}
         hasMore={hasMore}
-        loader={<h3> Loading...</h3>}
-        endMessage={<h4>Nothing more to show</h4>}
+        loader={<Loading />}
       >
-        <div className="flex flex-col">
-          {data.map(summary => (
+        <div className="card-container">
+          {data?.map(summary => (
             <SummaryCard
               key={summary._id}
               summary={summary}
@@ -56,7 +57,7 @@ AllSumarriesPage.getLayout = function getLayout(page: ReactElement) {
 }
 
 export async function getStaticProps() {
-  const summaries = await fetcher('summaries', 'page=1&limit=2&published=true')
+  const summaries = await fetcher('summaries', 'page=1&published=true')
   return {
     props: {
       summaries,
