@@ -2,6 +2,7 @@ import RootLayout from '@/components/layouts/RootLayout'
 import BlogCard from '@/components/ui/core/cards/BlogCard'
 import DiscussionCard from '@/components/ui/core/cards/DiscussionCard'
 import ShortContentCard from '@/components/ui/core/cards/ShortContentCard'
+import ShowAllCard from '@/components/ui/core/cards/ShowAllCard'
 import SummaryCard from '@/components/ui/core/cards/SummaryCard'
 import Draggable from '@/components/ui/draggable'
 import Typography from '@/components/ui/typrgraphy'
@@ -32,7 +33,7 @@ export default function IndexPage({
         {summaries?.data?.map(summary => (
           <SummaryCard key={summary._id} summary={summary} fixedSize />
         ))}
-        <SummaryCard summary={summaries.data[0]} fixedSize showAll />
+        <ShowAllCard contentType="Summaries" link="/summaries" fixedSize />
       </Draggable>
 
       <Typography variant="h2" className="p-5 pt-16">
@@ -42,7 +43,7 @@ export default function IndexPage({
         {blogs?.data?.map(blog => (
           <BlogCard key={blog._id} blog={blog} fixedSize />
         ))}
-        <BlogCard blog={blogs.data[0]} fixedSize showAll />
+        <ShowAllCard contentType="Blogs" link="/blogs" fixedSize />
       </Draggable>
 
       <Typography variant="h2" className="p-5 pt-16">
@@ -56,7 +57,7 @@ export default function IndexPage({
             fixedSize
           />
         ))}
-        <DiscussionCard discussion={discussions.data[0]} fixedSize showAll />
+        <ShowAllCard contentType="Discussions" link="/discussions" fixedSize />
       </Draggable>
 
       <Typography variant="h2" className="p-5 pt-16">
@@ -70,7 +71,11 @@ export default function IndexPage({
             fixedSize
           />
         ))}
-        <ShortContentCard shortContent={shortContents[0]} fixedSize showAll />
+        <ShowAllCard
+          contentType="Short Contents"
+          link="/short-contents"
+          fixedSize
+        />
       </Draggable>
     </div>
   )
