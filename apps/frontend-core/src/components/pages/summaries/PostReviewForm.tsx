@@ -1,7 +1,7 @@
 import ButtonExtended from '@/components/ui/ButtonExtended'
 import { Textarea } from '@/components/ui/textarea'
 import { usePost } from '@/hooks/usePost'
-import { PenTool, Star } from 'lucide-react'
+import { MessageCircle, Star } from 'lucide-react'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
 import StarRatingComponent from 'react-star-rating-component'
@@ -52,7 +52,7 @@ export default function PostReviewForm({ id }: Props) {
         value={review.reviewText}
         onChange={e => setreview({ ...review, reviewText: e.target.value })}
       />
-      <ButtonExtended icon={<PenTool />} type="submit">
+      <ButtonExtended icon={<MessageCircle />} type="submit">
         Submit Review
       </ButtonExtended>
     </form>

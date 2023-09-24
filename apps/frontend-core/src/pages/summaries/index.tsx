@@ -18,7 +18,7 @@ export default function AllSumarriesPage({ summaries }: Props) {
   const [data, setdata] = useState(summaries?.data)
   const [hasMore, sethasMore] = useState(true)
 
-  const goToNextPage = async () => {
+  const next = async () => {
     setcurrentPage(currentPage + 1)
     const nextPage = await fetcher(
       'summaries',
@@ -35,8 +35,8 @@ export default function AllSumarriesPage({ summaries }: Props) {
         All Summaries
       </Typography>
       <InfiniteScroll
-        dataLength={summaries.data.length}
-        next={goToNextPage}
+        dataLength={data?.length}
+        next={next}
         hasMore={hasMore}
         loader={<Loading />}
       >
