@@ -31,9 +31,11 @@ const createReview = async (
       },
     )
 
+    const populatedReview = await createdReview[0].populate('user')
+
     await session.commitTransaction()
 
-    return createdReview[0]
+    return populatedReview
   } catch (error) {
     await session.abortTransaction()
     throw error

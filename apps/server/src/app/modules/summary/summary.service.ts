@@ -148,10 +148,19 @@ const getAllUserSummeries = async (
 }
 
 const getSummary = async (id: string): Promise<ISummary | null> => {
-  const singleSummary = await Summary.findById(id).populate({
-    path: 'book',
-    populate: ['authors', 'genre'],
-  })
+  const singleSummary = await Summary.findById(id).populate([
+    {
+      path: 'book',
+      populate: ['authors', 'genre'],
+    },
+    {
+      path: 'reviews',
+      populate: ['user'],
+      options: {
+        sort: { createdAt: -1 },
+      },
+    },
+  ])
   return singleSummary
 }
 

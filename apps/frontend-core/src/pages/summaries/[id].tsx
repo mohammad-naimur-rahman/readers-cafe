@@ -1,14 +1,17 @@
 import RootLayout from '@/components/layouts/RootLayout'
 import PostReviewForm from '@/components/pages/summaries/PostReviewForm'
+import Review from '@/components/pages/summaries/Review'
 import { Button } from '@/components/ui/button'
 import Img from '@/components/ui/img'
 import Typography from '@/components/ui/typrgraphy'
 import styles from '@/styles/markdown.module.scss'
 import { fetcher } from '@/utils/fetcher'
+import { getIdAndToken } from '@/utils/getIdAndToken'
 import Link from 'next/link'
-import { ReactElement } from 'react'
+import { useRouter } from 'next/router'
+import { ReactElement, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
-import { IBook, IGenre, ISummary } from 'validation/types'
+import { IBook, IGenre, IReview, ISummary } from 'validation/types'
 
 interface Props {
   summary: {
@@ -18,6 +21,14 @@ interface Props {
 
 export default function SummaryDetailsPage({ summary }: Props) {
   const book = summary?.data?.book as IBook
+  const { asPath } = useRouter()
+  const { token, id } = getIdAndToken()
+
+  const [allReviews, setallReviews] = useState<IReview[]>(
+    // @ts-ignore
+    summary?.data?.reviews,
+  )
+
   return (
     <section className="flex flex-col gap-8 max-w-4xl mx-auto px-2">
       <div>
@@ -32,7 +43,7 @@ export default function SummaryDetailsPage({ summary }: Props) {
         </div>
         <Button variant="link" className="p-0 m-0 text-lg">
           <Link href={`summaries/genre/${book?.genre?._id}`}>
-            {(book?.genre as unknown as IGenre).genre}
+            {(book?.genre as unknown as IGenre)?.genre}
           </Link>
         </Button>
       </div>
@@ -67,15 +78,36 @@ export default function SummaryDetailsPage({ summary }: Props) {
       </div>
 
       <div className="space-y-3">
-        <Typography variant="h3">Post review</Typography>
-        <PostReviewForm id={summary?.data?._id} />
+        {id !== (summary?.data?.user as unknown as string) ? (
+          <div>
+            <Typography variant="h3">Post review</Typography>
+            {token ? (
+              <PostReviewForm
+                id={summary?.data?._id}
+                allReviews={allReviews}
+                setallReviews={setallReviews}
+              />
+            ) : (
+              <div className="space-y-3">
+                <p className="text-secondary-foreground text-lg italic mb-3">
+                  Login to post review
+                </p>
+                <Link href={`/login?redirected=true&prevPath=${asPath}`}>
+                  <Button>Login</Button>
+                </Link>
+              </div>
+            )}
+          </div>
+        ) : null}
       </div>
 
       <div className="space-y-2">
         <Typography variant="h3">Reviews</Typography>
-        {summary?.data?.reviews?.length ? (
+        {allReviews?.length ? (
           <div>
-            <p>Hello</p>
+            {allReviews?.map(review => (
+              <Review review={review} key={review._id as unknown as string} />
+            ))}
           </div>
         ) : (
           <p className="italic text-secondary-foreground">No reviews yet</p>
