@@ -14,9 +14,14 @@ import { Dispatch, SetStateAction } from 'react'
 interface Props {
   query: ISummaryQueries
   setquery: Dispatch<SetStateAction<ISummaryQueries>>
+  showPublished?: boolean
 }
 
-export default function SummaryFilterInputs({ query, setquery }: Props) {
+export default function SummaryFilterInputs({
+  query,
+  setquery,
+  showPublished = true,
+}: Props) {
   const sortByValues = [
     { value: 'title', label: 'Title' },
     { value: 'createdAt', label: 'Date' },
@@ -43,29 +48,31 @@ export default function SummaryFilterInputs({ query, setquery }: Props) {
         onChange={e => setquery({ ...query, search: e.target.value })}
       />
 
-      <Select
-        value={query.published as unknown as string}
-        onValueChange={value =>
-          setquery({
-            ...query,
-            published: value as unknown as boolean,
-          })
-        }
-      >
-        <SelectTrigger>
-          <SelectValue placeholder="Published" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup className="overflow-auto max-h-[50dvh]">
-            <SelectLabel>Published</SelectLabel>
-            {publishedValues?.map(({ value, label }) => (
-              <SelectItem key={value} value={value}>
-                {label}
-              </SelectItem>
-            ))}
-          </SelectGroup>
-        </SelectContent>
-      </Select>
+      {showPublished ? (
+        <Select
+          value={query.published as unknown as string}
+          onValueChange={value =>
+            setquery({
+              ...query,
+              published: value as unknown as boolean,
+            })
+          }
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Published" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup className="overflow-auto max-h-[50dvh]">
+              <SelectLabel>Published</SelectLabel>
+              {publishedValues?.map(({ value, label }) => (
+                <SelectItem key={value} value={value}>
+                  {label}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      ) : null}
 
       <Select
         value={query.sortBy}
@@ -81,6 +88,7 @@ export default function SummaryFilterInputs({ query, setquery }: Props) {
         </SelectTrigger>
         <SelectContent>
           <SelectGroup className="overflow-auto max-h-[50dvh]">
+            <SelectLabel>Sort By</SelectLabel>
             {sortByValues?.map(({ label, value }) => (
               <SelectItem key={value} value={value}>
                 {label}
@@ -104,6 +112,7 @@ export default function SummaryFilterInputs({ query, setquery }: Props) {
         </SelectTrigger>
         <SelectContent>
           <SelectGroup className="overflow-auto max-h-[50dvh]">
+            <SelectLabel>Sort Order</SelectLabel>
             {sortOrderValues?.map(({ label, value }) => (
               <SelectItem key={value} value={value}>
                 {label}

@@ -10,12 +10,9 @@ import {
 } from '@/components/ui/card'
 import Img, { LocalImg } from '@/components/ui/img'
 import { cn } from '@/lib/utils'
-import styles from '@/styles/markdown.module.scss'
 import { formatDate } from '@/utils/formateDate'
-import { splitMarkdown } from '@/utils/splitMarkdown'
 import { ViewIcon } from 'lucide-react'
 import Link from 'next/link'
-import ReactMarkdown from 'react-markdown'
 import { IBook, IGenre, ISummary, IUser } from 'validation/types'
 import { Button } from '../../button'
 
@@ -78,11 +75,11 @@ export default function SummaryCard({ summary, fixedSize }: Props) {
             </p>
           </div>
         </div>
-        <div className="p-2">
+        {/* <div className="p-2">
           <ReactMarkdown className={styles.markdown}>
             {splitMarkdown(summary.content, 200)}
           </ReactMarkdown>
-        </div>
+        </div> */}
         <div className="text-right px-3">
           <div className="flex items-center gap-1 justify-end">
             <p>By</p>
@@ -92,7 +89,7 @@ export default function SummaryCard({ summary, fixedSize }: Props) {
               </Link>
             </Button>
           </div>
-          <p>{formatDate(summary.createdAt)}</p>
+          <p>{formatDate(summary?.createdAt)}</p>
         </div>
       </CardContent>
       <CardFooter className="flex justify-end flex-wrap gap-2 pb-2 pt-5 px-2">
