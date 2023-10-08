@@ -96,7 +96,7 @@ export default function ProfileDropdown() {
                   <li className="hover:bg-accent w-full py-1 px-3 block rounded-sm">
                     <Link
                       className="flex items-center gap-2"
-                      href="/dashboard/create/summary"
+                      href="/dashboard/create/blog"
                     >
                       <FileText className="w-4 h-4" />
                       Blog
@@ -105,7 +105,7 @@ export default function ProfileDropdown() {
                   <li className="hover:bg-accent w-full py-1 px-3 block rounded-sm">
                     <Link
                       className="flex items-center gap-2"
-                      href="/dashboard/create/summary"
+                      href="/dashboard/create/discussion"
                     >
                       <ScrollText className="w-4 h-4" />
                       Discussion
@@ -114,7 +114,7 @@ export default function ProfileDropdown() {
                   <li className="hover:bg-accent w-full py-1 px-3 block rounded-sm">
                     <Link
                       className="flex items-center gap-2"
-                      href="/dashboard/create/summary"
+                      href="/dashboard/create/short-content"
                     >
                       <Image className="w-4 h-4" />
                       Short Content

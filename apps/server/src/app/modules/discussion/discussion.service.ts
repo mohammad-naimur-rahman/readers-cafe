@@ -94,7 +94,10 @@ const getAllDiscussions = async (
         path: 'user',
       },
     })
-    .select('-user')
+    .populate({
+      path: 'user',
+      select: 'fullName',
+    })
 
   const total = await Discussion.find(whereConditions).count()
 

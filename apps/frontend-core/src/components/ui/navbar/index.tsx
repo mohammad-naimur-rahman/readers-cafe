@@ -27,13 +27,15 @@ const navigationMenu = [
 
 export default function Navbar() {
   return (
-    <nav className="flex items-center justify-between px-5 py-3 shadow-lg h-16 fixed top-0 left-0 w-full gap-5 backdrop-blur-lg">
+    <nav className="flex items-center justify-between px-5 py-3 shadow-md h-16 fixed top-0 left-0 w-full gap-5 backdrop-blur-lg">
       <Link href="/">
         <LocalImg
           src={logo}
           alt="Reader's cafe"
           className="w-48"
           sizes="10vw"
+          width={192}
+          height={80}
         />
       </Link>
       <Navmenu navigationMenu={navigationMenu} />

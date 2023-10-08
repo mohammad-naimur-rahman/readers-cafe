@@ -97,7 +97,10 @@ const getAllShortContents = async (
         path: 'user',
       },
     })
-    .select('-user')
+    .populate({
+      path: 'user',
+      select: 'fullName',
+    })
 
   const total = await ShortContent.find(whereConditions).count()
 

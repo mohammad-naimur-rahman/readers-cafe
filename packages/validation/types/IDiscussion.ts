@@ -9,4 +9,5 @@ export interface IDiscussion {
   comments: Types.ObjectId[]
   user?: Types.ObjectId | IUser
   status: boolean
+  createdAt?: Date
 }

@@ -8,4 +8,5 @@ export interface IShortContent {
   image?: IImage
   user?: Types.ObjectId | IUser
   comments: Types.ObjectId[]
+  createdAt?: Date
 }

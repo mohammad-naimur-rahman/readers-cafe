@@ -36,7 +36,7 @@ export default function BlogCard({ blog, fixedSize, className }: Props) {
       </div>
 
       <div className="p-3">
-        <p className="px-2 text-right">
+        <p className="text-right">
           <span className="font-semibold">Total comment: </span>
           {blog.comments.length}
         </p>
