@@ -11,7 +11,7 @@ export default function RootLayout({ title, children }: Props) {
   return (
     <EmptyLayout title={title}>
       <Navbar />
-      <main className="h-min-body mt-16">{children}</main>
+      <main className="h-min-body mt-16 bg-secondary">{children}</main>
     </EmptyLayout>
   )
 }

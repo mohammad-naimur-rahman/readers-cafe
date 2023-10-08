@@ -28,7 +28,7 @@ export default function SummaryCard({ summary, fixedSize }: Props) {
 
   return (
     <Card
-      className={cn('bg-secondary', {
+      className={cn({
         'flex-shrink-0 w-96': fixedSize,
       })}
     >

@@ -21,31 +21,28 @@ interface Props {
   summaries: IResponse<ISummary>
 }
 
+const initSummaryQueryData = {
+  ...initSummaryQueries,
+  published: true,
+}
+
 export default function AllSumarriesPage({ summaries }: Props) {
   const [currentPage, setcurrentPage] = useState(summaries?.meta?.page)
   const [data, setdata] = useState(summaries?.data)
   const [hasMore, sethasMore] = useState(true)
 
-  const [query, setquery] = useState<ISummaryQueries>({
-    ...initSummaryQueries,
-    published: true,
-  })
+  const [query, setquery] = useState<ISummaryQueries>(initSummaryQueryData)
 
-  const [queryString, setqueryString] = useState(
-    qs({ ...initSummaryQueries, published: true }),
-  )
+  const [queryString, setqueryString] = useState(qs(initSummaryQueryData))
 
   const { data: summariesData, isFetching } = useApiData(
     'summaries',
     queryString,
   )
 
-  console.log(isFetching)
-
   useEffect(() => {
     if (summariesData) {
       setdata(summariesData?.data)
-      // sethasMore(isLastPage(summariesData?.meta))
     }
   }, [summariesData, queryString])
 
@@ -54,7 +51,6 @@ export default function AllSumarriesPage({ summaries }: Props) {
     const nextPage = await fetcher(
       'summaries',
       qs({ ...query, page: currentPage + 1, published: true }),
-      // `page=${currentPage + 1}&published=true`,
     )
 
     if (nextPage?.data) setdata([...data, ...nextPage.data])
@@ -63,26 +59,16 @@ export default function AllSumarriesPage({ summaries }: Props) {
 
   const filterBooks = e => {
     e.preventDefault()
-    setqueryString(
-      qs({
-        ...initSummaryQueries,
-        published: true,
-      }),
-    )
+    setqueryString(qs(initSummaryQueryData))
     const queryStr = qs(query)
     setqueryString(queryStr)
   }
 
   const clearFields = () => {
-    setquery(initSummaryQueries)
+    setquery(initSummaryQueryData)
     setcurrentPage(1)
     sethasMore(true)
-    setqueryString(
-      qs({
-        ...initSummaryQueries,
-        published: true,
-      }),
-    )
+    setqueryString(qs(initSummaryQueryData))
   }
 
   return (

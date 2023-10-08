@@ -16,9 +16,7 @@ export const useApiData = (urlpath: string, query?: string) => {
       setIsError(false)
 
       try {
-        const url = query
-          ? `${API_URL}/${urlpath}?${query}`
-          : `${API_URL}/${urlpath}`
+        const url = `${API_URL}/${urlpath}?${query}`
         const response = await axios.get(url)
         setData(response.data)
       } catch (err) {
