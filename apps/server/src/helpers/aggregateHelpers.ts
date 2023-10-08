@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Types } from 'mongoose'
 import { IFilterableFieldsWithPopulatedFields } from '../interfaces/common'
+import { isValidObjectId } from '../utils/isValidObjectId'
 
 export const generateLookupStages = (lookupFields: any) =>
   lookupFields.map(({ from, localField, foreignField, as, unwind }: any) => {
@@ -34,6 +35,8 @@ export const generateMatchQuery = (
       andQuery.push({ [populatedField]: true })
     } else if (query[field] === 'false') {
       andQuery.push({ [populatedField]: false })
+    } else if (isValidObjectId(query[field])) {
+      andQuery.push({ [populatedField]: new Types.ObjectId(query[field]) })
     } else if (query[field]) {
       const filterQuery = {
         [populatedField]: { $regex: query[field], $options: 'i' },

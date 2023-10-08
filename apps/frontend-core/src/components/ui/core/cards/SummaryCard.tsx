@@ -48,7 +48,7 @@ export default function SummaryCard({ summary, fixedSize, className }: Props) {
               ))}
             </div>
             <p className="font-semibold text-primary">
-              {assertedGenres[0].genre}
+              {assertedGenres && assertedGenres[0]?.genre}
             </p>
           </div>
         </CardHeader>

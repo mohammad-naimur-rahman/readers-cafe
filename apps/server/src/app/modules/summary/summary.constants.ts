@@ -10,6 +10,10 @@ export const summaryFilterableFieldsWithPopulatedFields: IFilterableFieldsWithPo
       populatedField: 'book.title',
     },
     {
+      field: 'genre',
+      populatedField: 'book.genre',
+    },
+    {
       field: 'published',
       populatedField: 'published',
     },
@@ -43,4 +47,4 @@ export const summaryLookupFileds: ILookupAndUnwindFields = [
   },
 ]
 
-export const summarySearchableFields: string[] = ['book.title']
+export const summarySearchableFields: string[] = ['book.title', 'book.genre']

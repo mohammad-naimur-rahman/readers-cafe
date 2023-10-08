@@ -27,6 +27,17 @@ const getALllSummaries = catchAsync(async (req, res) => {
   })
 })
 
+const summariesWithSimpleFilters = catchAsync(async (req, res) => {
+  const allSummaries = await SummaryService.summariesWithSimpleFilters(
+    req.query,
+  )
+  sendResponse<ISummary[]>(res, {
+    statusCode: httpStatus.OK,
+    data: allSummaries,
+    message: 'All Summaries retrieved successfully!',
+  })
+})
+
 const getALllUserSummaries = catchAsync(async (req, res) => {
   const allSummaries = await SummaryService.getAllUserSummeries(
     (req as RequestWithUser).user,
@@ -80,6 +91,7 @@ const deleteSummary = catchAsync(async (req, res) => {
 export const SummaryController = {
   createSummary,
   getALllSummaries,
+  summariesWithSimpleFilters,
   getALllUserSummaries,
   getSummary,
   updateSummary,

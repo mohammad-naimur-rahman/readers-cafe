@@ -22,6 +22,8 @@ router.get(
   SummaryController.getALllUserSummaries,
 )
 
+router.get('/filtered', SummaryController.summariesWithSimpleFilters)
+
 router
   .route('/:id')
   .get(SummaryController.getSummary)

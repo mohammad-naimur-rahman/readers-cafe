@@ -1,6 +1,6 @@
 import httpStatus from 'http-status'
 import { JwtPayload } from 'jsonwebtoken'
-import { startSession } from 'mongoose'
+import { Types, startSession } from 'mongoose'
 import { ISummary } from 'validation/types'
 import ApiError from '../../../errors/ApiError'
 import {
@@ -103,6 +103,78 @@ const getAllSummaries = async (
   }
 }
 
+const summariesWithSimpleFilters = async (query: any) => {
+  const { user, genre, book, limit, skip } = query
+
+  const matchPipeline: any[] = [
+    {
+      $match: {
+        published: true,
+      },
+    },
+  ]
+
+  if (user) {
+    matchPipeline.push({
+      $match: {
+        user: new Types.ObjectId(user),
+      },
+    })
+  }
+
+  if (genre) {
+    matchPipeline.push({
+      $lookup: {
+        from: 'books',
+        localField: 'book',
+        foreignField: '_id',
+        as: 'book',
+      },
+    })
+
+    matchPipeline.push({
+      $unwind: '$book',
+    })
+
+    matchPipeline.push({
+      $match: {
+        'book.genre': new Types.ObjectId(genre),
+      },
+    })
+  }
+
+  if (book) {
+    matchPipeline.push({
+      $match: {
+        book: new Types.ObjectId(book),
+      },
+    })
+  }
+
+  matchPipeline.push({
+    $limit: +limit || 10,
+  })
+
+  matchPipeline.push({
+    $skip: +skip || 0,
+  })
+
+  const summaries = await Summary.aggregate(matchPipeline)
+
+  const summariesWithPopulatedFields = await Summary.populate(summaries, {
+    path: 'book',
+    populate: [
+      {
+        path: 'authors',
+      },
+      {
+        path: 'genre',
+      },
+    ],
+  })
+  return summariesWithPopulatedFields
+}
+
 const getAllUserSummeries = async (
   user: JwtPayload,
   query: any,
@@ -159,6 +231,10 @@ const getSummary = async (id: string): Promise<ISummary | null> => {
       options: {
         sort: { createdAt: -1 },
       },
+    },
+    {
+      path: 'user',
+      select: { fullName: 1 },
     },
   ])
   return singleSummary
@@ -230,6 +306,7 @@ const deleteSummary = async (
 export const SummaryService = {
   createSummary,
   getAllSummaries,
+  summariesWithSimpleFilters,
   getAllUserSummeries,
   updateSummary,
   getSummary,
