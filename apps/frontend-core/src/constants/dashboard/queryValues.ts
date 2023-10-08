@@ -40,7 +40,7 @@ export const initSummaryQueries: ISummaryQueries = {
   title: '',
   sortBy: 'createdAt',
   sortOrder: 'desc',
-  published: '' as unknown as boolean,
+  published: '',
   page: 1,
   limit: 10,
 }

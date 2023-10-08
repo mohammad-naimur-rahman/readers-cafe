@@ -7,14 +7,24 @@ interface Props {
   link: string
   contentType: string
   fixedSize?: boolean
+  className?: string
 }
 
-export default function ShowAllCard({ link, contentType, fixedSize }: Props) {
+export default function ShowAllCard({
+  link,
+  contentType,
+  fixedSize,
+  className,
+}: Props) {
   return (
     <Card
-      className={cn('bg-secondary', {
-        'flex-shrink-0 w-96': fixedSize,
-      })}
+      className={cn(
+        {
+          'flex-shrink-0 w-96': fixedSize,
+        },
+        'shadow-xl border-0',
+        className,
+      )}
     >
       <div className="flex items-center justify-center h-full">
         <Link href={link}>

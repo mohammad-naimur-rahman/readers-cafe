@@ -9,7 +9,7 @@ export interface IBookQueries extends ICommonQueries {
 
 export interface ISummaryQueries extends ICommonQueries {
   title?: string
-  published?: boolean
+  published?: boolean | string
 }
 
 export interface IShortContentQueries extends ICommonQueries {
@@ -23,5 +23,5 @@ export interface IDiscussionQueries extends ICommonQueries {
 
 export interface IBlogQueries extends ICommonQueries {
   title?: string
-  published?: string
+  published?: boolean | string
 }

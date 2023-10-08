@@ -13,20 +13,33 @@ import { IDiscussion } from 'validation/types'
 interface Props {
   discussion: IDiscussion
   fixedSize?: boolean
+  className?: string
 }
 
-export default function DiscussionCard({ discussion, fixedSize }: Props) {
+export default function DiscussionCard({
+  discussion,
+  fixedSize,
+  className,
+}: Props) {
   return (
     <Card
-      className={cn('bg-secondary', {
-        'flex-shrink-0 w-96': fixedSize,
-      })}
+      className={cn(
+        {
+          'flex-shrink-0 w-96': fixedSize,
+        },
+        'shadow-xl border-0',
+        className,
+      )}
     >
       <CardHeader className="p-3">
-        <CardTitle className="text-lg">{discussion.topic}</CardTitle>
+        <CardTitle className="text-lg font-semibold">
+          {discussion.topic}
+        </CardTitle>
       </CardHeader>
       <CardContent className="p-3">
-        {discussion?.description ? <p>{discussion.description}</p> : null}
+        {discussion?.description ? (
+          <p>{discussion.description.substring(0, 200)}</p>
+        ) : null}
         <p className="pt-3">
           <span className="font-semibold">Total comment: </span>
           {discussion.comments.length}

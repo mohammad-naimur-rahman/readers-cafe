@@ -8,6 +8,7 @@ import Draggable from '@/components/ui/draggable'
 import Typography from '@/components/ui/typrgraphy'
 import { IResponse } from '@/types/IResponse'
 import { fetcher } from '@/utils/fetcher'
+import { qs } from '@/utils/formUtils/qs'
 import { ReactElement } from 'react'
 import { IBlog, IDiscussion, IShortContent, ISummary } from 'validation/types'
 
@@ -86,16 +87,20 @@ IndexPage.getLayout = function getLayout(page: ReactElement) {
 }
 
 export async function getStaticProps() {
-  const summaries = await fetcher('summaries', 'page=1&limit=6&published=true')
-  const blogs = await fetcher('blogs', 'page=1&limit=6&published=true')
-  const discussions = await fetcher(
-    'discussions',
-    'page=1&limit=6&published=true',
-  )
-  const shortContents = await fetcher(
-    'short-contents',
-    'page=1&limit=6&published=true',
-  )
+  const query = {
+    page: 1,
+    limit: 6,
+    published: true,
+    sortBy: 'createdAt',
+    sortOrder: 'desc',
+  }
+
+  const QueryString = qs(query)
+
+  const summaries = await fetcher('summaries', QueryString)
+  const blogs = await fetcher('blogs', QueryString)
+  const discussions = await fetcher('discussions', QueryString)
+  const shortContents = await fetcher('short-contents', QueryString)
   return {
     props: {
       summaries,

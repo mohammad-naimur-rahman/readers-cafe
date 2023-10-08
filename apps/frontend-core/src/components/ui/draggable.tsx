@@ -51,9 +51,7 @@ const Draggable = ({ children, className }: Props) => {
       onMouseUp={handleDragEnd}
       onMouseMove={handleDrag}
     >
-      <div
-        className={cn('flex overflow-x-scroll gap-5 no-scrollbar', className)}
-      >
+      <div className={cn('flex overflow-x-scroll no-scrollbar', className)}>
         {children}
       </div>
     </section>

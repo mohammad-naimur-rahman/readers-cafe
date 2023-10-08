@@ -93,7 +93,10 @@ const getAllBlogs = async (
         path: 'user',
       },
     })
-    .select('-user')
+    .populate({
+      path: 'user',
+      select: 'fullName',
+    })
 
   const total = await Blog.find(whereConditions).count()
 

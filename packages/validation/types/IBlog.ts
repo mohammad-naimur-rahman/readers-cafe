@@ -11,4 +11,5 @@ export interface IBlog {
   user?: Types.ObjectId | IUser
   published?: boolean
   comments: Types.ObjectId[]
+  createdAt: Date
 }

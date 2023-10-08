@@ -13,7 +13,15 @@ import {
 import { initUserData } from '@/constants/initUserData'
 import { ICookieUser } from '@/types/ICookieUser'
 import { getCookie } from 'cookies-next'
-import { LayoutDashboard, LogIn, User } from 'lucide-react'
+import {
+  FilePlus,
+  FileText,
+  Image,
+  LayoutDashboard,
+  LayoutList,
+  LogIn,
+  ScrollText,
+} from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
 import { LocalImg } from '../img'
@@ -71,12 +79,49 @@ export default function ProfileDropdown() {
         {userData?._id ? (
           <>
             <DropdownMenuGroup>
-              <Link href="/dashboard/profile">
-                <DropdownMenuItem className="cursor-pointer">
-                  <User className="w-4 h-4 mr-2" />
-                  Profile
-                </DropdownMenuItem>
-              </Link>
+              <DropdownMenuItem className="flex flex-col gap-2 items-start focus:bg-background">
+                <p className="flex items-center">
+                  <FilePlus className="w-4 h-4 mr-2" />
+                  Create
+                </p>
+                <ul className="flex flex-col w-full">
+                  <li className="hover:bg-accent w-full py-1 px-3 block rounded-sm">
+                    <Link
+                      className="flex items-center gap-2"
+                      href="/dashboard/create/summary"
+                    >
+                      <LayoutList className="w-4 h-4" /> Summary
+                    </Link>
+                  </li>
+                  <li className="hover:bg-accent w-full py-1 px-3 block rounded-sm">
+                    <Link
+                      className="flex items-center gap-2"
+                      href="/dashboard/create/summary"
+                    >
+                      <FileText className="w-4 h-4" />
+                      Blog
+                    </Link>
+                  </li>
+                  <li className="hover:bg-accent w-full py-1 px-3 block rounded-sm">
+                    <Link
+                      className="flex items-center gap-2"
+                      href="/dashboard/create/summary"
+                    >
+                      <ScrollText className="w-4 h-4" />
+                      Discussion
+                    </Link>
+                  </li>
+                  <li className="hover:bg-accent w-full py-1 px-3 block rounded-sm">
+                    <Link
+                      className="flex items-center gap-2"
+                      href="/dashboard/create/summary"
+                    >
+                      <Image className="w-4 h-4" />
+                      Short Content
+                    </Link>
+                  </li>
+                </ul>
+              </DropdownMenuItem>
               <Link href="/dashboard/profile">
                 <DropdownMenuItem className="cursor-pointer">
                   <LayoutDashboard className="w-4 h-4 mr-2" />
