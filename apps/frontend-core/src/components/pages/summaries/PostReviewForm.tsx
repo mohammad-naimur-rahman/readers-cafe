@@ -55,8 +55,9 @@ export default function PostReviewForm({
   }, [isSuccess, isError, error])
 
   return (
-    <form className="space-y-3.5" onSubmit={handleUserReview}>
+    <form className="space-y-3.5 pt-3" onSubmit={handleUserReview}>
       <StarRatingComponent
+        className="star-rating"
         name="rate1"
         starCount={5}
         value={review.starRating}

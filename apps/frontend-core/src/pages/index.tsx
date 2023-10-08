@@ -26,7 +26,7 @@ export default function IndexPage({
   shortContents,
 }: Props) {
   return (
-    <div className="px-5">
+    <main>
       <Typography variant="h2" className="p-5">
         Summaries
       </Typography>
@@ -78,7 +78,7 @@ export default function IndexPage({
           fixedSize
         />
       </Draggable>
-    </div>
+    </main>
   )
 }
 

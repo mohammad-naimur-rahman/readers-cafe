@@ -3,7 +3,7 @@ import { Card, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 import { formatDate } from '@/utils/formateDate'
 import { getIdAndToken } from '@/utils/getIdAndToken'
-import { View } from 'lucide-react'
+import { MousePointerSquare } from 'lucide-react'
 import Link from 'next/link'
 import { IDiscussion, IUser } from 'validation/types'
 import { Button } from '../../button'
@@ -37,14 +37,17 @@ export default function DiscussionCard({
           </CardTitle>
         </CardHeader>
         {discussion?.description ? (
-          <p className="pt-2">{discussion.description.substring(0, 200)}</p>
+          <p className="pt-2">
+            {discussion?.description?.substring(0, 200)}
+            {discussion?.description?.length > 200 ? <span> ...</span> : null}
+          </p>
         ) : null}
       </div>
 
       <div className="p-3">
         <p className="text-right">
           <span className="font-semibold">Total comment: </span>
-          {discussion.comments.length}
+          {discussion?.comments?.length}
         </p>
 
         <div className="flex items-center gap-1 justify-end">
@@ -64,7 +67,9 @@ export default function DiscussionCard({
         <p className="text-right pb-4">{formatDate(discussion?.createdAt)}</p>
 
         <CardFooter className="flex justify-end flex-wrap gap-2 p-0">
-          <ButtonExtended icon={<View />}>View Discussion</ButtonExtended>
+          <ButtonExtended icon={<MousePointerSquare />}>
+            View Discussion
+          </ButtonExtended>
         </CardFooter>
       </div>
     </Card>

@@ -15,11 +15,11 @@ export default function Review({ review }: Props) {
           {(review?.user as IUser)?.fullName}
         </Typography>
         <StarRatingComponent
+          className="star-rating [& label]:!cursor-default"
           name="reviewStar"
           starCount={5}
           value={review?.starRating}
           renderStarIcon={() => <Star />}
-          className="[& label]:!cursor-default"
         />
       </div>
       <p className="text-lg pt-2">{review?.reviewText}</p>

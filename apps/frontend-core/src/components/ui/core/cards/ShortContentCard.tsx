@@ -4,7 +4,7 @@ import Img from '@/components/ui/img'
 import { cn } from '@/lib/utils'
 import { formatDate } from '@/utils/formateDate'
 import { getIdAndToken } from '@/utils/getIdAndToken'
-import { View } from 'lucide-react'
+import { MousePointerSquare } from 'lucide-react'
 import Link from 'next/link'
 import { IShortContent, IUser } from 'validation/types'
 import { Button } from '../../button'
@@ -33,7 +33,7 @@ export default function ShortContentCard({
     >
       <div>
         <CardHeader className="px-3">
-          <CardTitle className="text-lg">{shortContent.caption}</CardTitle>
+          <CardTitle className="text-lg">{shortContent?.caption}</CardTitle>
         </CardHeader>
         <div className="h-[350px]">
           {shortContent?.image?.url ? (
@@ -69,7 +69,9 @@ export default function ShortContentCard({
         <p className="text-right pb-4">{formatDate(shortContent?.createdAt)}</p>
 
         <CardFooter className="flex justify-end flex-wrap gap-2 p-0">
-          <ButtonExtended icon={<View />}>View Content</ButtonExtended>
+          <ButtonExtended icon={<MousePointerSquare />}>
+            View Content
+          </ButtonExtended>
         </CardFooter>
       </div>
     </Card>
