@@ -27,7 +27,7 @@ export default function SelectedBookCard({ book }: Props) {
           </div>
         </div>
         <p className="text-sm text-secondary-foreground">
-          Genre: {(book?.genre[0] as unknown as IGenre).genre}
+          Genre: {(book?.genre as unknown as IGenre)?.genre}
         </p>
         {book?.publicationYear ? (
           <p className="text-sm text-secondary-foreground">

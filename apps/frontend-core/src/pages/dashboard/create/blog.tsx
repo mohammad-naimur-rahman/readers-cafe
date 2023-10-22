@@ -38,9 +38,7 @@ export default function CreateBlogPage() {
     useCreateBlogMutation()
 
   const [isImageUploading, setisImageUploading] = useState(false)
-
   const [blogContents, setblogContents] = useState<IBlog>(initBlog())
-
   const [blogContent, setblogContent] = useState('')
 
   const onChangeTitle = e => {

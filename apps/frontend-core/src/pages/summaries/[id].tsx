@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import SummaryMiniCard from '@/components/ui/core/miniCards/SummaryMiniCard'
 import Img from '@/components/ui/img'
 import Typography from '@/components/ui/typrgraphy'
-import styles from '@/styles/markdown.module.scss'
+import styles from '@/styles/summaryDetailsPage.module.scss'
 import { fetcher } from '@/utils/fetcher'
 import { getIdAndToken } from '@/utils/getIdAndToken'
 import Link from 'next/link'
@@ -30,8 +30,6 @@ export default function SummaryDetailsPage({
   sameGenreSummaries,
   sameBookSummaries,
 }: Props) {
-  console.log(sameBookSummaries, sameGenreSummaries, sameUserSummaries)
-  // console.log(sameUserSummary, sameGenreSummaries, sameBookSummaries)
   const book = summary?.data?.book as IBook
   const { asPath } = useRouter()
   const { token, id } = getIdAndToken()
@@ -41,8 +39,19 @@ export default function SummaryDetailsPage({
     summary?.data?.reviews,
   )
 
+  const summaryId = summary?.data?._id
+  const sameUserSummariesRest = sameUserSummaries.filter(
+    sameSuummary => sameSuummary?._id !== summaryId,
+  )
+  const sameGenreSummariesRest = sameGenreSummaries.filter(
+    sameSuummary => sameSuummary?._id !== summaryId,
+  )
+  const sameBookSummariesRest = sameBookSummaries.filter(
+    sameSuummary => sameSuummary?._id !== summaryId,
+  )
+
   return (
-    <section className="flex justify-center gap-10 p-8">
+    <section className={styles.summaryContainer}>
       <div className="flex flex-col gap-8 max-w-4xl">
         <div>
           <Typography variant="h2">{book?.title}</Typography>
@@ -90,6 +99,15 @@ export default function SummaryDetailsPage({
           </ReactMarkdown>
         </div>
 
+        <Link href={`/dashboard/create/summary?bookId=${book?._id}`}>
+          <Button
+            variant="link"
+            className="underline text-xl underline-offset-8"
+          >
+            Write summary on this book
+          </Button>
+        </Link>
+
         <div className="space-y-3">
           {id !== (summary?.data?.user as unknown as string) ? (
             <div>
@@ -128,17 +146,67 @@ export default function SummaryDetailsPage({
         </div>
       </div>
 
-      <div className="w-80">
+      <aside className="w-80">
+        <Typography variant="h4" className="py-5">
+          Summaries with same book
+        </Typography>
         <div>
-          <Typography variant="h4">Summaries with same book</Typography>
-          {sameBookSummaries?.map(sameBookSummary => (
-            <SummaryMiniCard
-              summary={sameBookSummary}
-              key={sameBookSummary._id}
-            />
-          ))}
+          {sameBookSummariesRest?.length ? (
+            <div className="flex flex-col gap-3">
+              {sameBookSummariesRest?.map(sameBookSummary => (
+                <SummaryMiniCard
+                  summary={sameBookSummary}
+                  key={sameBookSummary._id}
+                />
+              ))}
+            </div>
+          ) : (
+            <p className="italic text-secondary-foreground">
+              No books available
+            </p>
+          )}
         </div>
-      </div>
+
+        <Typography variant="h4" className="pt-8 pb-5">
+          Summaries with same writer
+        </Typography>
+        <div>
+          {sameUserSummariesRest?.length ? (
+            <div className="flex flex-col gap-3">
+              {sameUserSummariesRest?.map(sameUserSummary => (
+                <SummaryMiniCard
+                  summary={sameUserSummary}
+                  key={sameUserSummary._id}
+                />
+              ))}
+            </div>
+          ) : (
+            <p className="italic text-secondary-foreground">
+              No books available
+            </p>
+          )}
+        </div>
+
+        <Typography variant="h4" className="pt-8 pb-5">
+          Summaries with same genre
+        </Typography>
+        <div>
+          {sameGenreSummariesRest?.length ? (
+            <div className="flex flex-col gap-3">
+              {sameGenreSummariesRest?.map(sameGenreSummary => (
+                <SummaryMiniCard
+                  summary={sameGenreSummary}
+                  key={sameGenreSummary._id}
+                />
+              ))}
+            </div>
+          ) : (
+            <p className="italic text-secondary-foreground">
+              No books available
+            </p>
+          )}
+        </div>
+      </aside>
     </section>
   )
 }
@@ -150,13 +218,13 @@ SummaryDetailsPage.getLayout = function getLayout(page: ReactElement) {
 export async function getServerSideProps({ params }) {
   const summary = await fetcher(`summaries/${params.id}`)
   const sameUserSummaries = await fetcher(
-    `summaries/filtered?user=${summary?.data?.user?._id}`,
+    `summaries/filtered?user=${summary?.data?.user?._id}&limit=4`,
   )
   const sameGenreSummaries = await fetcher(
-    `summaries/filtered?genre=${summary?.data?.book?.genre?._id}`,
+    `summaries/filtered?genre=${summary?.data?.book?.genre?._id}&limit=4`,
   )
   const sameBookSummaries = await fetcher(
-    `summaries/filtered?book=${summary?.data?.book?._id}`,
+    `summaries/filtered?book=${summary?.data?.book?._id}&limit=3`,
   )
 
   return {

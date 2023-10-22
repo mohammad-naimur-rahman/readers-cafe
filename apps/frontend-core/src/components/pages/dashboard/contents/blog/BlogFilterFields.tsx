@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/select'
 import { initBlogQueries } from '@/constants/dashboard/queryValues'
 import {
-  IBLogQueries,
+  IBlogQueries,
   IDiscussionQueries,
   IShortContentQueries,
 } from '@/types/queries/IFilterQueries'
@@ -20,8 +20,8 @@ import { Eraser, Search } from 'lucide-react'
 import { Dispatch, SetStateAction } from 'react'
 
 interface Props {
-  query: IBLogQueries
-  setquery: Dispatch<SetStateAction<IBLogQueries>>
+  query: IBlogQueries
+  setquery: Dispatch<SetStateAction<IBlogQueries>>
   setqueryString: Dispatch<SetStateAction<string>>
 }
 
@@ -70,7 +70,7 @@ export default function BlogFilterFields({
       />
 
       <Select
-        value={query.published}
+        value={query.published as string}
         onValueChange={value =>
           setquery({
             ...query,

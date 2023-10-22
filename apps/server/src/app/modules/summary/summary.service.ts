@@ -161,17 +161,22 @@ const summariesWithSimpleFilters = async (query: any) => {
 
   const summaries = await Summary.aggregate(matchPipeline)
 
-  const summariesWithPopulatedFields = await Summary.populate(summaries, {
-    path: 'book',
-    populate: [
-      {
-        path: 'authors',
-      },
-      {
-        path: 'genre',
-      },
-    ],
-  })
+  const summariesWithPopulatedFields = await Summary.populate(summaries, [
+    {
+      path: 'book',
+      populate: [
+        {
+          path: 'authors',
+        },
+        {
+          path: 'genre',
+        },
+      ],
+    },
+    {
+      path: 'user',
+    },
+  ])
   return summariesWithPopulatedFields
 }
 

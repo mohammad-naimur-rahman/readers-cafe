@@ -1,0 +1,6 @@
+.summaryContainer {
+  @apply flex justify-center gap-10 p-8;
+  // @include mq(1340px) {
+  //   flex-direction: column;
+  // }
+}
